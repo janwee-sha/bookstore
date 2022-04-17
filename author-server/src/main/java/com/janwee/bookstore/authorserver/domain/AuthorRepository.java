@@ -1,15 +1,6 @@
 package com.janwee.bookstore.authorserver.domain;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AuthorRepository {
-    Author findById(Long id);
-
-    List<Author> findAll();
-
-    void add(Author author);
-
-    void update(Author author);
-
-    void deleteById(Long id);
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 }

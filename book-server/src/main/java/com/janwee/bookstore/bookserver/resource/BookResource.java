@@ -22,12 +22,18 @@ public class BookResource {
     @GetMapping
     @ApiOperation("Get book by ID")
     public BookInfo book(@RequestParam Long id) {
-        return bookService.book(id);
+        return bookService.book(id).orElse(null);
     }
 
     @PostMapping
     @ApiOperation("Add book")
     public void add(@RequestBody Book book) {
         bookService.add(book);
+    }
+
+    @DeleteMapping
+    @ApiOperation("Remove book")
+    public void remove(@RequestParam Long id){
+        bookService.remove(id);
     }
 }

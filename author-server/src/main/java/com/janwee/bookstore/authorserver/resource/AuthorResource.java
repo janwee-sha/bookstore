@@ -21,7 +21,7 @@ public class AuthorResource {
     @GetMapping
     @ApiOperation("Get author by ID")
     public Author author(@RequestParam Long id) {
-        return authorService.author(id);
+        return authorService.author(id).orElse(null);
     }
 
     @PostMapping

@@ -1,15 +1,6 @@
 package com.janwee.bookstore.bookserver.domain;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookRepository {
-    Book findById(Long id);
-
-    List<Book> findAll();
-
-    void add(Book book);
-
-    void update(Book book);
-
-    void deleteById(Long id);
+public interface BookRepository extends JpaRepository<Book, Long> {
 }

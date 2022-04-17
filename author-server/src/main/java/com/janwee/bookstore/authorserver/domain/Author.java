@@ -1,10 +1,19 @@
 package com.janwee.bookstore.authorserver.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "tbl_author")
 public class Author implements Serializable {
+    @Id
+    @GeneratedValue(generator = "tbl_author_id_seq")
     private Long id;
+
+    @Column(name = "author_name",nullable = false)
     private String name;
+
+    @Column(name = "profile",nullable = false)
     private String profile;
 
     public Author() {

@@ -6,6 +6,8 @@ import com.janwee.bookstore.authorserver.domain.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthorApplicationService {
     private final AuthorRepository authorRepo;
@@ -15,11 +17,11 @@ public class AuthorApplicationService {
         this.authorRepo = authorRepo;
     }
 
-    public Author author(Long id) {
+    public Optional<Author> author(Long id) {
         return authorRepo.findById(id);
     }
 
     public void add(Author author) {
-        authorRepo.add(author);
+        authorRepo.save(author);
     }
 }
