@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication
-@EnableCircuitBreaker
+//@EnableCircuitBreaker
 public class BookServerApplication {
 
     public static void main(String[] args) {
