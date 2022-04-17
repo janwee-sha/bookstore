@@ -1,0 +1,18 @@
+server:
+  port: 7300
+spring:
+  application:
+    name: author-server
+  profiles:
+    active: default
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+eureka:
+  instance:
+    prefer-ip-address: true # 注册服务的IP，而不是服务器名称
+  client:
+    register-with-eureka: true
+    fetch-registry: true # 拉取注册表的本地副本
+    service-url:
+      defaultZone: http://localhost:7100/eureka/ # Eureka服务的位置
