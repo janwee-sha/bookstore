@@ -1,0 +1,20 @@
+server:
+  port: 7000
+
+spring:
+  application:
+    name: gateway-server
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7100/eureka/ # Eureka服务的位置
+
+zuul:
+  routes:
+    book-server: book/**
+    author-server: author/**
