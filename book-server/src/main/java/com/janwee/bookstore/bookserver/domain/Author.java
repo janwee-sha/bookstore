@@ -3,9 +3,12 @@ package com.janwee.bookstore.bookserver.domain;
 import java.io.Serializable;
 
 public class Author implements Serializable {
-    private final Long id;
-    private final String name;
-    private final String profile;
+    private Long id;
+    private String name;
+    private String profile;
+
+    public Author() {
+    }
 
     public Author(Long id, String name, String profile) {
         this.id = id;
@@ -23,5 +26,20 @@ public class Author implements Serializable {
 
     public String getProfile() {
         return profile;
+    }
+
+    public Author withId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public Author withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Author addProfile(String profile) {
+        this.profile = profile;
+        return this;
     }
 }

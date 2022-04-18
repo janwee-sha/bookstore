@@ -4,11 +4,11 @@ import com.janwee.bookstore.bookserver.domain.Author;
 import com.janwee.bookstore.bookserver.domain.AuthorService;
 import com.janwee.bookstore.bookserver.infrastructure.feign.AuthorFeignClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class TranslatingAuthorService implements AuthorService {
@@ -20,10 +20,19 @@ public class TranslatingAuthorService implements AuthorService {
     }
 
     @Override
-    @HystrixCommand
+    @HystrixCommand(
+            commandProperties = {
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
+                            value = "4000")},
+            fallbackMethod = "fallbackAuthor"
+    )
     public Author author(Long authorId) {
         randomlyRunLong();
         return authorFeignClient.author(authorId);
+    }
+
+    private Author fallbackAuthor(Long authorId) {
+        return new Author().withId(authorId).withName("Sorry no author currently available");
     }
 
     private void randomlyRunLong() {
@@ -34,7 +43,7 @@ public class TranslatingAuthorService implements AuthorService {
 
     private void sleep() {
         try {
-            TimeUnit.SECONDS.sleep(10);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
