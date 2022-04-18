@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS book.tbl_author;
+
 CREATE TABLE book.tbl_book
 (
     id bigserial NOT NULL,

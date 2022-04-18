@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorserver.infrastructure.config;
+package com.janwee.bookstore.authorserver.infrastructure.web;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;

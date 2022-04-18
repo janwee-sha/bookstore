@@ -1,4 +1,4 @@
-package com.janwee.bookstore.bookserver.infrastructure.datasource;
+package com.janwee.bookstore.bookserver.infrastructure.persistence;
 
 
 import org.springframework.beans.factory.annotation.Qualifier;
