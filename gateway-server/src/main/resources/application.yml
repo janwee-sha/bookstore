@@ -18,3 +18,4 @@ zuul:
   routes:
     book-server: book/**
     author-server: author/**
+  ignored-services: eureka-server

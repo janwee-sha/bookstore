@@ -27,7 +27,7 @@ public class TranslatingAuthorService implements AuthorService {
             fallbackMethod = "fallbackAuthor"
     )
     public Author author(Long authorId) {
-        randomlyRunLong();
+//        randomlyRunLong();
         return authorFeignClient.author(authorId);
     }
 
