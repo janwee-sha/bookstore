@@ -4,6 +4,8 @@ eureka:
   client:
     register-with-eureka: false # 不使用Eureka服务进行注册
     fetch-registry: false # 不在本地缓存注册表信息
+    service-url:
+      defaultZone: http://localhost:7100/eureka/ # Eureka服务的位置
   server:
     wait-time-in-ms-when-sync-empty: 5 # 在服务器接收请求之前等待的初始时间
 spring:
