@@ -21,10 +21,14 @@ public class TranslatingAuthorService implements AuthorService {
 
     @Override
     @HystrixCommand(
+            threadPoolKey = "authorThreadPool",//线程池名称
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "30"),//线程池大小
+                    @HystrixProperty(name = "maxQueueSize", value = "10")},//等待队列大小
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
-                            value = "4000")},
-            fallbackMethod = "fallbackAuthor"
+                    //超时时间
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "4000")},
+            fallbackMethod = "fallbackAuthor"//后备方法
     )
     public Author author(Long authorId) {
 //        randomlyRunLong();
