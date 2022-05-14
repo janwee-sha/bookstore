@@ -1,6 +1,7 @@
 package com.janwee.bookstore.authorserver.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
@@ -10,6 +11,7 @@ public class Author implements Serializable {
     @GeneratedValue(generator = "tbl_author_id_seq")
     private Long id;
 
+    @NotBlank
     @Column(name = "author_name",nullable = false)
     private String name;
 

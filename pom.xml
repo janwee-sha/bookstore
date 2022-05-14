@@ -18,8 +18,9 @@
         <swagger.version>2.9.2</swagger.version>
         <project.version>0.0.1-SNAPSHOT</project.version>
         <postgres-driver.version>42.3.4</postgres-driver.version>
-        <swagger.version>2.9.2</swagger.version>
+        <open-api.version>1.6.8</open-api.version>
         <postgres-driver.version>42.3.4</postgres-driver.version>
+        <lombok.version>1.18.24</lombok.version>
     </properties>
 
     <modules>
@@ -41,15 +42,9 @@
             </dependency>
 
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${open-api.version}</version>
             </dependency>
 
             <dependency>
@@ -57,6 +52,14 @@
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
