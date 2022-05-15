@@ -23,15 +23,15 @@ public class BookResource {
         this.bookService = bookService;
     }
 
-    @GetMapping("all")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<BookInfo> books(@RequestParam int page, @RequestParam int size) {
         return bookService.books(PageRequest.of(page, size));
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BookInfo book(@RequestParam Long id) {
+    public BookInfo book(@PathVariable final Long id) {
         return bookService.book(id).orElse(null);
     }
 
@@ -47,9 +47,9 @@ public class BookResource {
         bookService.modify(book);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void remove(@RequestParam Long id){
+    public void remove(@PathVariable Long id){
         bookService.remove(id);
     }
 }

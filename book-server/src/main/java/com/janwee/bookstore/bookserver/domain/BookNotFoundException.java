@@ -3,8 +3,8 @@ package com.janwee.bookstore.bookserver.domain;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BookNotFoundException extends Exception {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class BookNotFoundException extends RuntimeException {
     public BookNotFoundException() {
         super("Book not found");
     }
