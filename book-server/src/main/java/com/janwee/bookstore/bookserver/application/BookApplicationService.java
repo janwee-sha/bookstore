@@ -3,12 +3,13 @@ package com.janwee.bookstore.bookserver.application;
 
 import com.janwee.bookstore.bookserver.domain.AuthorService;
 import com.janwee.bookstore.bookserver.domain.Book;
-import com.janwee.bookstore.bookserver.domain.BookNotFoundException;
 import com.janwee.bookstore.bookserver.domain.BookRepository;
+import com.janwee.bookstore.common.domain.exception.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,7 @@ public class BookApplicationService {
     public void modify(Book book) {
         log.info("Modifying book.");
         if (!bookRepo.existsById(book.getId())) {
-            throw new BookNotFoundException();
+            throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
         }
         bookRepo.save(book);
     }

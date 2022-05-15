@@ -18,7 +18,7 @@
         <swagger.version>2.9.2</swagger.version>
         <project.version>0.0.1-SNAPSHOT</project.version>
         <postgres-driver.version>42.3.4</postgres-driver.version>
-        <open-api.version>1.6.8</open-api.version>
+        <openapi.version>1.6.8</openapi.version>
         <postgres-driver.version>42.3.4</postgres-driver.version>
         <lombok.version>1.18.24</lombok.version>
     </properties>
@@ -44,13 +44,13 @@
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${open-api.version}</version>
+                <version>${openapi.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-data-rest</artifactId>
-                <version>${open-api.version}</version>
+                <version>${openapi.version}</version>
             </dependency>
 
 
@@ -66,7 +66,13 @@
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
 </project>
