@@ -18,11 +18,11 @@ public class Book implements Serializable {
     @GeneratedValue(generator = "tbl_book_id_seq")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "name required")
     @Column(name = "book_name", nullable = false)
     private String name;
 
-    @NotNull
+    @NotNull(message = "publish_by required")
     @Column(name = "publish_by", nullable = false)
     private LocalDate publishBy;
 

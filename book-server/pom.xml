@@ -4,9 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.janwee.bookstore</groupId>
-        <artifactId>common</artifactId>
+        <artifactId>aggregator</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../common</relativePath>
     </parent>
     <artifactId>book-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,10 +14,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>com.janwee.bookstore</groupId>
+            <artifactId>common</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -28,6 +26,11 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-data-rest</artifactId>
         </dependency>
 
     </dependencies>

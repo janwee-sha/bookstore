@@ -48,6 +48,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-data-rest</artifactId>
+                <version>${open-api.version}</version>
+            </dependency>
+
+
+            <dependency>
                 <groupId>com.janwee.bookstore</groupId>
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
