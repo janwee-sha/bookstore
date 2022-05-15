@@ -1,8 +1,12 @@
--- Table: author.tbl_author
+DROP SCHEMA IF EXISTS "author" CASCADE;
+CREATE SCHEMA "author";
 
-DROP TABLE IF EXISTS author.tbl_author;
+ALTER SCHEMA "author"
+    OWNER to janwee;
 
-CREATE TABLE IF NOT EXISTS author.tbl_author
+DROP TABLE IF EXISTS "author"."tbl_author";
+
+CREATE TABLE IF NOT EXISTS "author"."tbl_author"
 (
     id bigint NOT NULL,
     author_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -12,5 +16,5 @@ CREATE TABLE IF NOT EXISTS author.tbl_author
 
     TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS author.tbl_author
+ALTER TABLE IF EXISTS "author"."tbl_author"
     OWNER to janwee;

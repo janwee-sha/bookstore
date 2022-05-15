@@ -33,9 +33,7 @@ public class BookApplicationService {
         Page<Book> books = bookRepo.findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(),
                 Sort.by("id").descending()));
         return new PageImpl<>(books.stream().map(book -> new BookInfo(book, authorService.author(book.getAuthorId())))
-                .collect(Collectors.toList()),
-                page,
-                books.getTotalElements());
+                .collect(Collectors.toList()), page, books.getTotalElements());
     }
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
@@ -52,7 +50,7 @@ public class BookApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void modify(Book book) throws BookNotFoundException{
+    public void modify(Book book) {
         log.info("Modifying book.");
         if (!bookRepo.existsById(book.getId())) {
             throw new BookNotFoundException();

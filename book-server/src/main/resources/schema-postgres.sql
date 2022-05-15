@@ -1,6 +1,12 @@
-DROP TABLE IF EXISTS book.tbl_author;
+DROP SCHEMA IF EXISTS "book" CASCADE;
+CREATE SCHEMA "book";
 
-CREATE TABLE book.tbl_book
+ALTER SCHEMA "book"
+    OWNER to janwee;
+
+DROP TABLE IF EXISTS "book"."tbl_book";
+
+CREATE TABLE "book"."tbl_book"
 (
     id bigserial NOT NULL,
     book_name character varying(255) NOT NULL,
@@ -10,5 +16,5 @@ CREATE TABLE book.tbl_book
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS book.tbl_book
+ALTER TABLE IF EXISTS "book"."tbl_book"
     OWNER to janwee;
