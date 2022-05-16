@@ -1,0 +1,14 @@
+server:
+  port: 7400
+spring:
+  application:
+    name: security-server
+
+eureka:
+  instance:
+    prefer-ip-address: true # 注册服务的IP，而不是服务器名称
+  client:
+    register-with-eureka: true
+    fetch-registry: true # 拉取注册表的本地副本
+    service-url:
+      defaultZone: http://localhost:7100/eureka/ # Eureka服务的位置

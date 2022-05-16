@@ -7,35 +7,40 @@
         <artifactId>aggregator</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>common</artifactId>
-    <name>Bookstore Common</name>
-    <packaging>jar</packaging>
-
+    <artifactId>security-server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Bookstore Security Server</name>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>com.janwee.bookstore</groupId>
+            <artifactId>common</artifactId>
         </dependency>
 
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-security</artifactId>
         </dependency>
 
+        <!-- Oauth2 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -55,4 +60,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
