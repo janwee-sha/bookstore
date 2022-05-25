@@ -44,14 +44,14 @@ public class BookApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void add(Book book) {
+    public void publish(Book book) {
         log.info("Adding book.");
         book.setId(null);
         bookRepo.save(book);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void modify(Book book) {
+    public void edit(Book book) {
         log.info("Modifying book.");
         if (!bookRepo.existsById(book.getId())) {
             throw new HttpException("Book not found", HttpStatus.NOT_FOUND);

@@ -46,14 +46,14 @@ public class BookResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody Book book) {
-        bookService.add(book);
+    public void publish(@RequestBody Book book) {
+        bookService.publish(book);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void modify(@RequestBody Book book) throws BookNotFoundException {
-        bookService.modify(book);
+    public void edit(@RequestBody Book book) throws BookNotFoundException {
+        bookService.edit(book);
     }
 
     @DeleteMapping("/{id}")
