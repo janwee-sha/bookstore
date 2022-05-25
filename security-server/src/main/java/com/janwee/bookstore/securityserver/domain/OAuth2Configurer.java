@@ -23,7 +23,7 @@ public class OAuth2Configurer extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("book-server")
+                .withClient("book")
                 .secret("janwee")
                 .authorizedGrantTypes("refresh_token", "password", "client_credentials")
                 .scopes("webclient");
