@@ -1,5 +1,6 @@
 package com.janwee.bookstore.bookserver.domain;
 
+import com.janwee.bookstore.common.domain.validation.ValidationGroup;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tbl_book")
 public class Book implements Serializable {
+    @NotNull(groups = ValidationGroup.Modification.class,message = "id required")
     @Id
     @GeneratedValue(generator = "tbl_book_id_seq")
     private Long id;

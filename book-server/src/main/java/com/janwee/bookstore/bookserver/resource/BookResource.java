@@ -4,6 +4,7 @@ import com.janwee.bookstore.bookserver.application.BookApplicationService;
 import com.janwee.bookstore.bookserver.application.BookInfo;
 import com.janwee.bookstore.bookserver.domain.Book;
 import com.janwee.bookstore.bookserver.domain.BookNotFoundException;
+import com.janwee.bookstore.common.domain.validation.ValidationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,13 +47,14 @@ public class BookResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void publish(@RequestBody Book book) {
+    public void publish(@Validated @RequestBody Book book) {
         bookService.publish(book);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void edit(@RequestBody Book book) throws BookNotFoundException {
+    public void edit(@Validated(value = ValidationGroup.Modification.class) @RequestBody Book book)
+            throws BookNotFoundException {
         bookService.edit(book);
     }
 
