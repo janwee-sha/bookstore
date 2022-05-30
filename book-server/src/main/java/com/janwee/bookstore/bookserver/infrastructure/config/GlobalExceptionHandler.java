@@ -1,6 +1,7 @@
-package com.janwee.bookstore.common.infrastructure.web;
+package com.janwee.bookstore.bookserver.infrastructure.config;
 
 import com.janwee.bookstore.common.domain.exception.HttpException;
+import com.janwee.bookstore.common.domain.web.Result;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;

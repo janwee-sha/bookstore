@@ -1,4 +1,4 @@
-package com.janwee.bookstore.common.infrastructure.web;
+package com.janwee.bookstore.bookserver.infrastructure.config;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;

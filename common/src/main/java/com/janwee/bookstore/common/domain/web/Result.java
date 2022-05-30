@@ -1,4 +1,4 @@
-package com.janwee.bookstore.common.infrastructure.web;
+package com.janwee.bookstore.common.domain.web;
 
 import lombok.Getter;
 import lombok.Setter;
