@@ -6,11 +6,10 @@
         <groupId>com.janwee.bookstore</groupId>
         <artifactId>aggregator</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
     <artifactId>common</artifactId>
     <name>Bookstore Common</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>

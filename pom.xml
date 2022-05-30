@@ -21,12 +21,15 @@
         <openapi.version>1.6.8</openapi.version>
         <postgres-driver.version>42.3.4</postgres-driver.version>
         <lombok.version>1.18.24</lombok.version>
+        <resteasy-jackson2.version>6.0.1.Final</resteasy-jackson2.version>
+        <keycloak.version>18.0.0</keycloak.version>
+        <infinispan.version>13.0.10.Final</infinispan.version>
     </properties>
 
     <modules>
+        <module>common</module>
         <module>author-server</module>
         <module>book-server</module>
-        <module>common</module>
         <module>eureka-server</module>
         <module>gateway-server</module>
     </modules>
@@ -65,6 +68,21 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <!-- RESTEasy -->
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jackson2-provider</artifactId>
+                <version>${resteasy-jackson2.version}</version>
+            </dependency>
+
+            <!-- Keycloak -->
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-dependencies-server-all</artifactId>
+                <version>${keycloak.version}</version>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>

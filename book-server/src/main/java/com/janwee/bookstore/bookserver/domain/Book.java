@@ -26,10 +26,6 @@ public class Book implements Serializable {
     @Column(name = "book_name", nullable = false)
     private String name;
 
-//    @NotNull(message = "currencyOfPrice required")
-//    @Column(name = "price_currency", nullable = false)
-//    private Currency currencyOfPrice;
-
     @NotNull(message = "price required")
     @DecimalMin(value = "0.0", message = "price must not be less than zero")
     @Column(name = "price", nullable = false)
