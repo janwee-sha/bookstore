@@ -1,4 +1,4 @@
-package com.janwee.bookstore.common.domain.web;
+package com.janwee.bookstore.resource;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +14,7 @@ public class Result {
     private HttpStatus status;
     private String error;
     private String message;
+    private String detail;
     private String path;
 
     public Result() {
@@ -35,12 +36,17 @@ public class Result {
         return this;
     }
 
+    public Result ofDetail(String detail) {
+        this.detail = detail;
+        return this;
+    }
+
     public Result ofPath(String path) {
         this.path = path;
         return this;
     }
 
-    public Integer getStatus(){
+    public Integer getStatus() {
         return Optional.ofNullable(status).map(HttpStatus::value).orElse(null);
     }
 }

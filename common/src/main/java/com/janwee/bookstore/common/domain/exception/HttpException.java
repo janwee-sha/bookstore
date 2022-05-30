@@ -4,8 +4,14 @@ import org.springframework.http.HttpStatus;
 
 public class HttpException extends RuntimeException {
     private HttpStatus status;
+    private String detail;
 
     public HttpException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
+    }
+
+    public HttpException(String message, String detail, HttpStatus status) {
         super(message);
         this.status = status;
     }

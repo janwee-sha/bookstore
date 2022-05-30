@@ -5,7 +5,13 @@ import com.janwee.bookstore.bookserver.application.BookInfo;
 import com.janwee.bookstore.bookserver.domain.Book;
 import com.janwee.bookstore.bookserver.domain.BookNotFoundException;
 import com.janwee.bookstore.common.domain.validation.ValidationGroup;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -25,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("books")
@@ -66,6 +73,19 @@ public class BookResource {
     @ResponseStatus(HttpStatus.OK)
     public BookInfo book(@PathVariable final Long id) {
         return bookService.book(id).orElse(null);
+    }
+
+    @Bean
+    @RouterOperation(operation = @Operation(description = "ID to Book Function",
+            operationId = "idToBook", tags = "idToBook", responses = @ApiResponse(responseCode = "200",
+            content = @Content(schema = @Schema(implementation = BookInfo.class)))))
+    public Function<Long, BookInfo> idToBookFunction() {
+        return id -> bookService.book(id).orElse(null);
+    }
+
+    @Bean
+    public Function<String, String> uppercase() {
+        return String::toUpperCase;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)

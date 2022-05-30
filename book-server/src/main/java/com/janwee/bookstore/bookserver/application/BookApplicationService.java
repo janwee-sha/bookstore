@@ -56,15 +56,20 @@ public class BookApplicationService {
     @Transactional(rollbackFor = Throwable.class)
     public void edit(Book book) {
         log.info("Modifying book.");
-        if (!bookRepo.existsById(book.getId())) {
+        throwIfBookNotFound(book.getId());
+        bookRepo.save(book);
+    }
+
+    private void throwIfBookNotFound(Long id) {
+        if (!bookRepo.existsById(id)) {
             throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
         }
-        bookRepo.save(book);
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void remove(Long id) {
         log.info("Removing book with ID: {}.", id);
+        throwIfBookNotFound(id);
         bookRepo.deleteById(id);
     }
 }
