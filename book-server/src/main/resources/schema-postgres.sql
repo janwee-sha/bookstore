@@ -10,6 +10,7 @@ CREATE TABLE "book"."tbl_book"
 (
     id bigserial NOT NULL,
     book_name character varying(255) NOT NULL,
+    amount int4 NOT NULL,
     price numeric(102,2) NOT NULL,
     publish_by date NOT NULL,
     publisher character varying(255) NOT NULL,

@@ -25,6 +25,12 @@ public class Book implements Serializable {
     @Column(name = "book_name", nullable = false)
     private String name;
 
+    @Column(name = "amount", nullable = false)
+    private int amount;
+
+    @Column(name = "status", nullable = false)
+    private Status status;
+
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 

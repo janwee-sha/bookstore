@@ -10,11 +10,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.RouterOperation;
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,9 +72,9 @@ public class BookResource {
     @GetMapping
     @Operation(description = "Books")
     @ResponseStatus(HttpStatus.OK)
-    public Page<BookInfoPresentation> books(@PositiveOrZero(message = "page must not be less than zero") @RequestParam int page,
-                                            @Positive(message = "page size must not be less than one") @RequestParam int size) {
-        Page<BookInfo> bookPage = bookService.books(PageRequest.of(page, size));
+    @PageableAsQueryParam
+    public Page<BookInfoPresentation> books(Pageable page) {
+        Page<BookInfo> bookPage = bookService.books(page);
         return new PageImpl<>(bookPage.getContent().stream()
                 .map(BookInfoPresentation::new).collect(Collectors.toList()),
                 bookPage.getPageable(), bookPage.getTotalElements());
