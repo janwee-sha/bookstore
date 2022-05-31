@@ -40,10 +40,22 @@ public class BookApplicationService {
                 .collect(Collectors.toList()), page, books.getTotalElements());
     }
 
-    @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Optional<BookInfo> book(Long id) {
+
+    private Optional<BookInfo> book(Long id) {
         log.info("Loading book with ID: {}.", id);
         return bookRepo.findById(id).map(book -> new BookInfo(book, authorService.author(book.getAuthorId())));
+    }
+
+    public void checkExistenceOfBook(Long id) {
+        log.info("Checking existence of book with ID: {}.", id);
+        if (!bookRepo.existsById(id)) {
+            throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Throwable.class)
+    public BookInfo nonNullBook(Long id) {
+        return book(id).orElseThrow(() -> new HttpException("Book not found", HttpStatus.NOT_FOUND));
     }
 
     @Transactional(rollbackFor = Throwable.class)

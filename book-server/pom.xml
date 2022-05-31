@@ -16,6 +16,7 @@
         <dependency>
             <groupId>com.janwee.bookstore</groupId>
             <artifactId>common</artifactId>
+            <type>jar</type>
         </dependency>
 
         <dependency>
@@ -26,6 +27,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-function-web</artifactId>
+            <version>3.2.5</version>
         </dependency>
 
         <dependency>

@@ -2,17 +2,18 @@ package com.janwee.bookstore.bookserver.resource;
 
 import com.janwee.bookstore.bookserver.application.BookApplicationService;
 import com.janwee.bookstore.bookserver.application.BookInfo;
-import com.janwee.bookstore.bookserver.domain.Book;
 import com.janwee.bookstore.bookserver.domain.BookNotFoundException;
 import com.janwee.bookstore.common.domain.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -32,9 +33,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("books")
+@Tag(name = "Book resource")
 @Validated
 public class BookResource {
     private final BookApplicationService bookService;
@@ -45,6 +48,7 @@ public class BookResource {
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
+    @Operation(description = "Allowed options", deprecated = true)
     @ResponseStatus(HttpStatus.OK)
     public void options(HttpServletResponse response) {
         response.addHeader("Allow", RequestMethod.OPTIONS.name());
@@ -54,6 +58,7 @@ public class BookResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.OPTIONS)
+    @Operation(description = "Allowed option to single book")
     @ResponseStatus(HttpStatus.OK)
     public void optionsToOne(@PathVariable final Long id, HttpServletResponse response) {
         response.addHeader("Allow", RequestMethod.OPTIONS.name());
@@ -63,16 +68,21 @@ public class BookResource {
     }
 
     @GetMapping
+    @Operation(description = "Books")
     @ResponseStatus(HttpStatus.OK)
-    public Page<BookInfo> books(@PositiveOrZero(message = "page must not be less than zero") @RequestParam int page,
-                                @Positive(message = "page size must not be less than one") @RequestParam int size) {
-        return bookService.books(PageRequest.of(page, size));
+    public Page<BookInfoPresentation> books(@PositiveOrZero(message = "page must not be less than zero") @RequestParam int page,
+                                            @Positive(message = "page size must not be less than one") @RequestParam int size) {
+        Page<BookInfo> bookPage = bookService.books(PageRequest.of(page, size));
+        return new PageImpl<>(bookPage.getContent().stream()
+                .map(BookInfoPresentation::new).collect(Collectors.toList()),
+                bookPage.getPageable(), bookPage.getTotalElements());
     }
 
     @GetMapping("/{id}")
+    @Operation(description = "Book of given ID")
     @ResponseStatus(HttpStatus.OK)
-    public BookInfo book(@PathVariable final Long id) {
-        return bookService.book(id).orElse(null);
+    public BookInfoPresentation book(@PathVariable final Long id) {
+        return new BookInfoPresentation(bookService.nonNullBook(id));
     }
 
     @Bean
@@ -80,34 +90,33 @@ public class BookResource {
             operationId = "idToBook", tags = "idToBook", responses = @ApiResponse(responseCode = "200",
             content = @Content(schema = @Schema(implementation = BookInfo.class)))))
     public Function<Long, BookInfo> idToBookFunction() {
-        return id -> bookService.book(id).orElse(null);
-    }
-
-    @Bean
-    public Function<String, String> uppercase() {
-        return String::toUpperCase;
+        return bookService::nonNullBook;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
+    @Operation(description = "Check book of given ID")
     @ResponseStatus(HttpStatus.OK)
-    public BookInfo checkBook(@PathVariable final Long id) {
-        return bookService.book(id).orElse(null);
+    public void checkBook(@PathVariable final Long id) {
+        bookService.checkExistenceOfBook(id);
     }
 
     @PostMapping
+    @Operation(description = "Publish new book")
     @ResponseStatus(HttpStatus.CREATED)
-    public void publish(@Validated @RequestBody Book book) {
-        bookService.publish(book);
+    public void publish(@Validated @RequestBody SavingBookCommand cmd) {
+        bookService.publish(cmd.toBook());
     }
 
     @PutMapping
+    @Operation(description = "Edit book")
     @ResponseStatus(HttpStatus.OK)
-    public void edit(@Validated(value = ValidationGroup.Modification.class) @RequestBody Book book)
+    public void edit(@Validated(value = ValidationGroup.Modification.class) @RequestBody SavingBookCommand cmd)
             throws BookNotFoundException {
-        bookService.edit(book);
+        bookService.edit(cmd.toBook());
     }
 
     @DeleteMapping("/{id}")
+    @Operation(description = "Remove book of given ID")
     @ResponseStatus(HttpStatus.OK)
     public void remove(@PathVariable Long id) {
         bookService.remove(id);
