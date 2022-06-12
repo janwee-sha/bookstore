@@ -25,6 +25,9 @@ public class BookInfoPresentation implements Serializable {
     @Schema(description = "price")
     private BigDecimal price;
 
+    @Schema
+    private int amount;
+
     @Schema(description = "publication date")
     private LocalDate publishBy;
 

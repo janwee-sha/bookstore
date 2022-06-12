@@ -68,14 +68,6 @@ public class BookResource {
         return new BookInfoPresentation(bookService.nonNullBook(id));
     }
 
-    /*@Bean
-    @RouterOperation(operation = @Operation(description = "ID to Book Function",
-            operationId = "idToBook", tags = "idToBook", responses = @ApiResponse(responseCode = "200",
-            content = @Content(schema = @Schema(implementation = BookInfo.class)))))
-    public Function<Long, BookInfo> idToBookFunction() {
-        return bookService::nonNullBook;
-    }*/
-
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
     @Operation(description = "Check book of given ID")
     @ResponseStatus(HttpStatus.OK)

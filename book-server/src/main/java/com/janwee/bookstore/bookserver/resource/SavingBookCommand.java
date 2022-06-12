@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -33,6 +34,11 @@ public class SavingBookCommand implements Serializable {
     @NotNull(message = "price required")
     @DecimalMin(value = "0.0", message = "price must not be less than zero")
     private BigDecimal price;
+
+    @Schema(description = "amount",required = true)
+    @NotNull(message = "amount required")
+    @PositiveOrZero(message = "amount must not be less than zero")
+    private int amount;
 
     @Schema(description = "publication date", required = true)
     @NotNull(message = "publish_by required")

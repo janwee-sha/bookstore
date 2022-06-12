@@ -22,7 +22,10 @@ public class GlobalExceptionHandler {
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
-        return new ResponseEntity<>(new Error().ofError(e.status().getReasonPhrase())
-                .ofMessage(e.getMessage()).ofPath(request.getServletPath()).ofStatus(e.status()), e.status());
+        return new ResponseEntity<>(new Error()
+                .ofError(e.status().getReasonPhrase())
+                .ofMessage(e.getMessage())
+                .ofPath(request.getServletPath())
+                .ofStatus(e.status()), e.status());
     }
 }
