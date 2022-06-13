@@ -1,4 +1,4 @@
-package com.janwee.bookstore.common.infrastructure.exceptionhandling;
+package com.janwee.bookstore.bookserver.infrastructure.exceptionhandling;
 
 import com.janwee.bookstore.common.domain.exception.HttpException;
 import com.janwee.bookstore.common.resource.Error;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class GlobalExceptionHandler {
+public class CustomizedExceptionHandler {
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<Error> handleHttpException(HttpException e) {
         HttpServletRequest request = Optional.ofNullable(

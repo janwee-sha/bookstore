@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Schema(description = "Book")
 @Getter
@@ -30,6 +31,9 @@ public class BookInfoPresentation implements Serializable {
 
     @Schema(description = "publication date")
     private LocalDate publishBy;
+
+    @Schema(description = "some time")
+    private LocalDateTime someTime = LocalDateTime.now();
 
     @Schema(name = "publisher")
     private String publisher;
