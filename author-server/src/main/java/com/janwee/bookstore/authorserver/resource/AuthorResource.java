@@ -22,6 +22,6 @@ public class AuthorResource {
 
     @PostMapping
     public void add(@RequestBody Author author) {
-        authorService.add(author);
+        authorService.register(author);
     }
 }

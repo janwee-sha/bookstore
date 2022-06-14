@@ -49,7 +49,7 @@ public class BookApplicationService {
         }
     }
 
-    @Transactional(readOnly = true, rollbackFor = Throwable.class)
+    @Transactional(readOnly = true)
     public BookInfo nonNullBook(Long id) {
         return book(id).orElseThrow(() -> new HttpException("Book not found", HttpStatus.NOT_FOUND));
     }

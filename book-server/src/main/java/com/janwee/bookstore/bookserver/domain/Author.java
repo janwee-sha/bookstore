@@ -3,6 +3,7 @@ package com.janwee.bookstore.bookserver.domain;
 import java.io.Serializable;
 
 public class Author implements Serializable {
+    private static final long serialVersionUID = -4570656444635960639L;
     private Long id;
     private String name;
     private String profile;
@@ -38,7 +39,7 @@ public class Author implements Serializable {
         return this;
     }
 
-    public Author addProfile(String profile) {
+    public Author editProfile(String profile) {
         this.profile = profile;
         return this;
     }
