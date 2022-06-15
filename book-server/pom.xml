@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>com.janwee.bookstore</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>business-commons</artifactId>
             <type>jar</type>
         </dependency>
 
@@ -36,14 +36,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <dependency>

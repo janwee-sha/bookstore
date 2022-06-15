@@ -25,11 +25,12 @@
     </properties>
 
     <modules>
-        <module>common</module>
-        <module>author-server</module>
-        <module>book-server</module>
         <module>eureka-server</module>
         <module>gateway-server</module>
+        <module>business-commons</module>
+        <module>author-server</module>
+        <module>book-server</module>
+        <module>order-server</module>
     </modules>
 
     <dependencyManagement>
@@ -57,7 +58,7 @@
 
             <dependency>
                 <groupId>com.janwee.bookstore</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>business-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
