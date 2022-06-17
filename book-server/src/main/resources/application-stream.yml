@@ -14,9 +14,9 @@ spring:
 #                virtual-host: /
       bindings:
         input:
-          destination: queue.book.greeting
-        output:
           destination: queue.order.greeting
+        output:
+          destination: queue.book.greeting
   rabbitmq:
     username: janwee
     password: janwee

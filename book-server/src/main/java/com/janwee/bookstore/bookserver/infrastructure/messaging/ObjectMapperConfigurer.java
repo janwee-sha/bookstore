@@ -15,7 +15,8 @@ public class ObjectMapperConfigurer {
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-        return builder -> builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FMT))
+        return builder -> builder
+                .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FMT))
                 .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FMT));
     }
 }
