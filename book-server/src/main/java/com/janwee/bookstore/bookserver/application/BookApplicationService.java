@@ -7,12 +7,17 @@ import com.janwee.bookstore.common.domain.exception.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,12 +42,12 @@ public class BookApplicationService {
     }
 
 
-    private Optional<BookInfo> book(Long id) {
+    private Optional<BookInfo> book(String id) {
         log.info("Loading book with ID: {}.", id);
         return bookRepo.findById(id).map(book -> new BookInfo(book, authorService.author(book.getAuthorId())));
     }
 
-    public void checkExistenceOfBook(Long id) {
+    public void checkExistenceOfBook(String id) {
         log.info("Checking existence of book with ID: {}.", id);
         if (!bookRepo.existsById(id)) {
             throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
@@ -50,14 +55,14 @@ public class BookApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public BookInfo nonNullBook(Long id) {
+    public BookInfo nonNullBook(String id) {
         return book(id).orElseThrow(() -> new HttpException("Book not found", HttpStatus.NOT_FOUND));
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void publish(Book book) {
         log.info("Adding book.");
-        book.setId(null);
+        book.setId(UUID.randomUUID().toString());
         bookRepo.save(book);
     }
 
@@ -68,14 +73,14 @@ public class BookApplicationService {
         bookRepo.save(book);
     }
 
-    private void throwIfBookNotFound(Long id) {
+    private void throwIfBookNotFound(String id) {
         if (!bookRepo.existsById(id)) {
             throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
         }
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void remove(Long id) {
+    public void remove(String id) {
         log.info("Removing book with ID: {}.", id);
         throwIfBookNotFound(id);
         bookRepo.deleteById(id);

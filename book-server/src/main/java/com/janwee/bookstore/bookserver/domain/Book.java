@@ -16,7 +16,7 @@ public class Book implements Serializable {
     private static final long serialVersionUID = 2266684333872541496L;
     @Id
     @GeneratedValue(generator = "tbl_book_id_seq")
-    private Long id;
+    private String id;
 
     @Column(name = "book_name", nullable = false)
     private String name;

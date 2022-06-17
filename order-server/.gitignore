@@ -1,6 +1,7 @@
-HELP.md
-target/
+### Maven ###
 !.mvn/wrapper/maven-wrapper.jar
+
+### output ###
 !**/src/main/**/target/
 !**/src/test/**/target/
 

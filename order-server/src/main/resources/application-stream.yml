@@ -1,0 +1,13 @@
+sring:
+  cloud:
+    stream:
+      binders:
+        ubuntu_rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq: 192.168.29.130
+              port: 5672
+              username: janwee
+              password: janwee
+              virtual-host: /

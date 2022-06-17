@@ -31,7 +31,7 @@ class BookUnitTest {
     @BeforeEach
     void setUpBookInstance() {
         book1 = new Book();
-        book1.setId(DUMMY_LONG);
+        book1.setId(DUMMY_STRING);
         book1.setName(DUMMY_STRING);
         book1.setAuthorId(DUMMY_LONG);
         book1.setPublishBy(DUMMY_DATE);

@@ -64,14 +64,14 @@ public class BookResource {
     @GetMapping("/{id}")
     @Operation(description = "Book of given ID")
     @ResponseStatus(HttpStatus.OK)
-    public BookInfoPresentation book(@PathVariable final Long id) {
+    public BookInfoPresentation book(@PathVariable final String id) {
         return new BookInfoPresentation(bookService.nonNullBook(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
     @Operation(description = "Check book of given ID")
     @ResponseStatus(HttpStatus.OK)
-    public void checkBook(@PathVariable final Long id) {
+    public void checkBook(@PathVariable final String id) {
         bookService.checkExistenceOfBook(id);
     }
 
@@ -93,7 +93,7 @@ public class BookResource {
     @DeleteMapping("/{id}")
     @Operation(description = "Remove book of given ID")
     @ResponseStatus(HttpStatus.OK)
-    public void remove(@PathVariable Long id) {
+    public void remove(@PathVariable String id) {
         bookService.remove(id);
     }
 }

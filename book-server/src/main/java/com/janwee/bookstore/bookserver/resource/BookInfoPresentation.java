@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class BookInfoPresentation implements Serializable {
     private static final long serialVersionUID = 4874660886108568257L;
     @Schema(description = "ID")
-    private Long id;
+    private String id;
 
     @Schema(description = "name")
     private String name;

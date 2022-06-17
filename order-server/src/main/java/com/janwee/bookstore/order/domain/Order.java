@@ -18,14 +18,14 @@ public class Order {
     @Id
     private String id;
 
+    @Column(name = "book_id")
+    private String bookId;
+
     @Column(name = "create_by")
     private LocalDateTime createBy;
 
     @Column(name = "state")
     private State state;
-
-    @Column(name = "details")
-    private String details;
 
     public Order() {
         this.id = UUID.randomUUID().toString();
