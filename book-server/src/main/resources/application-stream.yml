@@ -4,20 +4,10 @@ spring:
       binders:
         boss:
           type: rabbit
-#          environment:
-#            spring:
-#              rabbitmq:
-#                host: 192.168.29.130
-#                port: 5672
-#                username: janwee
-#                password: janwee
-#                virtual-host: /
       bindings:
         input:
           destination: queue.order.greeting
-        output:
-          destination: queue.book.greeting
   rabbitmq:
     username: janwee
     password: janwee
-    addresses: 192.168.29.130:5672
+    addresses: 192.168.136.133:5672

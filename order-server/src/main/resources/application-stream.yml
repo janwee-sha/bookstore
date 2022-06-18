@@ -9,7 +9,9 @@ spring:
           destination: queue.book.greeting
         output:
           destination: queue.order.greeting
+        textSupplier-out-0:
+          destination: queue.order.text-supplier
   rabbitmq:
     username: janwee
     password: janwee
-    addresses: 192.168.29.130:5672
+    addresses: 192.168.136.133:5672
