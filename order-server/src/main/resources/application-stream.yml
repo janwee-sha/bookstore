@@ -5,12 +5,8 @@ spring:
         boss:
           type: rabbit
       bindings:
-        input:
-          destination: queue.book.greeting
-        output:
-          destination: queue.order.greeting
-        textSupplier-out-0:
-          destination: queue.order.text-supplier
+        event-out:
+          destination: queue.order.event
   rabbitmq:
     username: janwee
     password: janwee

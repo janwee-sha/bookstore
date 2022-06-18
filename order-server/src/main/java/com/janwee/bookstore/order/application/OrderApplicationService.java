@@ -1,12 +1,11 @@
 package com.janwee.bookstore.order.application;
 
+import com.janwee.bookstore.common.domain.event.OrderCreated;
 import com.janwee.bookstore.order.domain.Order;
-import com.janwee.bookstore.order.domain.OrderCreated;
 import com.janwee.bookstore.order.domain.OrderRepository;
+import com.janwee.bookstore.order.infrastructure.messaging.DomainEventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class OrderApplicationService {
     private final OrderRepository orderRepo;
-    private final Processor processor;
+    private final DomainEventPublisher eventPublisher;
 
     @Autowired
-    public OrderApplicationService(OrderRepository orderRepo, Processor processor) {
+    public OrderApplicationService(OrderRepository orderRepo, DomainEventPublisher eventPublisher) {
         this.orderRepo = orderRepo;
-        this.processor = processor;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -28,10 +27,8 @@ public class OrderApplicationService {
         Order order = Order.createOrder();
         order.setBookId(bookId);
         orderRepo.save(order);
-        OrderCreated event = new OrderCreated(order);
-        processor.output()
-                .send(MessageBuilder.withPayload(event)
-                        .build());
+        OrderCreated event = new OrderCreated(order.getId(), order.getBookId(), order.getCreateBy());
+        eventPublisher.publish("OrderCreated", event);
         log.info("Published domain event: {}.",event);
     }
 }

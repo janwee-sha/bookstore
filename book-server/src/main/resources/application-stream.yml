@@ -5,8 +5,8 @@ spring:
         boss:
           type: rabbit
       bindings:
-        input:
-          destination: queue.order.greeting
+        event-in-order:
+          destination: queue.order.event
   rabbitmq:
     username: janwee
     password: janwee

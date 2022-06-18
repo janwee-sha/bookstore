@@ -61,7 +61,7 @@ public class BookApplicationService {
 
     @Transactional(rollbackFor = Throwable.class)
     public void publish(Book book) {
-        log.info("Adding book.");
+        log.info("Publishing book.");
         book.setId(UUID.randomUUID().toString());
         bookRepo.save(book);
     }
