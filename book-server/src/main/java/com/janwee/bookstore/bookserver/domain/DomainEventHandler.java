@@ -1,7 +1,5 @@
-package com.janwee.bookstore.bookserver.infrastructure.messaging;
+package com.janwee.bookstore.bookserver.domain;
 
-import com.janwee.bookstore.bookserver.domain.Ticket;
-import com.janwee.bookstore.bookserver.domain.TicketRepository;
 import com.janwee.bookstore.common.domain.event.OrderCreated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

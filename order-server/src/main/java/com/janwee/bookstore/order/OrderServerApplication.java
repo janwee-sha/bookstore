@@ -1,6 +1,6 @@
 package com.janwee.bookstore.order;
 
-import com.janwee.bookstore.order.infrastructure.messaging.EventProcessor;
+import com.janwee.bookstore.order.domain.EventProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;

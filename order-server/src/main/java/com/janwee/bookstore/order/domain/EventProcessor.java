@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.infrastructure.messaging;
+package com.janwee.bookstore.order.domain;
 
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;

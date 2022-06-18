@@ -3,7 +3,7 @@ package com.janwee.bookstore.order.application;
 import com.janwee.bookstore.common.domain.event.OrderCreated;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderRepository;
-import com.janwee.bookstore.order.infrastructure.messaging.DomainEventPublisher;
+import com.janwee.bookstore.order.domain.DomainEventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.infrastructure.messaging;
+package com.janwee.bookstore.order.domain;
 
 import com.janwee.bookstore.common.domain.event.DomainEvent;
 import org.springframework.beans.factory.annotation.Autowired;
