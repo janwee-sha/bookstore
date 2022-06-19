@@ -1,0 +1,1 @@
+package com.janwee.bookstore.order.infrastructure.feign;

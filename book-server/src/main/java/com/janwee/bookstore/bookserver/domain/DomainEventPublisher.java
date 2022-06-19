@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.domain;
+package com.janwee.bookstore.bookserver.domain;
 
 import com.janwee.bookstore.common.domain.event.DomainEvent;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,7 @@ package com.janwee.bookstore.bookserver.resource;
 
 import com.janwee.bookstore.bookserver.application.BookApplicationService;
 import com.janwee.bookstore.bookserver.application.BookInfo;
-import com.janwee.bookstore.bookserver.domain.BookNotFoundException;
+import com.janwee.bookstore.common.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.common.domain.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

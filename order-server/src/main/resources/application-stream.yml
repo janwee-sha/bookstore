@@ -7,6 +7,8 @@ spring:
       bindings:
         event-out:
           destination: queue.order.event
+        event-in-book:
+          destination: queue.book.event
   rabbitmq:
     username: janwee
     password: janwee

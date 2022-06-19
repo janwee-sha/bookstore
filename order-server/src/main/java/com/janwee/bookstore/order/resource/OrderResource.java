@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
+
 @RestController
 @RequestMapping("orders")
 @Tag(name = "Order resource")
@@ -25,7 +27,8 @@ public class OrderResource {
     @PostMapping
     @Operation(description = "Create an order")
     @ResponseStatus(HttpStatus.OK)
-    public void createOrder(@RequestParam final String bookId) {
-        orderAppService.createOrder(bookId);
+    public void createOrder(@RequestParam final String bookId,
+                            @Positive(message = "amount must not less than 1") @RequestParam final int amount) {
+        orderAppService.createOrder(bookId, amount);
     }
 }

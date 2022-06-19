@@ -21,6 +21,9 @@ public class Order {
     @Column(name = "book_id")
     private String bookId;
 
+    @Column(name = "amount")
+    private int amount;
+
     @Column(name = "create_by")
     private LocalDateTime createBy;
 
@@ -33,7 +36,28 @@ public class Order {
         this.createBy = LocalDateTime.now();
     }
 
-    public static Order createOrder() {
+    public static Order createPending() {
         return new Order();
+    }
+
+    public Order ofBook(String bookId) {
+        this.bookId = bookId;
+        return this;
+    }
+
+    public Order ofAmount(int amount) {
+        if (amount < 1) {
+            throw new IllegalArgumentException("Order amount must not be less than 1");
+        }
+        this.amount = amount;
+        return this;
+    }
+
+    public void reject(){
+        this.state=State.REJECTED;
+    }
+
+    public void create(){
+        this.state=State.CREATED;
     }
 }

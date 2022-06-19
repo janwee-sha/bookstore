@@ -7,26 +7,23 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class OrderCreated implements DomainEvent {
+public class TicketCreated implements DomainEvent {
     private static final long serialVersionUID = 153249684583902383L;
+    private String ticketId;
     private String orderId;
-    private String bookId;
-    private int amount;
     private LocalDateTime createBy;
 
-    public OrderCreated(String orderId, String bookId, int amount, LocalDateTime createBy) {
+    public TicketCreated(String ticketId, String orderId, LocalDateTime createBy) {
+        this.ticketId = ticketId;
         this.orderId = orderId;
-        this.bookId = bookId;
-        this.amount = amount;
         this.createBy = createBy;
     }
 
     @Override
     public String toString() {
-        return "OrderCreated{" +
-                "orderId='" + orderId + '\'' +
-                ", bookId='" + bookId + '\'' +
-                ", amount=" + amount +
+        return "TicketCreated{" +
+                "ticketId='" + ticketId + '\'' +
+                ", orderId='" + orderId + '\'' +
                 ", createBy=" + createBy +
                 '}';
     }

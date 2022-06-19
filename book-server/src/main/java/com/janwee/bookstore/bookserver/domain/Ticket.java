@@ -17,13 +17,13 @@ import java.util.UUID;
 public class Ticket {
     @Id
     private String id;
-    @Column(name = "order_id")
+    @Column(name = "order_id", nullable = false)
     private String orderId;
 
-    @Column(name = "book_id")
+    @Column(name = "book_id", nullable = false)
     private String bookId;
 
-    @Column(name = "create_by")
+    @Column(name = "create_by", nullable = false)
     private LocalDateTime createBy;
 
     public Ticket() {
