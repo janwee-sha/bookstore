@@ -14,6 +14,9 @@ public class OrderCreated implements DomainEvent {
     private int amount;
     private LocalDateTime createBy;
 
+    public OrderCreated() {
+    }
+
     public OrderCreated(String orderId, String bookId, int amount, LocalDateTime createBy) {
         this.orderId = orderId;
         this.bookId = bookId;

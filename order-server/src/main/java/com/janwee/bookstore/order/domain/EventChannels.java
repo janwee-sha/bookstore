@@ -4,7 +4,7 @@ import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
-public interface EventProcessor {
+public interface EventChannels {
     String eventOutput = "event-out";
     String eventFromBook = "event-in-book";
 

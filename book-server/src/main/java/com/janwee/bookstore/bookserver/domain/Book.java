@@ -45,5 +45,6 @@ public class Book implements Serializable {
         if (this.amount<amount){
             throw new BookOutOfStockException();
         }
+        this.amount -= amount;
     }
 }

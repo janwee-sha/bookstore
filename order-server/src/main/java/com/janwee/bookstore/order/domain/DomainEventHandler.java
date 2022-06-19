@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-@EnableBinding({EventProcessor.class})
+@EnableBinding({EventChannels.class})
 public class DomainEventHandler {
     private final OrderRepository orderRepo;
 
@@ -22,22 +22,22 @@ public class DomainEventHandler {
         this.orderRepo = orderRepo;
     }
 
-    @StreamListener(target = EventProcessor.eventFromBook,
+    @StreamListener(target = EventChannels.eventFromBook,
             condition = "headers['type']=='TicketCreated'")
     @Transactional(rollbackFor = Throwable.class)
     public void handleTicketCreated(TicketCreated event) {
-        log.info("Received event: {}", event);
+        log.info("Received TicketCreated event: {}", event);
         Order order = orderRepo.findById(event.getOrderId())
                 .orElseThrow(OrderNotFoundException::new);
         order.create();
         orderRepo.save(order);
     }
 
-    @StreamListener(target = EventProcessor.eventFromBook,
+    @StreamListener(target = EventChannels.eventFromBook,
             condition = "headers['type']=='OrderRejected'")
     @Transactional(rollbackFor = Throwable.class)
     public void handleOrderRejected(OrderRejected event) {
-        log.info("Received event: {}", event);
+        log.info("Received OrderRejected event: {}", event);
         Optional<Order> optOrder = orderRepo.findById(event.getOrderId());
         if (optOrder.isPresent()) {
             Order order = optOrder.get();

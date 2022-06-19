@@ -1,5 +1,6 @@
 package com.janwee.bookstore.bookserver.domain;
 
+import com.janwee.bookstore.common.domain.event.DomainEventTypes;
 import com.janwee.bookstore.common.domain.event.OrderCreated;
 import com.janwee.bookstore.common.domain.event.OrderRejected;
 import com.janwee.bookstore.common.domain.event.TicketCreated;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-@EnableBinding({EventProcessor.class})
+@EnableBinding({EventChannels.class})
 public class DomainEventHandler {
     private final TicketRepository ticketRepo;
     private final BookRepository bookRepo;
@@ -28,15 +29,15 @@ public class DomainEventHandler {
         this.eventPublisher = eventPublisher;
     }
 
-    @StreamListener(target = EventProcessor.eventFromOrder,
+    @StreamListener(target = EventChannels.eventFromOrder,
             condition = "headers['type']=='OrderCreated'")
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(rollbackFor = Throwable.class, transactionManager = "transactionManager")
     public void handleOrderCreated(OrderCreated event) {
-        log.info("Received event: {}", event);
+        log.info("Received OrderCreated event: {}", event);
         Optional<Book> optBook = bookRepo.findById(event.getBookId());
 
         if (!optBook.isPresent() || optBook.get().getAmount() - event.getAmount() < 0) {
-            eventPublisher.publish("OrderRejected", new OrderRejected(event.getOrderId()));
+            eventPublisher.publish(DomainEventTypes.ORDER_REJECTED, new OrderRejected(event.getOrderId()));
             return;
         }
 
@@ -45,7 +46,7 @@ public class DomainEventHandler {
         Book book = optBook.get();
         book.sell(event.getAmount());
         bookRepo.save(book);
-        eventPublisher.publish("TicketCreated", new TicketCreated(ticket.getId(), ticket.getOrderId(),
+        eventPublisher.publish(DomainEventTypes.TICKET_CREATED, new TicketCreated(ticket.getId(), ticket.getOrderId(),
                 ticket.getCreateBy()));
     }
 }

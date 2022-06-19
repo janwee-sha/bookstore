@@ -13,11 +13,11 @@ import java.util.stream.Stream;
 @Component
 @Slf4j
 public class DomainEventPublisher {
-    private final EventProcessor eventProcessor;
+    private final EventChannels eventChannels;
 
     @Autowired
-    public DomainEventPublisher(EventProcessor eventProcessor) {
-        this.eventProcessor = eventProcessor;
+    public DomainEventPublisher(EventChannels eventChannels) {
+        this.eventChannels = eventChannels;
     }
 
     public void publish(String eventType, DomainEvent... events) {
@@ -25,7 +25,7 @@ public class DomainEventPublisher {
             put("type", eventType);
         }});
         Stream.of(events).parallel().forEach(event -> {
-            eventProcessor.eventOutput().send(MessageBuilder.createMessage(event, headers));
+            eventChannels.eventOutput().send(MessageBuilder.createMessage(event, headers));
             log.info("Published {} event: {}", eventType, event);
         });
     }

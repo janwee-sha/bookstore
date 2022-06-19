@@ -6,8 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderRejected implements DomainEvent {
-    private static final long serialVersionUID = 153249684583902383L;
+    private static final long serialVersionUID = -7372746002589252721L;
     private String orderId;
+
+    public OrderRejected() {
+    }
 
     public OrderRejected(String orderId) {
         this.orderId = orderId;
@@ -15,7 +18,7 @@ public class OrderRejected implements DomainEvent {
 
     @Override
     public String toString() {
-        return "OrderCreated{" +
+        return "OrderRejected{" +
                 "orderId='" + orderId + '\'' +
                 '}';
     }

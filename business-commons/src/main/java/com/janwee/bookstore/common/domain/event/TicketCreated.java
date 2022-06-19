@@ -8,10 +8,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class TicketCreated implements DomainEvent {
-    private static final long serialVersionUID = 153249684583902383L;
+    private static final long serialVersionUID = 4110753163714395988L;
     private String ticketId;
     private String orderId;
     private LocalDateTime createBy;
+
+    public TicketCreated() {
+    }
 
     public TicketCreated(String ticketId, String orderId, LocalDateTime createBy) {
         this.ticketId = ticketId;
