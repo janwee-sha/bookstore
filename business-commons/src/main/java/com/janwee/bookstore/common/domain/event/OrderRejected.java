@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class OrderRejected implements DomainEvent {
     private static final long serialVersionUID = -7372746002589252721L;
-    private String orderId;
+    private Long orderId;
 
     public OrderRejected() {
     }
 
-    public OrderRejected(String orderId) {
+    public OrderRejected(Long orderId) {
         this.orderId = orderId;
     }
 

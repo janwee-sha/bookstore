@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS "order"."tbl_order";
 
 CREATE TABLE "order"."tbl_order"
 (
-    id char(64) NOT NULL,
+    id bigserial NOT NULL,
     book_id char(64) NOT NULL,
     "amount" integer NOT NULL,
     "state" character varying(64) NOT NULL,

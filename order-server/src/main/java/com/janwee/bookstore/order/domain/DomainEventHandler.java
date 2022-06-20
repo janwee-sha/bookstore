@@ -29,13 +29,12 @@ public class DomainEventHandler {
         log.info("Received TicketCreated event: {}", event);
         Order order = orderRepo.findById(event.getOrderId())
                 .orElseThrow(OrderNotFoundException::new);
-        order.create();
+        order.approve();
         orderRepo.save(order);
     }
 
     @StreamListener(target = EventChannels.eventFromBook,
             condition = "headers['type']=='OrderRejected'")
-    @Transactional(rollbackFor = Throwable.class)
     public void handleOrderRejected(OrderRejected event) {
         log.info("Received OrderRejected event: {}", event);
         Optional<Order> optOrder = orderRepo.findById(event.getOrderId());

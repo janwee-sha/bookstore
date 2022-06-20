@@ -1,14 +1,11 @@
 package com.janwee.bookstore.bookserver.application;
 
-import com.janwee.bookstore.bookserver.domain.Book;
 import com.janwee.bookstore.bookserver.domain.Ticket;
 import com.janwee.bookstore.bookserver.domain.TicketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -23,7 +20,6 @@ public class TicketApplicationService {
     @Transactional(rollbackFor = Throwable.class)
     public void print(Ticket ticket) {
         log.info("Printing ticket.");
-        ticket.setId(UUID.randomUUID().toString());
         ticketRepo.save(ticket);
     }
 }

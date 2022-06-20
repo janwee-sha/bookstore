@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class BookInfo {
-    private String id;
+    private Long id;
     private String name;
     private BigDecimal price;
     private LocalDate publishBy;

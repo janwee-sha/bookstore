@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -18,7 +19,8 @@ import java.time.LocalDate;
 public class Book implements Serializable {
     private static final long serialVersionUID = 2266684333872541496L;
     @Id
-    private String id;
+    @GeneratedValue(generator = "tbl_book_id_seq")
+    private Long id;
 
     @Column(name = "book_name", nullable = false)
     private String name;

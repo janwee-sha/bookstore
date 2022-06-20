@@ -42,12 +42,12 @@ public class BookApplicationService {
     }
 
 
-    private Optional<BookInfo> book(String id) {
+    private Optional<BookInfo> book(Long id) {
         log.info("Loading book with ID: {}.", id);
         return bookRepo.findById(id).map(book -> new BookInfo(book, authorService.author(book.getAuthorId())));
     }
 
-    public void checkExistenceOfBook(String id) {
+    public void checkExistenceOfBook(Long id) {
         log.info("Checking existence of book with ID: {}.", id);
         if (!bookRepo.existsById(id)) {
             throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
@@ -55,14 +55,13 @@ public class BookApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public BookInfo nonNullBook(String id) {
+    public BookInfo nonNullBook(Long id) {
         return book(id).orElseThrow(() -> new HttpException("Book not found", HttpStatus.NOT_FOUND));
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void publish(Book book) {
         log.info("Publishing book.");
-        book.setId(UUID.randomUUID().toString());
         bookRepo.save(book);
     }
 
@@ -73,14 +72,14 @@ public class BookApplicationService {
         bookRepo.save(book);
     }
 
-    private void throwIfBookNotFound(String id) {
+    private void throwIfBookNotFound(Long id) {
         if (!bookRepo.existsById(id)) {
             throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
         }
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void remove(String id) {
+    public void remove(Long id) {
         log.info("Removing book with ID: {}.", id);
         throwIfBookNotFound(id);
         bookRepo.deleteById(id);

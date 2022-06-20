@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS "book"."tbl_book";
 
 CREATE TABLE "book"."tbl_book"
 (
-    id char(64) NOT NULL,
+    id bigserial NOT NULL,
     book_name character varying(255) NOT NULL,
     amount int4 NOT NULL,
     price numeric(102,2) NOT NULL,
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS "book"."tbl_ticket";
 
 CREATE TABLE "book"."tbl_ticket"
 (
-    id char(64) NOT NULL,
+    id bigserial NOT NULL,
     "order_id" char(64) NOT NULL,
     "book_id" char(64) NOT NULL,
     "create_by" timestamp NOT NULL,

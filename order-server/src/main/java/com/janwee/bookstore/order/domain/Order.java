@@ -5,10 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,10 +16,11 @@ import java.util.UUID;
 @Table(name = "tbl_order")
 public class Order {
     @Id
-    private String id;
+    @GeneratedValue(generator = "tbl_order_id_seq")
+    private Long id;
 
     @Column(name = "book_id")
-    private String bookId;
+    private Long bookId;
 
     @Column(name = "amount")
     private int amount;
@@ -31,16 +32,15 @@ public class Order {
     private State state;
 
     public Order() {
-        this.id = UUID.randomUUID().toString();
         this.state = State.APPROVAL_PENDING;
         this.createBy = LocalDateTime.now();
     }
 
-    public static Order createPending() {
+    public static Order create() {
         return new Order();
     }
 
-    public Order ofBook(String bookId) {
+    public Order ofBook(Long bookId) {
         this.bookId = bookId;
         return this;
     }
@@ -53,11 +53,11 @@ public class Order {
         return this;
     }
 
-    public void reject(){
-        this.state=State.REJECTED;
+    public void reject() {
+        this.state = State.REJECTED;
     }
 
-    public void create(){
-        this.state=State.CREATED;
+    public void approve() {
+        this.state = State.APPROVED;
     }
 }

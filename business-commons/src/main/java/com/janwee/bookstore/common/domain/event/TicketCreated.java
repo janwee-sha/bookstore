@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @Setter
 public class TicketCreated implements DomainEvent {
     private static final long serialVersionUID = 4110753163714395988L;
-    private String ticketId;
-    private String orderId;
+    private Long ticketId;
+    private Long orderId;
     private LocalDateTime createBy;
 
     public TicketCreated() {
     }
 
-    public TicketCreated(String ticketId, String orderId, LocalDateTime createBy) {
+    public TicketCreated(Long ticketId, Long orderId, LocalDateTime createBy) {
         this.ticketId = ticketId;
         this.orderId = orderId;
         this.createBy = createBy;

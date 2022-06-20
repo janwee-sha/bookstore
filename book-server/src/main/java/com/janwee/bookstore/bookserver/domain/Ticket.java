@@ -5,10 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,27 +16,28 @@ import java.util.UUID;
 @Table(name = "tbl_ticket")
 public class Ticket {
     @Id
-    private String id;
+    @GeneratedValue(generator = "tbl_ticket_id_seq")
+    private Long id;
+
     @Column(name = "order_id", nullable = false)
-    private String orderId;
+    private Long orderId;
 
     @Column(name = "book_id", nullable = false)
-    private String bookId;
+    private Long bookId;
 
     @Column(name = "create_by", nullable = false)
     private LocalDateTime createBy;
 
     public Ticket() {
-        this.id = UUID.randomUUID().toString();
         this.createBy = LocalDateTime.now();
     }
 
-    public Ticket ofOrder(String orderId) {
+    public Ticket ofOrder(Long orderId) {
         this.orderId = orderId;
         return this;
     }
 
-    public Ticket ofBook(String bookId) {
+    public Ticket ofBook(Long bookId) {
         this.bookId = bookId;
         return this;
     }

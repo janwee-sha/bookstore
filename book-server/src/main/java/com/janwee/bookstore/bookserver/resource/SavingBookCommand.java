@@ -24,7 +24,7 @@ public class SavingBookCommand implements Serializable {
 
     @Schema(description = "ID")
     @NotNull(groups = ValidationGroup.Modification.class, message = "id required")
-    private String id;
+    private Long id;
 
     @Schema(description = "name", required = true)
     @NotBlank(message = "name required")
