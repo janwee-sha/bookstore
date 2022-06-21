@@ -31,7 +31,7 @@ public class DomainEventHandler {
 
     @StreamListener(target = EventChannels.eventFromOrder,
             condition = "headers['type']=='OrderCreated'")
-    @Transactional(rollbackFor = Throwable.class, transactionManager = "transactionManager")
+    @Transactional(rollbackFor = Throwable.class)
     public void handleOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
         Optional<Book> optBook = bookRepo.findById(event.getBookId());
