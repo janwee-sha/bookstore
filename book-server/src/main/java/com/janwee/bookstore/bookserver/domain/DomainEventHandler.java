@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -31,12 +32,13 @@ public class DomainEventHandler {
 
     @StreamListener(target = EventChannels.eventFromOrder,
             condition = "headers['type']=='OrderCreated'")
-    @Transactional(rollbackFor = Throwable.class)
+    @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
     public void handleOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
         Optional<Book> optBook = bookRepo.findById(event.getBookId());
 
         if (!optBook.isPresent() || optBook.get().getAmount() - event.getAmount() < 0) {
+            log.info("Book is not found or out of stock.");
             eventPublisher.publish(DomainEventTypes.ORDER_REJECTED, new OrderRejected(event.getOrderId()));
             return;
         }

@@ -35,6 +35,7 @@ public class DomainEventHandler {
 
     @StreamListener(target = EventChannels.eventFromBook,
             condition = "headers['type']=='OrderRejected'")
+    @Transactional(rollbackFor = Throwable.class)
     public void handleOrderRejected(OrderRejected event) {
         log.info("Received OrderRejected event: {}", event);
         Optional<Order> optOrder = orderRepo.findById(event.getOrderId());

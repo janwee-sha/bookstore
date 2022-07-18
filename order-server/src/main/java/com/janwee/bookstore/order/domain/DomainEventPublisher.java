@@ -21,7 +21,10 @@ public class DomainEventPublisher {
     }
 
     public void publish(String eventType, DomainEvent... events) {
-        MessageHeaders headers = new MessageHeaders(new HashMap<String, Object>() {{
+        MessageHeaders headers = new MessageHeaders(new HashMap<String, Object>() {
+            private static final long serialVersionUID = -4295001798254124290L;
+
+            {
             put("type", eventType);
         }});
         Stream.of(events).parallel().forEach(event -> {

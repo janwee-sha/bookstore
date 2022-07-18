@@ -12,5 +12,5 @@ spring:
   rabbitmq:
     username: janwee
     password: janwee
-#    addresses: 192.168.136.133:5672
-    addresses: 192.168.29.130:5672
+    addresses: 192.168.136.133:5672
+#    addresses: 192.168.29.130:5672

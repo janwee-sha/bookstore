@@ -7,8 +7,8 @@ spring:
     show-sql: true
     generate-ddl: false
   datasource:
-    driver-class-name: org.postgresql.Driver
-    username: janwee
-    password: janwee
-    jdbc-url: jdbc:postgresql://192.168.29.130:5432/janwee?currentSchema=order
-#    jdbc-url: jdbc:postgresql://192.168.136.133:5432/janwee?currentSchema=order
+    druid:
+      url: jdbc:postgresql://192.168.136.133:5432/janwee?currentSchema=order&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+      username: janwee
+      password: janwee
+      driver-class-name: org.postgresql.Driver

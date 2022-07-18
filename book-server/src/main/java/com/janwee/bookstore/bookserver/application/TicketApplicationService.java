@@ -18,7 +18,7 @@ public class TicketApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void print(Ticket ticket) {
+    public void generate(Ticket ticket) {
         log.info("Printing ticket.");
         ticketRepo.save(ticket);
     }
