@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class BookInfo {
     private Long id;
     private String name;
+    private int amount;
     private BigDecimal price;
     private LocalDate publishBy;
     private String publisher;

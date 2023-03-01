@@ -4,6 +4,15 @@ server:
 spring:
   application:
     name: gateway-server
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 基于向服务发现注册的服务创建路由
+          lower-case-service-id: true
 
 eureka:
   instance:
@@ -14,8 +23,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:7100/eureka/ # Eureka服务的位置
 
-zuul:
-  routes:
-    book-server: book/**
-    author-server: author/**
-  ignored-services: eureka-server
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

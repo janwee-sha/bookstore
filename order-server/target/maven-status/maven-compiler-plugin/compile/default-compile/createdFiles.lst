@@ -1,0 +1,10 @@
+com\janwee\bookstore\order\resource\OrderResource.class
+com\janwee\bookstore\order\infrastructure\messaging\ObjectMapperConfigurer.class
+com\janwee\bookstore\order\domain\State.class
+com\janwee\bookstore\order\infrastructure\persistence\DatasourceConfig.class
+com\janwee\bookstore\order\OrderServerApplication.class
+com\janwee\bookstore\order\domain\OrderCreated.class
+com\janwee\bookstore\order\domain\Order.class
+com\janwee\bookstore\order\application\OrderApplicationService.class
+com\janwee\bookstore\order\domain\OrderRepository.class
+com\janwee\bookstore\order\infrastructure\exceptionhandling\CustomizedExceptionHandler.class

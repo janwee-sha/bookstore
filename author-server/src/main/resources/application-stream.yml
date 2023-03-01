@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    stream:
+      binders:
+        boss:
+          type: rabbit
+  #      bindings:
+  #        event-in-order:
+  #          destination: queue.order.event
+  #        event-out:
+  #          destination: queue.book.event
+  rabbitmq:
+    username: janwee
+    password: janwee
+    addresses: 192.168.136.133:5672

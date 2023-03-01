@@ -35,7 +35,7 @@ public class SavingBookCommand implements Serializable {
     @DecimalMin(value = "0.0", message = "price must not be less than zero")
     private BigDecimal price;
 
-    @Schema(description = "amount",required = true)
+    @Schema(description = "amount", required = true)
     @NotNull(message = "amount required")
     @PositiveOrZero(message = "amount must not be less than zero")
     private int amount;

@@ -2,6 +2,7 @@ package com.janwee.bookstore.bookserver.resource;
 
 import com.janwee.bookstore.bookserver.application.BookApplicationService;
 import com.janwee.bookstore.bookserver.application.BookInfo;
+import com.janwee.bookstore.bookserver.domain.Something;
 import com.janwee.bookstore.common.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.common.domain.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +29,16 @@ public class BookResource {
     @Autowired
     public BookResource(BookApplicationService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("/test-xss-protection")
+    public String testXssProtection(@RequestParam String input) {
+        return input;
+    }
+
+    @PostMapping("/test-xss-protection")
+    public Something testXssProtection(@RequestBody Something something) {
+        return something;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)

@@ -19,7 +19,7 @@ public class BookResourceIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldReturnOkResponse() throws Exception{
+    public void shouldReturnOkResponse() throws Exception {
         this.mockMvc.perform(get("/books"))
                 .andExpect(status().isOk());
     }

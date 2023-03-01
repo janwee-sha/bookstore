@@ -7,16 +7,19 @@ import java.io.Serializable;
 @Entity
 @Table(name = "tbl_author")
 public class Author implements Serializable {
+    private static final long serialVersionUID = 1911240306150353773L;
     @Id
     @GeneratedValue(generator = "tbl_author_id_seq")
     private Long id;
 
     @NotBlank
-    @Column(name = "author_name",nullable = false)
+    @Column(name = "author_name", nullable = false)
     private String name;
 
-    @Column(name = "profile",nullable = false)
+    @Column(name = "profile", nullable = false)
     private String profile;
+
+    private String phoneNumber;
 
     public Author() {
     }
@@ -43,5 +46,13 @@ public class Author implements Serializable {
 
     public void setProfile(String profile) {
         this.profile = profile;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
