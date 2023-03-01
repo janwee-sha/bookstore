@@ -12,10 +12,8 @@ spring:
         native:
           search-locations: classpath:/config
 
-          #git:
-          #   uri: https://github.com/janwee-sha/config-repo.git
-          #   searchPaths: licensingservice
-
+encrypt:
+  key: j@NwEes_KeY
 
 #Enable all Spring Boot Actuator endpoints.
 management:

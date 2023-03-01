@@ -9,5 +9,5 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: janwee
-    password: janwee
+    password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
     jdbc-url: jdbc:postgresql://192.168.136.133:5432/janwee?currentSchema=author
