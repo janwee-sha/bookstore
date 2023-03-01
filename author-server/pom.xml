@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.janwee.bookstore</groupId>
-        <artifactId>aggregator</artifactId>
+        <artifactId>bookstore</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>author-server</artifactId>
@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.janwee.bookstore</groupId>
             <artifactId>business-commons</artifactId>
+            <type>jar</type>
         </dependency>
 
         <dependency>
@@ -33,9 +34,28 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- As an Eureka client-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <exclusions>
+                <!--Exclude Ribbon Starter-->
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-ribbon</artifactId>
+                </exclusion>
+                <!--Exclude Netflix Ribbon-->
+                <exclusion>
+                    <groupId>com.netflix.ribbon</groupId>
+                    <artifactId>ribbon-eureka</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--As a Config client-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
         <dependency>
