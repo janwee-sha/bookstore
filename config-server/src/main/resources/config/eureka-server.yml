@@ -2,15 +2,15 @@ server:
   port: 7010
 eureka:
   client:
-    register-with-eureka: false # 不使用Eureka服务进行注册
-    fetch-registry: false # 不在本地缓存注册表信息
-    service-url:
-      defaultZone: http://localhost:${server.port}/eureka/ # Eureka服务的位置
+    registerWithEureka: false # 不使用Eureka服务进行注册
+    fetchRegistry: false # 不在本地缓存注册表信息
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ # Eureka服务的位置
   server:
-    wait-time-in-ms-when-sync-empty: 5 # 在服务器接收请求之前等待的初始时间
+    waitTimeInMsWhenSyncEmpty: 5 # 在服务器接收请求之前等待的初始时间
   instance:
     preferIpAddress: true
-    hostname: eurekaserver
+    hostname: localhost
 
 spring:
   boot:

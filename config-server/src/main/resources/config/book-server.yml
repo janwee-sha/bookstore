@@ -2,17 +2,17 @@ server:
   port: 7100
 spring:
   jackson:
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
+    timeZone: GMT+8
+    dateFormat: yyyy-MM-dd HH:mm:ss
   jpa:
     open-in-view: true
 eureka:
   instance:
-    prefer-ip-address: true # 注册服务的IP，而不是服务器名称
+    preferIpAddress: true # 注册服务的IP，而不是服务器名称
   client:
-    register-with-eureka: true
-    fetch-registry: true # 拉取注册表的本地副本
-    service-url:
+    registerWithEureka: true
+    fetchRegistry: true # 拉取注册表的本地副本
+    serviceUrl:
       defaultZone: http://localhost:7010/eureka/ # Eureka服务的位置
 springdoc:
   api-docs:
@@ -21,7 +21,7 @@ springdoc:
 mica:
   xss:
     enabled: true
-    path-patterns: /books/test-xss-protection
+    pathPatterns: /books/test-xss-protection
 
 #Enable all Spring Boot Actuator endpoints.
 management:

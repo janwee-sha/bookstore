@@ -1,5 +1,9 @@
-FROM java:8
-MAINTAINER key "janwee_sha@outlook.com"
-ADD target/eureka-server-0.0.1-SNAPSHOT.jar erksvr.jar
-EXPOSE 7010
-ENTRYPOINT ["java","-jar","./erksvr.jar"]
+FROM openjdk:8-slim
+
+LABEL maintainer="Janwee <janwee_sha@outlook.com>"
+
+ADD target/book-server-0.0.1-SNAPSHOT.jar application.jar
+
+EXPOSE 7100
+
+ENTRYPOINT ["java","-jar","./application.jar"]

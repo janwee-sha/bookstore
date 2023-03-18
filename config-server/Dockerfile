@@ -2,8 +2,8 @@ FROM openjdk:8-slim
 
 LABEL maintainer="Janwee <janwee_sha@outlook.com>"
 
-ADD target/eureka-server-0.0.1-SNAPSHOT.jar application.jar
+ADD target/config-server-0.0.1-SNAPSHOT.jar application.jar
 
-EXPOSE 7100
+EXPOSE 7000
 
 ENTRYPOINT ["java","-jar","/application.jar"]
