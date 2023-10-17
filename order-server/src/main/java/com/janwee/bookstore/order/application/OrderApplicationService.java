@@ -2,7 +2,7 @@ package com.janwee.bookstore.order.application;
 
 import com.janwee.bookstore.common.domain.event.DomainEventTypes;
 import com.janwee.bookstore.common.domain.event.OrderCreated;
-import com.janwee.bookstore.order.domain.DomainEventPublisher;
+import com.janwee.bookstore.order.infrastructure.messaging.EventPublisher;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class OrderApplicationService {
     private final OrderRepository orderRepo;
-    private final DomainEventPublisher eventPublisher;
+    private final EventPublisher eventPublisher;
 
     @Autowired
-    public OrderApplicationService(OrderRepository orderRepo, DomainEventPublisher eventPublisher) {
+    public OrderApplicationService(OrderRepository orderRepo, EventPublisher eventPublisher) {
         this.orderRepo = orderRepo;
         this.eventPublisher = eventPublisher;
     }

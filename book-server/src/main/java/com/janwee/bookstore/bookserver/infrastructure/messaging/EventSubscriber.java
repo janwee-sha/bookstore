@@ -1,5 +1,6 @@
-package com.janwee.bookstore.bookserver.domain;
+package com.janwee.bookstore.bookserver.infrastructure.messaging;
 
+import com.janwee.bookstore.bookserver.domain.*;
 import com.janwee.bookstore.common.domain.event.DomainEventTypes;
 import com.janwee.bookstore.common.domain.event.OrderCreated;
 import com.janwee.bookstore.common.domain.event.OrderRejected;
@@ -17,14 +18,14 @@ import java.util.Optional;
 @Component
 @Slf4j
 @EnableBinding({EventChannels.class})
-public class DomainEventHandler {
+public class EventSubscriber {
     private final TicketRepository ticketRepo;
     private final BookRepository bookRepo;
-    private final DomainEventPublisher eventPublisher;
+    private final EventPublisher eventPublisher;
 
     @Autowired
-    public DomainEventHandler(TicketRepository ticketRepo, BookRepository bookRepo,
-                              DomainEventPublisher eventPublisher) {
+    public EventSubscriber(TicketRepository ticketRepo, BookRepository bookRepo,
+                           EventPublisher eventPublisher) {
         this.ticketRepo = ticketRepo;
         this.bookRepo = bookRepo;
         this.eventPublisher = eventPublisher;
@@ -33,7 +34,7 @@ public class DomainEventHandler {
     @StreamListener(target = EventChannels.eventFromOrder,
             condition = "headers['type']=='OrderCreated'")
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
-    public void handleOrderCreated(OrderCreated event) {
+    public void whenOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
         Optional<Book> optBook = bookRepo.findById(event.getBookId());
 
