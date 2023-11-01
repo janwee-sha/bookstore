@@ -1,6 +1,6 @@
 package com.janwee.bookstore.order.infrastructure.messaging;
 
-import com.janwee.bookstore.common.domain.event.DomainEvent;
+import com.janwee.bookstore.order.domain.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
@@ -20,7 +20,7 @@ public class EventPublisher {
         this.eventChannels = eventChannels;
     }
 
-    public void publish(String eventType, DomainEvent... events) {
+    public void publish(String eventType, Event... events) {
         MessageHeaders headers = new MessageHeaders(new HashMap<String, Object>() {
             private static final long serialVersionUID = -4295001798254124290L;
 

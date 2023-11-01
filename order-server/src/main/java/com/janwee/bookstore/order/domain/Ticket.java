@@ -1,4 +1,4 @@
-package com.janwee.bookstore.bookserver.domain;
+package com.janwee.bookstore.order.domain;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -17,3 +17,17 @@ CREATE TABLE "order"."tbl_order"
 
 ALTER TABLE IF EXISTS "order"."tbl_order"
     OWNER to janwee;
+
+DROP TABLE IF EXISTS "order"."tbl_ticket";
+
+CREATE TABLE "order"."tbl_ticket"
+(
+    id bigserial NOT NULL,
+    "order_id"  char(64)  NOT NULL,
+    "book_id"   char(64)  NOT NULL,
+    "create_by" timestamp NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE IF EXISTS "order"."tbl_ticket"
+    OWNER to janwee;

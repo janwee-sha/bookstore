@@ -2,9 +2,8 @@ package com.janwee.bookstore.bookserver.resource;
 
 import com.janwee.bookstore.bookserver.application.BookApplicationService;
 import com.janwee.bookstore.bookserver.application.BookInfo;
-import com.janwee.bookstore.bookserver.domain.Something;
-import com.janwee.bookstore.common.domain.exception.BookNotFoundException;
-import com.janwee.bookstore.common.domain.validation.ValidationGroup;
+import com.janwee.bookstore.bookserver.domain.BookNotFoundException;
+import com.janwee.bookstore.bookserver.infrastructure.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,36 +27,6 @@ public class BookResource {
     @Autowired
     public BookResource(BookApplicationService bookService) {
         this.bookService = bookService;
-    }
-
-    @GetMapping("/test-xss-protection")
-    public String testXssProtection(@RequestParam String input) {
-        return input;
-    }
-
-    @PostMapping("/test-xss-protection")
-    public Something testXssProtection(@RequestBody Something something) {
-        return something;
-    }
-
-    @RequestMapping(method = RequestMethod.OPTIONS)
-    @Operation(description = "Allowed options", deprecated = true)
-    @ResponseStatus(HttpStatus.OK)
-    public void options(HttpServletResponse response) {
-        response.addHeader("Allow", RequestMethod.OPTIONS.name());
-        response.addHeader("Allow", RequestMethod.GET.name());
-        response.addHeader("Allow", RequestMethod.POST.name());
-        response.addHeader("Allow", RequestMethod.PUT.name());
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.OPTIONS)
-    @Operation(description = "Allowed option to single book")
-    @ResponseStatus(HttpStatus.OK)
-    public void optionsToOne(@PathVariable final Long id, HttpServletResponse response) {
-        response.addHeader("Allow", RequestMethod.OPTIONS.name());
-        response.addHeader("Allow", RequestMethod.GET.name());
-        response.addHeader("Allow", RequestMethod.HEAD.name());
-        response.addHeader("Allow", RequestMethod.DELETE.name());
     }
 
     @GetMapping

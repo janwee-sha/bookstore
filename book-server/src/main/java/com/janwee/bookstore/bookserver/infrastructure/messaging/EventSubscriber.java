@@ -1,10 +1,7 @@
 package com.janwee.bookstore.bookserver.infrastructure.messaging;
 
+
 import com.janwee.bookstore.bookserver.domain.*;
-import com.janwee.bookstore.common.domain.event.DomainEventTypes;
-import com.janwee.bookstore.common.domain.event.OrderCreated;
-import com.janwee.bookstore.common.domain.event.OrderRejected;
-import com.janwee.bookstore.common.domain.event.TicketCreated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -19,37 +16,34 @@ import java.util.Optional;
 @Slf4j
 @EnableBinding({EventChannels.class})
 public class EventSubscriber {
-    private final TicketRepository ticketRepo;
     private final BookRepository bookRepo;
     private final EventPublisher eventPublisher;
 
     @Autowired
-    public EventSubscriber(TicketRepository ticketRepo, BookRepository bookRepo,
+    public EventSubscriber(BookRepository bookRepo,
                            EventPublisher eventPublisher) {
-        this.ticketRepo = ticketRepo;
         this.bookRepo = bookRepo;
         this.eventPublisher = eventPublisher;
     }
 
     @StreamListener(target = EventChannels.eventFromOrder,
-            condition = "headers['type']=='OrderCreated'")
+            condition = "headers['type']=='ORDER_CREATED'")
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
     public void whenOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
-        Optional<Book> optBook = bookRepo.findById(event.getBookId());
+        Optional<Book> optBook = bookRepo.findById(event.bookId());
 
-        if (!optBook.isPresent() || optBook.get().getAmount() - event.getAmount() < 0) {
+        if (!optBook.isPresent() || optBook.get().getAmount() - event.amount() < 0) {
             log.info("Book is not found or out of stock.");
-            eventPublisher.publish(DomainEventTypes.ORDER_REJECTED, new OrderRejected(event.getOrderId()));
+            Event bookSoldOut = new BookSoldOut(event.orderId(), event.bookId());
+            eventPublisher.publish(bookSoldOut.description(), bookSoldOut);
             return;
         }
 
-        Ticket ticket = new Ticket().ofOrder(event.getOrderId()).ofBook(event.getBookId());
-        ticketRepo.save(ticket);
         Book book = optBook.get();
-        book.sell(event.getAmount());
+        book.sell(event.amount());
         bookRepo.save(book);
-        eventPublisher.publish(DomainEventTypes.TICKET_CREATED, new TicketCreated(ticket.getId(), ticket.getOrderId(),
-                ticket.getCreateBy()));
+        Event bookOrdered = new BookOrdered(event.orderId(), event.bookId());
+        eventPublisher.publish(bookOrdered.description(), bookOrdered);
     }
 }

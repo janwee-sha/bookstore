@@ -1,4 +1,4 @@
-package com.janwee.bookstore.bookserver.domain;
+package com.janwee.bookstore.order.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

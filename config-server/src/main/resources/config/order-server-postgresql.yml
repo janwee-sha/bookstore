@@ -8,7 +8,7 @@ spring:
     generate-ddl: false
   datasource:
     druid:
-      url: jdbc:postgresql://192.168.136.130:5432/bookstore?currentSchema=order&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+      url: jdbc:postgresql://192.168.136.128:5432/bookstore?currentSchema=order&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
       username: janwee
       password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
       driver-class-name: org.postgresql.Driver

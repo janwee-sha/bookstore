@@ -1,10 +1,6 @@
 package com.janwee.bookstore.order.infrastructure.messaging;
 
-import com.janwee.bookstore.common.domain.event.OrderRejected;
-import com.janwee.bookstore.common.domain.event.TicketCreated;
-import com.janwee.bookstore.order.domain.Order;
-import com.janwee.bookstore.order.domain.OrderNotFoundException;
-import com.janwee.bookstore.order.domain.OrderRepository;
+import com.janwee.bookstore.order.domain.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -19,29 +15,33 @@ import java.util.Optional;
 @EnableBinding({EventChannels.class})
 public class EventSubscriber {
     private final OrderRepository orderRepo;
+    private final TicketRepository ticketRepo;
 
     @Autowired
-    public EventSubscriber(OrderRepository orderRepo) {
+    public EventSubscriber(OrderRepository orderRepo, TicketRepository ticketRepo) {
         this.orderRepo = orderRepo;
+        this.ticketRepo = ticketRepo;
     }
 
     @StreamListener(target = EventChannels.eventFromBook,
             condition = "headers['type']=='TicketCreated'")
     @Transactional(rollbackFor = Throwable.class)
-    public void whenTicketCreated(TicketCreated event) {
+    public void whenBookOrdered(BookOrdered event) {
         log.info("Received TicketCreated event: {}", event);
-        Order order = orderRepo.findById(event.getOrderId())
+        Order order = orderRepo.findById(event.orderId())
                 .orElseThrow(OrderNotFoundException::new);
         order.approve();
         orderRepo.save(order);
+        Ticket ticket = new Ticket().ofOrder(event.orderId()).ofBook(event.bookId());
+        ticketRepo.save(ticket);
     }
 
     @StreamListener(target = EventChannels.eventFromBook,
-            condition = "headers['type']=='OrderRejected'")
+            condition = "headers['type']=='BOOK_SOLD_OUT'")
     @Transactional(rollbackFor = Throwable.class)
-    public void whenOrderRejected(OrderRejected event) {
+    public void whenBookSoldOut(BookSoldOut event) {
         log.info("Received OrderRejected event: {}", event);
-        Optional<Order> optOrder = orderRepo.findById(event.getOrderId());
+        Optional<Order> optOrder = orderRepo.findById(event.orderId());
         if (optOrder.isPresent()) {
             Order order = optOrder.get();
             order.reject();

@@ -1,7 +1,6 @@
 package com.janwee.bookstore.order.application;
 
-import com.janwee.bookstore.common.domain.event.DomainEventTypes;
-import com.janwee.bookstore.common.domain.event.OrderCreated;
+import com.janwee.bookstore.order.domain.OrderCreated;
 import com.janwee.bookstore.order.infrastructure.messaging.EventPublisher;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderRepository;
@@ -38,6 +37,6 @@ public class OrderApplicationService {
         Order order = Order.create().ofBook(bookId).ofAmount(amount);
         orderRepo.save(order);
         OrderCreated event = new OrderCreated(order.getId(), order.getBookId(), order.getAmount(), order.getCreateBy());
-        eventPublisher.publish(DomainEventTypes.ORDER_CREATED, event);
+        eventPublisher.publish(event.description(), event);
     }
 }

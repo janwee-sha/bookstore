@@ -2,7 +2,7 @@ package com.janwee.bookstore.bookserver.resource;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.bookserver.domain.Book;
-import com.janwee.bookstore.common.domain.validation.ValidationGroup;
+import com.janwee.bookstore.bookserver.infrastructure.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

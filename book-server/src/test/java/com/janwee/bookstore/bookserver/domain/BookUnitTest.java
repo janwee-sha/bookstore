@@ -1,6 +1,6 @@
 package com.janwee.bookstore.bookserver.domain;
 
-import com.janwee.bookstore.common.domain.validation.ValidationGroup;
+import com.janwee.bookstore.bookserver.infrastructure.validation.ValidationGroup;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

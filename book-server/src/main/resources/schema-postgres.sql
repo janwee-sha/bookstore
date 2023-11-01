@@ -19,17 +19,3 @@ CREATE TABLE "book"."tbl_book"
 
 ALTER TABLE IF EXISTS "book"."tbl_book"
     OWNER to janwee;
-
-DROP TABLE IF EXISTS "book"."tbl_ticket";
-
-CREATE TABLE "book"."tbl_ticket"
-(
-    id bigserial NOT NULL,
-    "order_id"  char(64)  NOT NULL,
-    "book_id"   char(64)  NOT NULL,
-    "create_by" timestamp NOT NULL,
-    PRIMARY KEY (id)
-);
-
-ALTER TABLE IF EXISTS "book"."tbl_tel_slice"
-    OWNER to janwee;

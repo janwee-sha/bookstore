@@ -1,4 +1,4 @@
-package com.janwee.bookstore.common.domain.exception;
+package com.janwee.bookstore.bookserver.domain;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
