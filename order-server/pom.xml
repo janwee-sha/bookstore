@@ -26,12 +26,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.janwee.bookstore</groupId>
-            <artifactId>business-commons</artifactId>
-            <type>jar</type>
-        </dependency>
-
         <!-- As an Eureka client-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -93,6 +87,21 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-data-rest</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,4 +1,4 @@
-package com.janwee.bookstore.common.resource;
+package com.janwee.bookstore.bookserver.infrastructure.exceptionhandling;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -3,7 +3,7 @@ package com.janwee.bookstore.bookserver.application;
 import com.janwee.bookstore.bookserver.domain.AuthorService;
 import com.janwee.bookstore.bookserver.domain.Book;
 import com.janwee.bookstore.bookserver.domain.BookRepository;
-import com.janwee.bookstore.common.domain.exception.HttpException;
+import com.janwee.bookstore.bookserver.infrastructure.exceptionhandling.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

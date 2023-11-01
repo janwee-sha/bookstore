@@ -1,7 +1,5 @@
 package com.janwee.bookstore.order.infrastructure.exceptionhandling;
 
-import com.janwee.bookstore.common.domain.exception.HttpException;
-import com.janwee.bookstore.common.resource.Error;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,7 @@ public class CustomizedExceptionHandler {
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<Error> handleHttpException(HttpException e) {
         HttpServletRequest request = Optional.ofNullable(
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
         return new ResponseEntity<>(new Error()

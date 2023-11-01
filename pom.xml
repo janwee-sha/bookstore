@@ -27,7 +27,6 @@
     <modules>
         <module>eureka-server</module>
         <module>gateway-server</module>
-        <module>business-commons</module>
         <module>author-server</module>
         <module>book-server</module>
         <module>order-server</module>
@@ -54,13 +53,6 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-data-rest</artifactId>
                 <version>${openapi.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.janwee.bookstore</groupId>
-                <artifactId>business-commons</artifactId>
-                <version>${project.version}</version>
             </dependency>
 
             <dependency>

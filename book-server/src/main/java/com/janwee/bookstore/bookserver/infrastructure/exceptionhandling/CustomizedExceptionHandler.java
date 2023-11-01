@@ -1,7 +1,5 @@
 package com.janwee.bookstore.bookserver.infrastructure.exceptionhandling;
 
-import com.janwee.bookstore.common.domain.exception.HttpException;
-import com.janwee.bookstore.common.resource.Error;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
