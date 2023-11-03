@@ -1,4 +1,4 @@
-# book-store
+# bookstore
 
 Application Choreography Saga:
 
