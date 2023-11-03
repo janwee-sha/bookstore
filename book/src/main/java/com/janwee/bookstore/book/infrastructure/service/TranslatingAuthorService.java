@@ -3,7 +3,6 @@ package com.janwee.bookstore.book.infrastructure.service;
 import com.janwee.bookstore.book.domain.Author;
 import com.janwee.bookstore.book.domain.AuthorService;
 import com.janwee.bookstore.book.infrastructure.feign.AuthorFeignClient;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ public class TranslatingAuthorService implements AuthorService {
     }
 
     @Override
-    @CircuitBreaker(name = "authorServer", fallbackMethod = "fallbackAuthor")
     public Author author(Long authorId) {
         randomlyRunLong();
         return authorFeignClient.author(authorId);

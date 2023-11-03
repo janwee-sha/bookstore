@@ -16,13 +16,13 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
         <project.version>0.0.1-SNAPSHOT</project.version>
-        <postgres-driver.version>42.3.4</postgres-driver.version>
+        <postgres-driver.version>42.6.0</postgres-driver.version>
         <openapi.version>1.6.8</openapi.version>
         <postgres-driver.version>42.3.4</postgres-driver.version>
         <lombok.version>1.18.24</lombok.version>
         <resteasy-jackson2.version>6.0.1.Final</resteasy-jackson2.version>
         <keycloak.version>18.0.0</keycloak.version>
-        <resilience4j.version>2.1.0</resilience4j.version>
+        <jupiter.version>5.10.0</jupiter.version>
     </properties>
 
     <modules>
@@ -63,23 +63,11 @@
                 <scope>provided</scope>
             </dependency>
 
-            <!-- Resilience4j -->
+            <!-- Jupiter API -->
             <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-spring-boot2</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
-            <!--Resilience4j断路器-->
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-circuitbreaker</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
-            <!--Resilience4j限流器-->
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-timelimiter</artifactId>
-                <version>${resilience4j.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${jupiter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
