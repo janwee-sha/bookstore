@@ -22,15 +22,16 @@
         <lombok.version>1.18.24</lombok.version>
         <resteasy-jackson2.version>6.0.1.Final</resteasy-jackson2.version>
         <keycloak.version>18.0.0</keycloak.version>
+        <resilience4j.version>2.1.0</resilience4j.version>
     </properties>
 
     <modules>
-        <module>eureka-server</module>
-        <module>gateway-server</module>
-        <module>author-server</module>
-        <module>book-server</module>
-        <module>order-server</module>
-        <module>config-server</module>
+        <module>eureka</module>
+        <module>gateway</module>
+        <module>author</module>
+        <module>book</module>
+        <module>order</module>
+        <module>config</module>
     </modules>
 
     <dependencyManagement>
@@ -60,6 +61,25 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <!-- Resilience4j -->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-spring-boot2</artifactId>
+                <version>${resilience4j.version}</version>
+            </dependency>
+            <!--Resilience4j断路器-->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-circuitbreaker</artifactId>
+                <version>${resilience4j.version}</version>
+            </dependency>
+            <!--Resilience4j限流器-->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-timelimiter</artifactId>
+                <version>${resilience4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
