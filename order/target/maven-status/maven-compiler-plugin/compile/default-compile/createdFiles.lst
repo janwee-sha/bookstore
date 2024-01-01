@@ -6,7 +6,6 @@ com\janwee\bookstore\order\infrastructure\messaging\ObjectMapperConfigurer.class
 com\janwee\bookstore\order\domain\BookSoldOut.class
 com\janwee\bookstore\order\domain\State.class
 com\janwee\bookstore\order\domain\TicketRepository.class
-com\janwee\bookstore\order\OrderServerApplication.class
 com\janwee\bookstore\order\application\TicketApplicationService.class
 com\janwee\bookstore\order\domain\OrderCreated.class
 com\janwee\bookstore\order\domain\BookOrdered.class
@@ -14,6 +13,9 @@ com\janwee\bookstore\order\domain\Order.class
 com\janwee\bookstore\order\domain\Event.class
 com\janwee\bookstore\order\application\OrderApplicationService.class
 com\janwee\bookstore\order\domain\OrderNotFoundException.class
+com\janwee\bookstore\order\OrderApplication.class
+com\janwee\bookstore\order\infrastructure\exceptionhandling\Error.class
+com\janwee\bookstore\order\infrastructure\exceptionhandling\HttpException.class
 com\janwee\bookstore\order\domain\OrderRepository.class
 com\janwee\bookstore\order\infrastructure\exceptionhandling\CustomizedExceptionHandler.class
 com\janwee\bookstore\order\infrastructure\messaging\EventPublisher.class

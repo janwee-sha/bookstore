@@ -2,10 +2,19 @@ spring:
   jpa:
     database: postgresql
     properties:
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE # Enable @Cacheable annotation
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        cache:
+          use_second_level_cache: true # Enable second-level cache
+          region:
+            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory #Specifies the class to handle the second-level cache
+        generate_statistics: true # Check whether the cache is applied
     show-sql: true
-    generate-ddl: false
+    generate-ddl: true
   datasource:
     druid:
       url: jdbc:postgresql://192.168.136.128:5432/bookstore?currentSchema=book&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai

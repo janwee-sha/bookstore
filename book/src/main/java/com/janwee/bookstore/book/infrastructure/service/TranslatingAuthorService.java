@@ -4,10 +4,12 @@ import com.janwee.bookstore.book.domain.Author;
 import com.janwee.bookstore.book.domain.AuthorService;
 import com.janwee.bookstore.book.infrastructure.feign.AuthorFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+@Profile("prod")
 @Service
 public class TranslatingAuthorService implements AuthorService {
     private final AuthorFeignClient authorFeignClient;

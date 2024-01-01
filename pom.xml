@@ -32,6 +32,7 @@
         <module>book</module>
         <module>order</module>
         <module>config</module>
+        <module>security</module>
     </modules>
 
     <dependencyManagement>

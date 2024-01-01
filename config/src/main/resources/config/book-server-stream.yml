@@ -9,7 +9,16 @@ spring:
           destination: queue.order.event
         event-out:
           destination: queue.book.event
+          producer:
+            confirm-ack-channel: queue.book.event.confirm
   rabbitmq:
     username: janwee
     password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
-    addresses: 192.168.136.128:32769
+    addresses: 192.168.136.128:5672
+    # 开启生产者确认
+    publisher-confirms: true
+    publisher-returns: true
+    # 消费者确认
+    listener:
+      simple:
+        acknowledge-mode: manual
