@@ -25,6 +25,8 @@ mica:
 
 #Enable all Spring Boot Actuator endpoints.
 management:
+  security:
+    enabled: false
   endpoints:
     web:
       exposure:

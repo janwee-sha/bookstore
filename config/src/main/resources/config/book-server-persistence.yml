@@ -9,7 +9,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         cache:
-          use_second_level_cache: true # Enable second-level cache
+          use_second_level_cache: false # Enable second-level cache
           region:
             factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory #Specifies the class to handle the second-level cache
         generate_statistics: true # Check whether the cache is applied
