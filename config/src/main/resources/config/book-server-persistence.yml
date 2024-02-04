@@ -13,7 +13,7 @@ spring:
           region:
             factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory #Specifies the class to handle the second-level cache
         generate_statistics: true # Check whether the cache is applied
-    show-sql: true
+    show-sql: false
     generate-ddl: true
   datasource:
     druid:

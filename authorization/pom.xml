@@ -9,9 +9,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>security</artifactId>
+    <artifactId>authorization</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Security Server</name>
+    <name>Authorization Server</name>
     <packaging>jar</packaging>
 
     <dependencies>

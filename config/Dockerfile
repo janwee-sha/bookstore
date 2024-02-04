@@ -1,4 +1,4 @@
-FROM openjdk:8-slim
+FROM openjdk:20-slim
 
 LABEL maintainer="Janwee <janwee_sha@outlook.com>"
 
