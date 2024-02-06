@@ -13,7 +13,7 @@
     <name>Bookstore</name>
     <packaging>pom</packaging>
     <properties>
-        <java.version>20</java.version>
+        <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
         <project.version>0.0.1-SNAPSHOT</project.version>
         <postgres-driver.version>42.6.0</postgres-driver.version>
@@ -77,6 +77,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.6</version>
         </dependency>
     </dependencies>
 
