@@ -15,17 +15,18 @@ import java.util.Optional;
 @Component
 @Slf4j
 @EnableBinding({EventChannels.class})
-public class EventSubscriber {
+public class RabbitEventSubscriber implements EventSubscriber {
     private final BookRepository bookRepo;
     private final EventPublisher eventPublisher;
 
     @Autowired
-    public EventSubscriber(BookRepository bookRepo,
-                           EventPublisher eventPublisher) {
+    public RabbitEventSubscriber(BookRepository bookRepo,
+                                 EventPublisher eventPublisher) {
         this.bookRepo = bookRepo;
         this.eventPublisher = eventPublisher;
     }
 
+    @Override
     @StreamListener(target = EventChannels.eventFromOrder,
             condition = "headers['type']=='ORDER_CREATED'")
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)

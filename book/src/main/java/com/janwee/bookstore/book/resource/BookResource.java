@@ -3,6 +3,7 @@ package com.janwee.bookstore.book.resource;
 import com.janwee.bookstore.book.application.BookApplicationService;
 import com.janwee.bookstore.book.application.BookInfo;
 import com.janwee.bookstore.book.domain.BookNotFoundException;
+import com.janwee.bookstore.book.domain.BookRepository;
 import com.janwee.bookstore.book.infrastructure.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +25,13 @@ import java.util.stream.Collectors;
 @Validated
 public class BookResource {
     private final BookApplicationService bookService;
+    private final BookRepository bookRepository;
 
     @Autowired
-    public BookResource(BookApplicationService bookService) {
+    public BookResource(BookApplicationService bookService,
+                        BookRepository bookRepository) {
         this.bookService = bookService;
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping
@@ -74,5 +79,12 @@ public class BookResource {
     @ResponseStatus(HttpStatus.OK)
     public void remove(@PathVariable Long id) {
         bookService.remove(id);
+    }
+
+    @DeleteMapping(("/amount-less-than/{amount}"))
+    @ResponseStatus(HttpStatus.OK)
+    @Transactional(rollbackFor = Throwable.class)
+    public void removeAllOfAmountLessThan(@PathVariable int amount) {
+        bookRepository.deleteAllByAmountLessThan(amount);
     }
 }

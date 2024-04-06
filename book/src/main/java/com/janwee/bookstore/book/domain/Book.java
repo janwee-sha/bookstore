@@ -2,7 +2,6 @@ package com.janwee.bookstore.book.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 public class Book implements Serializable {
     private static final long serialVersionUID = 2266684333872541496L;
     @Id
-    @GeneratedValue(generator = "tbl_book_id_seq")
+    @GeneratedValue(generator = "tbl_book_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "book_name", nullable = false)

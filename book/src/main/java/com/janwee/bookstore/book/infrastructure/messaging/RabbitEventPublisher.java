@@ -1,6 +1,7 @@
 package com.janwee.bookstore.book.infrastructure.messaging;
 
 import com.janwee.bookstore.book.domain.Event;
+import com.janwee.bookstore.book.domain.EventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
@@ -12,14 +13,15 @@ import java.util.stream.Stream;
 
 @Component
 @Slf4j
-public class EventPublisher {
+public class RabbitEventPublisher implements EventPublisher {
     private final EventChannels eventChannels;
 
     @Autowired
-    public EventPublisher(EventChannels eventChannels) {
+    public RabbitEventPublisher(EventChannels eventChannels) {
         this.eventChannels = eventChannels;
     }
 
+    @Override
     public void publish(String eventType, Event... events) {
         MessageHeaders headers = new MessageHeaders(new HashMap<String, Object>() {{
             put("type", eventType);

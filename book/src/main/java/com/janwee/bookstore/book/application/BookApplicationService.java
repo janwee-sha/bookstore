@@ -2,6 +2,7 @@ package com.janwee.bookstore.book.application;
 
 import com.janwee.bookstore.book.domain.AuthorService;
 import com.janwee.bookstore.book.domain.Book;
+import com.janwee.bookstore.book.domain.BookNotFoundException;
 import com.janwee.bookstore.book.domain.BookRepository;
 import com.janwee.bookstore.book.infrastructure.exceptionhandling.HttpException;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,5 +80,20 @@ public class BookApplicationService {
         log.info("Removing book with ID: {}.", id);
         throwIfBookNotFound(id);
         bookRepo.deleteById(id);
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public void sellBook(Long bookId) {
+        Optional<Book> book = bookRepo.findById(bookId);
+        if (!book.isPresent()) {
+            throw new BookNotFoundException();
+        }
+        book.get().sell(1);
+        bookRepo.saveAndFlush(book.get());
+        try {
+            TimeUnit.MICROSECONDS.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
