@@ -11,11 +11,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbl_book")
+@Table(name = "books")
 public class Book implements Serializable {
     private static final long serialVersionUID = 2266684333872541496L;
     @Id
-    @GeneratedValue(generator = "tbl_book_id_seq", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "books_id_seq", strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "book_name", nullable = false)

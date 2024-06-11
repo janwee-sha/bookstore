@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbl_order")
+@Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(generator = "tbl_order_id_seq")
+    @GeneratedValue(generator = "orders_id_seq")
     private Long id;
 
     @Column(name = "book_id")

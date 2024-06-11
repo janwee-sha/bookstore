@@ -5,11 +5,11 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tbl_author")
+@Table(name = "authors")
 public class Author implements Serializable {
     private static final long serialVersionUID = 1911240306150353773L;
     @Id
-    @GeneratedValue(generator = "tbl_author_id_seq")
+    @GeneratedValue(generator = "authors_id_seq")
     private Long id;
 
     @NotBlank
@@ -19,6 +19,7 @@ public class Author implements Serializable {
     @Column(name = "profile", nullable = false)
     private String profile;
 
+    @Column(name="phone_no")
     private String phoneNumber;
 
     public Author() {

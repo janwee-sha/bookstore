@@ -3,24 +3,24 @@ CREATE SCHEMA "order";
 
 ALTER SCHEMA "order" OWNER to janwee;
 
-DROP TABLE IF EXISTS "order"."tbl_order";
+DROP TABLE IF EXISTS "order"."orders";
 
-CREATE TABLE "order"."tbl_order"
+CREATE TABLE "order"."orders"
 (
-    id bigserial NOT NULL,
-    book_id   char(64)              NOT NULL,
-    "amount"  integer               NOT NULL,
-    "state"   character varying(64) NOT NULL,
-    create_by timestamp             NOT NULL,
-    PRIMARY KEY (id)
+    id        BIGINT NOT NULL,
+    book_id   BIGINT,
+    amount    INTEGER,
+    create_by TIMESTAMP WITHOUT TIME ZONE,
+    state     SMALLINT,
+    CONSTRAINT pk_orders PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS "order"."tbl_order"
+ALTER TABLE IF EXISTS "order"."orders"
     OWNER to janwee;
 
-DROP TABLE IF EXISTS "order"."tbl_ticket";
+DROP TABLE IF EXISTS "order"."tickets";
 
-CREATE TABLE "order"."tbl_ticket"
+CREATE TABLE "order"."tickets"
 (
     id bigserial NOT NULL,
     "order_id"  char(64)  NOT NULL,
@@ -29,5 +29,5 @@ CREATE TABLE "order"."tbl_ticket"
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS "order"."tbl_ticket"
+ALTER TABLE IF EXISTS "order"."tickets"
     OWNER to janwee;

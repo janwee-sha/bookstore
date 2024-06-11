@@ -16,12 +16,12 @@ public class AuthorResource {
     }
 
     @GetMapping
-    public Author author(@RequestParam Long id) {
-        return authorService.author(id).orElse(null);
+    public Author authorOfId(@RequestParam Long id) {
+        return authorService.authorOfId(id).orElse(null);
     }
 
     @PostMapping
-    public void add(@RequestBody Author author) {
+    public void register(@RequestBody Author author) {
         authorService.register(author);
     }
 }
