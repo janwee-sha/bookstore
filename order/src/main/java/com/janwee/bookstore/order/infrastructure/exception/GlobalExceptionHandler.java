@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.infrastructure.exceptionhandling;
+package com.janwee.bookstore.order.infrastructure.exception;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CustomizedExceptionHandler {
+public class GlobalExceptionHandler {
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<Error> handleHttpException(HttpException e) {
         HttpServletRequest request = Optional.ofNullable(
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
         return new ResponseEntity<>(new Error()

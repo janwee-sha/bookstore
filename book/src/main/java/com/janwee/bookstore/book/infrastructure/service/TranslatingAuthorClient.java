@@ -1,8 +1,9 @@
 package com.janwee.bookstore.book.infrastructure.service;
 
 import com.janwee.bookstore.book.domain.Author;
-import com.janwee.bookstore.book.domain.AuthorService;
+import com.janwee.bookstore.book.domain.AuthorClient;
 import com.janwee.bookstore.book.infrastructure.feign.AuthorFeignClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,12 @@ import java.util.Random;
 
 @Profile("prod")
 @Service
-public class TranslatingAuthorService implements AuthorService {
+@Slf4j
+public class TranslatingAuthorClient implements AuthorClient {
     private final AuthorFeignClient authorFeignClient;
 
     @Autowired
-    public TranslatingAuthorService(AuthorFeignClient authorFeignClient) {
+    public TranslatingAuthorClient(AuthorFeignClient authorFeignClient) {
         this.authorFeignClient = authorFeignClient;
     }
 
@@ -39,7 +41,7 @@ public class TranslatingAuthorService implements AuthorService {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 }

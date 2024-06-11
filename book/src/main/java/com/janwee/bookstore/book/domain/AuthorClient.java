@@ -1,5 +1,5 @@
 package com.janwee.bookstore.book.domain;
 
-public interface AuthorService {
+public interface AuthorClient {
     Author author(Long authorId);
 }

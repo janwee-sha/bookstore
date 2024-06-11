@@ -12,8 +12,6 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "tbl_book")
-//@Cacheable
-//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Book implements Serializable {
     private static final long serialVersionUID = 2266684333872541496L;
     @Id

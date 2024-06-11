@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.infrastructure.exceptionhandling;
+package com.janwee.bookstore.author.infrastructure.exception;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CustomizedExceptionHandler {
+public class GlobalExceptionHandler {
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<Error> handleHttpException(HttpException e) {
         HttpServletRequest request = Optional.ofNullable(

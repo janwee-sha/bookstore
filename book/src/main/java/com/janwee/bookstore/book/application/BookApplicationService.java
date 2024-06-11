@@ -1,10 +1,10 @@
 package com.janwee.bookstore.book.application;
 
-import com.janwee.bookstore.book.domain.AuthorService;
+import com.janwee.bookstore.book.domain.AuthorClient;
 import com.janwee.bookstore.book.domain.Book;
 import com.janwee.bookstore.book.domain.BookNotFoundException;
 import com.janwee.bookstore.book.domain.BookRepository;
-import com.janwee.bookstore.book.infrastructure.exceptionhandling.HttpException;
+import com.janwee.bookstore.book.infrastructure.exception.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 public class BookApplicationService {
     private static final Logger log = LoggerFactory.getLogger(BookApplicationService.class);
     private final BookRepository bookRepo;
-    private final AuthorService authorService;
+    private final AuthorClient authorClient;
 
     @Autowired
-    public BookApplicationService(BookRepository bookRepo, AuthorService authorService) {
+    public BookApplicationService(BookRepository bookRepo, AuthorClient authorClient) {
         this.bookRepo = bookRepo;
-        this.authorService = authorService;
+        this.authorClient = authorClient;
     }
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
@@ -34,14 +34,14 @@ public class BookApplicationService {
         log.info("Loading books.");
         Page<Book> books = bookRepo.findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(),
                 Sort.by("id").descending()));
-        return new PageImpl<>(books.stream().map(book -> new BookInfo(book, authorService.author(book.getAuthorId())))
+        return new PageImpl<>(books.stream().map(book -> new BookInfo(book, authorClient.author(book.getAuthorId())))
                 .collect(Collectors.toList()), page, books.getTotalElements());
     }
 
 
     private Optional<BookInfo> book(Long id) {
         log.info("Loading book with ID: {}.", id);
-        return bookRepo.findById(id).map(book -> new BookInfo(book, authorService.author(book.getAuthorId())));
+        return bookRepo.findById(id).map(book -> new BookInfo(book, authorClient.author(book.getAuthorId())));
     }
 
     public void checkExistenceOfBook(Long id) {

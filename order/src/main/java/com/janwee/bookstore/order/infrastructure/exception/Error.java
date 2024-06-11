@@ -1,4 +1,4 @@
-package com.janwee.bookstore.author.infrastructure.exceptionhandling;
+package com.janwee.bookstore.order.infrastructure.exception;
 
 import lombok.Getter;
 import lombok.Setter;

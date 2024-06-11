@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.infrastructure.exceptionhandling;
+package com.janwee.bookstore.order.infrastructure.exception;
 
 import org.springframework.http.HttpStatus;
 
