@@ -1,7 +1,7 @@
 package com.janwee.bookstore.book.infrastructure.messaging;
 
-import com.janwee.bookstore.book.domain.Event;
-import com.janwee.bookstore.book.domain.EventPublisher;
+import com.janwee.bookstore.foundation.event.Event;
+import com.janwee.bookstore.foundation.event.EventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
@@ -23,7 +23,7 @@ public class RabbitEventPublisher implements EventPublisher {
 
     @Override
     public void publish(String eventType, Event... events) {
-        MessageHeaders headers = new MessageHeaders(new HashMap<String, Object>() {{
+        MessageHeaders headers = new MessageHeaders(new HashMap<>() {{
             put("type", eventType);
         }});
         Stream.of(events).parallel().forEach(event -> {

@@ -1,12 +1,10 @@
 package com.janwee.bookstore.order.domain;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.janwee.bookstore.foundation.exception.NotFoundException;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class OrderNotFoundException extends RuntimeException {
+public class OrderNotFoundException extends NotFoundException {
     public OrderNotFoundException() {
-        super("Order not found");
+        super("No such order");
     }
 
 }

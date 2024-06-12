@@ -28,10 +28,11 @@
     <modules>
         <module>eureka</module>
         <module>gateway</module>
-        <module>author</module>
         <module>book</module>
         <module>order</module>
         <module>config</module>
+        <module>foundation</module>
+        <module>foundation</module>
     </modules>
 
     <dependencyManagement>

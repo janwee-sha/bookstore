@@ -1,91 +1,85 @@
 package com.janwee.bookstore.book.application;
 
-import com.janwee.bookstore.book.domain.AuthorClient;
-import com.janwee.bookstore.book.domain.Book;
-import com.janwee.bookstore.book.domain.BookNotFoundException;
-import com.janwee.bookstore.book.domain.BookRepository;
-import com.janwee.bookstore.book.infrastructure.exception.HttpException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
+import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.domain.repository.BookRepository;
+import com.janwee.bookstore.book.domain.service.BookService;
+import com.janwee.bookstore.book.resource.message.BookResponse;
+import com.janwee.bookstore.book.resource.message.PublishingBookRequest;
+import com.janwee.bookstore.book.resource.message.UpdatingBookRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class BookApplicationService {
-    private static final Logger log = LoggerFactory.getLogger(BookApplicationService.class);
     private final BookRepository bookRepo;
-    private final AuthorClient authorClient;
+    private final BookService bookService;
+    private final BookResponseAssembler bookResponseAssembler;
 
     @Autowired
-    public BookApplicationService(BookRepository bookRepo, AuthorClient authorClient) {
+    public BookApplicationService(BookRepository bookRepo, BookService bookService,
+                                  BookResponseAssembler bookResponseAssembler) {
         this.bookRepo = bookRepo;
-        this.authorClient = authorClient;
+        this.bookService = bookService;
+        this.bookResponseAssembler = bookResponseAssembler;
     }
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Page<BookInfo> books(Pageable page) {
+    public Page<BookResponse> books(Pageable page) {
         log.info("Loading books.");
         Page<Book> books = bookRepo.findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(),
                 Sort.by("id").descending()));
-        return new PageImpl<>(books.stream().map(book -> new BookInfo(book, authorClient.author(book.getAuthorId())))
-                .collect(Collectors.toList()), page, books.getTotalElements());
+        return new PageImpl<>(bookResponseAssembler.assemble(books.getContent()), page, books.getTotalElements());
     }
 
-
-    private Optional<BookInfo> book(Long id) {
-        log.info("Loading book with ID: {}.", id);
-        return bookRepo.findById(id).map(book -> new BookInfo(book, authorClient.author(book.getAuthorId())));
-    }
 
     public void checkExistenceOfBook(Long id) {
         log.info("Checking existence of book with ID: {}.", id);
         if (!bookRepo.existsById(id)) {
-            throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
+            throw new BookNotFoundException();
         }
     }
 
     @Transactional(readOnly = true)
-    public BookInfo nonNullBook(Long id) {
-        return book(id).orElseThrow(() -> new HttpException("Book not found", HttpStatus.NOT_FOUND));
+    public BookResponse bookOfId(Long id) {
+        return bookRepo.findById(id).map(bookResponseAssembler::assemble).orElseThrow(BookNotFoundException::new);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void publish(Book book) {
+    public void publish(PublishingBookRequest request) {
         log.info("Publishing book.");
+        Book book = request.toBook();
+        bookService.validate(book);
         bookRepo.save(book);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void edit(Book book) {
+    public void update(UpdatingBookRequest request) {
         log.info("Modifying book.");
-        throwIfBookNotFound(book.getId());
+        Book book = request.toBook();
+        bookService.validate(book);
         bookRepo.save(book);
     }
 
-    private void throwIfBookNotFound(Long id) {
-        if (!bookRepo.existsById(id)) {
-            throw new HttpException("Book not found", HttpStatus.NOT_FOUND);
-        }
-    }
-
     @Transactional(rollbackFor = Throwable.class)
-    public void remove(Long id) {
+    public void withdraw(Long id) {
         log.info("Removing book with ID: {}.", id);
-        throwIfBookNotFound(id);
+        if (!bookRepo.existsById(id))
+            return;
         bookRepo.deleteById(id);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void sellBook(Long bookId) {
+    public void sell(Long bookId) {
         Optional<Book> book = bookRepo.findById(bookId);
-        if (!book.isPresent()) {
+        if (book.isEmpty()) {
             throw new BookNotFoundException();
         }
         book.get().sell(1);

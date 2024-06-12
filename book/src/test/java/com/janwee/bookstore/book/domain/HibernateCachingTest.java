@@ -1,5 +1,8 @@
 package com.janwee.bookstore.book.domain;
 
+import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.domain.repository.BookRepository;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

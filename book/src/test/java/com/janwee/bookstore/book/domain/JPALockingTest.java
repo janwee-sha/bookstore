@@ -1,6 +1,8 @@
 package com.janwee.bookstore.book.domain;
 
 import com.janwee.bookstore.book.application.BookApplicationService;
+import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.domain.repository.BookRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,11 +43,11 @@ public class JPALockingTest {
     public void testSellBook() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(2);
         new Thread(() -> {
-            bookAppService.sellBook(testBookId);
+            bookAppService.sell(testBookId);
             latch.countDown();
         }).start();
         new Thread(() -> {
-            bookAppService.sellBook(testBookId);
+            bookAppService.sell(testBookId);
             latch.countDown();
         }).start();
         latch.await();
