@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 @EnableDiscoveryClient
 @EnableFeignClients
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.janwee.bookstore.foundation", "com.janwee.bookstore.book"})
 @Slf4j
 @RefreshScope
 public class BookApplication {

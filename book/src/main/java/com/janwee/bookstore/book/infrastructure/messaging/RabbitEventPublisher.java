@@ -27,7 +27,7 @@ public class RabbitEventPublisher implements EventPublisher {
             put("type", eventType);
         }});
         Stream.of(events).parallel().forEach(event -> {
-            eventChannels.eventOutput().send(MessageBuilder.createMessage(event, headers));
+            eventChannels.outputChannel().send(MessageBuilder.createMessage(event, headers));
             log.info("Published {} event: {}", eventType, event);
         });
     }

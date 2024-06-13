@@ -10,7 +10,7 @@ import org.springframework.messaging.MessageChannel;
  * @since 2024/6/13
  */
 public interface InputChannels {
-    String eventFromBook = "event-in-book";
-    @Input(eventFromBook)
-    MessageChannel eventFromBook();
+    String BOOK_IN_CHANNEL = "event-in-book";
+    @Input(BOOK_IN_CHANNEL)
+    MessageChannel bookInputChannel();
 }

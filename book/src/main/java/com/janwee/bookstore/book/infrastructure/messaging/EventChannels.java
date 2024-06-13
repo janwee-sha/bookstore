@@ -5,13 +5,13 @@ import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
 public interface EventChannels {
-    String eventFromOrder = "event-in-order";
+    String ORDER_IN_CHANNEL = "event-in-order";
 
-    @Input(eventFromOrder)
-    MessageChannel eventFromOrder();
+    @Input(ORDER_IN_CHANNEL)
+    MessageChannel orderInputChannel();
 
-    String eventOutput = "event-out";
+    String OUT_CHANNEL = "event-out";
 
-    @Output(eventOutput)
-    MessageChannel eventOutput();
+    @Output(OUT_CHANNEL)
+    MessageChannel outputChannel();
 }

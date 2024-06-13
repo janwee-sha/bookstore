@@ -44,7 +44,7 @@ public class RabbitEventPublisher implements EventPublisher {
                         }
                     });
                     results.add(correlation);
-                    outputChannels.eventOutput().send(MessageBuilder.createMessage(event, headers));
+                    outputChannels.outputChannel().send(MessageBuilder.createMessage(event, headers));
                     log.info("Published {} event: {}", eventType, event);
                 });
         results.forEach(correlation -> {

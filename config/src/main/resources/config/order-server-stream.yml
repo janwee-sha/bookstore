@@ -5,10 +5,10 @@ spring:
         boss:
           type: rabbit
       bindings:
-        event-out:
-          destination: queue.order.event
         event-in-book:
           destination: queue.book.event
+        event-out:
+          destination: queue.order.event
   rabbitmq:
     username: janwee
     password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'

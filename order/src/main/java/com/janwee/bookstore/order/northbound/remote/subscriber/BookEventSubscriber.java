@@ -31,7 +31,7 @@ public class BookEventSubscriber {
         this.ticketRepo = ticketRepo;
     }
 
-    @StreamListener(target = InputChannels.eventFromBook,
+    @StreamListener(target = InputChannels.BOOK_IN_CHANNEL,
             condition = "headers['type']=='BOOK_ORDERED'")
     @Transactional(rollbackFor = Throwable.class)
     public void whenBookOrdered(BookOrdered event) {
@@ -44,7 +44,7 @@ public class BookEventSubscriber {
         ticketRepo.save(ticket);
     }
 
-    @StreamListener(target = InputChannels.eventFromBook,
+    @StreamListener(target = InputChannels.BOOK_IN_CHANNEL,
             condition = "headers['type']=='BOOK_SOLD_OUT'")
     @Transactional(rollbackFor = Throwable.class)
     public void whenBookSoldOut(BookSoldOut event) {
