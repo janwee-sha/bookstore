@@ -29,7 +29,7 @@ public class BookController {
     }
 
     @GetMapping
-    @Operation(description = "Books")
+    @Operation(description = "Retrieve books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
     public Page<BookResponse> books(Pageable page) {
@@ -37,7 +37,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Book of given ID")
+    @Operation(description = "Retrieve book of given ID")
     @ResponseStatus(HttpStatus.OK)
     public BookResponse book(@PathVariable final Long id) {
         return bookAppService.bookOfId(id);
