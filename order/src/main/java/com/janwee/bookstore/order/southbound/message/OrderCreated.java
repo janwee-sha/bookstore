@@ -9,13 +9,13 @@ public class OrderCreated extends DomainEvent implements Event {
     private final Long orderId;
     private final Long bookId;
     private final int amount;
-    private final LocalDateTime createBy;
+    private final LocalDateTime createdBy;
 
-    public OrderCreated(Long orderId, Long bookId, int amount, LocalDateTime createBy) {
+    public OrderCreated(Long orderId, Long bookId, int amount, LocalDateTime createdBy) {
         this.orderId = orderId;
         this.bookId = bookId;
         this.amount = amount;
-        this.createBy = createBy;
+        this.createdBy = createdBy;
     }
 
     @Override
@@ -35,8 +35,8 @@ public class OrderCreated extends DomainEvent implements Event {
         return amount;
     }
 
-    public LocalDateTime createBy() {
-        return createBy;
+    public LocalDateTime createdBy() {
+        return createdBy;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class OrderCreated extends DomainEvent implements Event {
                 "orderId='" + orderId + '\'' +
                 ", bookId='" + bookId + '\'' +
                 ", amount=" + amount +
-                ", createBy=" + createBy +
+                ", createdBy=" + createdBy +
                 '}';
     }
 }

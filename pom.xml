@@ -26,13 +26,12 @@
     </properties>
 
     <modules>
+        <module>foundation</module>
+        <module>config</module>
         <module>eureka</module>
         <module>gateway</module>
         <module>book</module>
         <module>order</module>
-        <module>config</module>
-        <module>foundation</module>
-        <module>foundation</module>
     </modules>
 
     <dependencyManagement>

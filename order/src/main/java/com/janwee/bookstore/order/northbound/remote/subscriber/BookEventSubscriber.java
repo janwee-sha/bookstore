@@ -3,15 +3,13 @@ package com.janwee.bookstore.order.northbound.remote.subscriber;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.domain.Ticket;
-import com.janwee.bookstore.order.northbound.message.InputChannels;
-import com.janwee.bookstore.order.southbound.message.OutputChannels;
 import com.janwee.bookstore.order.northbound.message.BookOrdered;
 import com.janwee.bookstore.order.northbound.message.BookSoldOut;
+import com.janwee.bookstore.order.northbound.message.InputChannels;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
 import com.janwee.bookstore.order.southbound.port.TicketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +18,6 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-@EnableBinding({OutputChannels.class})
 public class BookEventSubscriber {
     private final OrderRepository orderRepo;
     private final TicketRepository ticketRepo;

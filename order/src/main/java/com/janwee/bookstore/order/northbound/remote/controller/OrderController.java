@@ -6,6 +6,7 @@ import com.janwee.bookstore.order.northbound.message.OrderingRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ public class OrderController {
 
     @GetMapping
     @Operation(description = "Orders")
+    @PageableAsQueryParam
     public Page<Order> orders(Pageable page) {
         return orderAppService.orders(page);
     }
@@ -35,7 +37,7 @@ public class OrderController {
     @PostMapping
     @Operation(description = "Create an order")
     @ResponseStatus(HttpStatus.OK)
-    public void createOrder(OrderingRequest request) {
+    public void createOrder(@RequestBody OrderingRequest request) {
         orderAppService.createOrder(request);
     }
 }

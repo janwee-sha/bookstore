@@ -26,10 +26,10 @@ public class Ticket {
     private Long bookId;
 
     @Column(name = "create_by", nullable = false)
-    private LocalDateTime createBy;
+    private LocalDateTime createdBy;
 
     public Ticket() {
-        this.createBy = LocalDateTime.now();
+        this.createdBy = LocalDateTime.now();
     }
 
     public Ticket ofOrder(Long orderId) {

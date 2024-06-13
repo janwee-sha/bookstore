@@ -1,7 +1,6 @@
 package com.janwee.bookstore.foundation.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class DomainExceptionHandler {
 
-    @ExceptionHandler(value = {BadRequestException.class})
+    @ExceptionHandler(value = {IllegalArgumentException.class, BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected Error handleBadRequestExceptions(Exception e) {
         log.info(e.getMessage(), e);

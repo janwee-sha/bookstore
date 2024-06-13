@@ -13,7 +13,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true # 拉取注册表的本地副本
     service-url:
-      defaultZone: http://localhost:7100/eureka/ # Eureka服务的位置
+      defaultZone: http://localhost:7010/eureka/ # Eureka服务的位置
 springdoc:
   api-docs:
     path: /api-docs

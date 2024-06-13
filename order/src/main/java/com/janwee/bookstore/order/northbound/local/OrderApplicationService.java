@@ -37,7 +37,8 @@ public class OrderApplicationService {
     @Transactional(readOnly = true)
     public Page<Order> orders(Pageable page) {
         log.info("Loading orders");
-        return orderRepo.findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by("createBy").descending()));
+        return orderRepo.findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(),
+                Sort.by("createdBy").descending()));
     }
 
     @Transactional(rollbackFor = Throwable.class)

@@ -31,6 +31,7 @@ public class RabbitOrderEventHandler implements OrderEventHandler {
         this.eventPublisher = eventPublisher;
     }
 
+    @Override
     @StreamListener(target = EventChannels.ORDER_IN_CHANNEL,
             condition = "headers['type']=='ORDER_CREATED'")
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
