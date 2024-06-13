@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("authors")
-public class AuthorResource {
+public class AuthorController {
     private final AuthorApplicationService authorAppService;
 
     @Autowired
-    public AuthorResource(AuthorApplicationService authorAppService) {
+    public AuthorController(AuthorApplicationService authorAppService) {
         this.authorAppService = authorAppService;
     }
 

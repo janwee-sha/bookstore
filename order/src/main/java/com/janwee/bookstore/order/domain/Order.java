@@ -26,14 +26,18 @@ public class Order {
     private int amount;
 
     @Column(name = "create_by")
-    private LocalDateTime createBy;
+    private LocalDateTime createdBy;
 
     @Column(name = "state")
     private State state;
 
     public Order() {
         this.state = State.APPROVAL_PENDING;
-        this.createBy = LocalDateTime.now();
+        this.createdBy = LocalDateTime.now();
+    }
+
+    public Long bookId() {
+        return bookId;
     }
 
     public static Order create() {

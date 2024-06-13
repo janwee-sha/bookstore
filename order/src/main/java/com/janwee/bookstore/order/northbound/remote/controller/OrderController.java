@@ -1,7 +1,8 @@
 package com.janwee.bookstore.order.northbound.remote.controller;
 
-import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
 import com.janwee.bookstore.order.domain.Order;
+import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
+import com.janwee.bookstore.order.northbound.message.OrderingRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -10,14 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.constraints.Positive;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("orders")
@@ -41,8 +35,7 @@ public class OrderController {
     @PostMapping
     @Operation(description = "Create an order")
     @ResponseStatus(HttpStatus.OK)
-    public void createOrder(@RequestParam final Long bookId,
-                            @Positive(message = "amount must not less than 1") @RequestParam final int amount) {
-        orderAppService.createOrder(bookId, amount);
+    public void createOrder(OrderingRequest request) {
+        orderAppService.createOrder(request);
     }
 }

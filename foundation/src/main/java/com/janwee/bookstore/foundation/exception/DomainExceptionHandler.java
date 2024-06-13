@@ -1,8 +1,5 @@
-package com.janwee.bookstore.book.infrastructure.messaging;
+package com.janwee.bookstore.foundation.exception;
 
-import com.janwee.bookstore.foundation.exception.Error;
-import com.janwee.bookstore.foundation.exception.BadRequestException;
-import com.janwee.bookstore.foundation.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -19,7 +16,7 @@ import java.util.Optional;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
-public class GlobalExceptionHandler {
+public class DomainExceptionHandler {
 
     @ExceptionHandler(value = {BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -29,7 +26,10 @@ public class GlobalExceptionHandler {
                         (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
-        return Error.ofMessage(e.getMessage()).ofPath(request.getServletPath());
+        return new Error()
+                .ofStatus(HttpStatus.BAD_REQUEST)
+                .ofMessage(e.getMessage())
+                .ofPath(request.getServletPath());
     }
 
     @ExceptionHandler(value = {NotFoundException.class})
@@ -40,6 +40,9 @@ public class GlobalExceptionHandler {
                         (ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
-        return Error.ofMessage(e.getMessage()).ofPath(request.getServletPath());
+        return new Error()
+                .ofStatus(HttpStatus.NOT_FOUND)
+                .ofMessage(e.getMessage())
+                .ofPath(request.getServletPath());
     }
 }

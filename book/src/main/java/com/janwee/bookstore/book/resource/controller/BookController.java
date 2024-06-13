@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("books")
-@Tag(name = "Book resource")
+@Tag(name = "Book Resources")
 @Validated
-public class BookResource {
+public class BookController {
     private final BookApplicationService bookAppService;
 
     @Autowired
-    public BookResource(BookApplicationService bookAppService) {
+    public BookController(BookApplicationService bookAppService) {
         this.bookAppService = bookAppService;
     }
 
