@@ -12,4 +12,4 @@ spring:
   rabbitmq:
     username: janwee
     password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
-    addresses: 172.22.249.176:5672
+    addresses: 142.171.184.180:5672
