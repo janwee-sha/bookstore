@@ -1,9 +1,9 @@
 server:
-  port: 7020
+  port: 7030
  
 eureka:
   instance:
-    hostname: gateway-server
+    hostname: auth-server
     preferIpAddress: true
   client:
     registerWithEureka: true
@@ -13,7 +13,7 @@ eureka:
       
 spring:
   application:
-    name: gateway-server
+    name: auth-server
   cloud:
     loadbalancer:
       ribbon:
@@ -23,6 +23,10 @@ spring:
         locator:
           enabled: true # 基于向服务发现注册的服务创建路由
           lower-case-service-id: true
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://auth-server:7030
 
 management:
   endpoints:
