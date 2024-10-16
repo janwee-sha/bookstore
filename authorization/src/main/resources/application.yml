@@ -1,7 +1,5 @@
 spring:
   application:
     name: auth-server
-  profiles:
-    active: default
   config:
     import: configserver:http://localhost:7000

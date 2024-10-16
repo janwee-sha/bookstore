@@ -25,21 +25,28 @@ spring:
           lower-case-service-id: true
   security:
     user:
-      name: user
-      password: password
+      name: janwee
+      password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
     oauth2:
-      authorization-server:
+      authorizationserver:
         client:
-          client-1:
+          oidc-client:
             registration:
-              client-id: "client"
-              client-secret: "{noop}secret"
+              client-id: "client-1"
+              client-secret: "{noop}secret-1"
               client-authentication-methods:
                 - "client_secret_basic"
               authorization-grant-types:
                 - "authorization_code"
                 - "refresh_token"
-
+              redirect-uris:
+                - "http://127.0.0.1:7030/login/oauth2/code/oidc-client"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:7030/"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: true
 
 management:
   endpoints:
