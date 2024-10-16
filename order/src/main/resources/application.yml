@@ -3,6 +3,5 @@ spring:
     name: order-server
   profiles:
     active: default,persistence,stream
-  cloud:
-    config:
-      uri: http://localhost:7000
+  config:
+    import: configserver:http://localhost:7000

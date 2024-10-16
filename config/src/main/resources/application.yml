@@ -1,12 +1,9 @@
 server:
   port: 7000
+
 spring:
   application:
     name: config-server
-  profiles:
-    active:
-      - native # 设置与存储库（文件系统）关联的Spring profile
-      - dev
   cloud:
     config:
       server:

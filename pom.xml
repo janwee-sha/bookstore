@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.12.RELEASE</version>
+        <version>3.3.4</version>
     </parent>
     <groupId>com.janwee.bookstore</groupId>
     <artifactId>bookstore</artifactId>
@@ -13,8 +13,8 @@
     <name>Bookstore</name>
     <packaging>pom</packaging>
     <properties>
-        <java.version>11</java.version>
-        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+        <java.version>17</java.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
         <project.version>0.0.1-SNAPSHOT</project.version>
         <postgres-driver.version>42.6.0</postgres-driver.version>
         <openapi.version>1.6.8</openapi.version>

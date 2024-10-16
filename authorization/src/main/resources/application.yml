@@ -3,6 +3,5 @@ spring:
     name: auth-server
   profiles:
     active: default
-  cloud:
-    config:
-      uri: http://localhost:7000
+  config:
+    import: configserver:http://localhost:7000

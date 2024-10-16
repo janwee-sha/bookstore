@@ -11,6 +11,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>order-server</name>
     <description>Order Server</description>
+
     <dependencies>
         <dependency>
             <groupId>com.janwee.bookstore</groupId>

@@ -24,12 +24,29 @@ spring:
           enabled: true # 基于向服务发现注册的服务创建路由
           lower-case-service-id: true
   security:
+    user:
+      name: user
+      password: password
     oauth2:
-      authorizationserver:
-        issuer: http://auth-server:7030
+      authorization-server:
+        client:
+          client-1:
+            registration:
+              client-id: "client"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    org.springframework.security: trace
