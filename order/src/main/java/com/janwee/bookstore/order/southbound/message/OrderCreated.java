@@ -18,11 +18,6 @@ public class OrderCreated extends DomainEvent implements Event {
         this.createdBy = createdBy;
     }
 
-    @Override
-    public String description() {
-        return "ORDER_CREATED";
-    }
-
     public Long orderId() {
         return orderId;
     }

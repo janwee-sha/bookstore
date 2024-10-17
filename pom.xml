@@ -21,7 +21,6 @@
         <postgres-driver.version>42.3.4</postgres-driver.version>
         <lombok.version>1.18.24</lombok.version>
         <resteasy-jackson2.version>6.0.1.Final</resteasy-jackson2.version>
-        <keycloak.version>18.0.0</keycloak.version>
         <jupiter.version>5.10.0</jupiter.version>
     </properties>
 

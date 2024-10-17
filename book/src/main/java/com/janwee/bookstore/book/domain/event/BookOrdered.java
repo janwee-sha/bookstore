@@ -20,9 +20,4 @@ public class BookOrdered extends DomainEvent implements Event {
     public long bookId() {
         return bookId;
     }
-
-    @Override
-    public String description() {
-        return "BOOK_ORDERED";
-    }
 }

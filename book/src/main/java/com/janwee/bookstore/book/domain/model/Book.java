@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,9 +16,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "books")
 public class Book implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2266684333872541496L;
     @Id
-    @GeneratedValue(generator = "books_id_seq", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "book_name", nullable = false)
