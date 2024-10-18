@@ -13,9 +13,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
 @Service
 @Slf4j
 public class BookApplicationService {
@@ -74,20 +71,5 @@ public class BookApplicationService {
         if (!bookRepo.existsById(id))
             return;
         bookRepo.deleteById(id);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void sell(Long bookId) {
-        Optional<Book> book = bookRepo.findById(bookId);
-        if (book.isEmpty()) {
-            throw new BookNotFoundException();
-        }
-        book.get().sell(1);
-        bookRepo.saveAndFlush(book.get());
-        try {
-            TimeUnit.MICROSECONDS.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

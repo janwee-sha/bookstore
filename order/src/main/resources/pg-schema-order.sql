@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS "order"."orders";
 
 CREATE TABLE "order"."orders"
 (
-    id        BIGINT NOT NULL,
-    book_id   BIGINT,
+    id        bigserial NOT NULL,
+    book_id   BIGINT    NOT NULL,
     amount    INTEGER,
     create_by TIMESTAMP WITHOUT TIME ZONE,
     state     SMALLINT,
@@ -22,9 +22,9 @@ DROP TABLE IF EXISTS "order"."tickets";
 
 CREATE TABLE "order"."tickets"
 (
-    id bigserial NOT NULL,
-    "order_id"  char(64)  NOT NULL,
-    "book_id"   char(64)  NOT NULL,
+    id          bigserial NOT NULL,
+    "order_id"  BIGINT    NOT NULL,
+    "book_id"   BIGINT    NOT NULL,
     "create_by" timestamp NOT NULL,
     PRIMARY KEY (id)
 );
