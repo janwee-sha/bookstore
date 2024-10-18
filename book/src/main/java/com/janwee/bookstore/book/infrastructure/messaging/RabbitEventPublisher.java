@@ -33,12 +33,12 @@ public class RabbitEventPublisher implements EventPublisher {
     }
 
     @Bean
-    public Supplier<BookSoldOut> bookSoldOut() {
+    public Supplier<BookSoldOut> bookSoldOutSupplier() {
         return queueBookSoldOut::poll;
     }
 
     @Bean
-    public Supplier<BookOrdered> bookOrdered() {
+    public Supplier<BookOrdered> bookOrderedSupplier() {
         return queueBookOrdered::poll;
     }
 }

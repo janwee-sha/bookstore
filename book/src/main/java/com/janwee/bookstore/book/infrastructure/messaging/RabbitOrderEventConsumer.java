@@ -53,7 +53,7 @@ public class RabbitOrderEventConsumer implements OrderEventConsumer {
     }
 
     @Bean
-    public Consumer<OrderCreated> orderCreatedListener() {
+    public Consumer<OrderCreated> orderCreatedConsumer() {
         return this::onOrderCreated;
     }
 }

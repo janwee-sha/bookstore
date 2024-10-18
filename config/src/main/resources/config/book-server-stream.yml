@@ -5,13 +5,13 @@ spring:
         boss:
           type: rabbit
       bindings:
-        orderCreatedListener-in-0:
+        orderCreatedConsumer-in-0:
           destination: queue.order.created
-        bookSoldOut-out-0:
+        bookSoldOutSupplier-out-0:
           destination: queue.book.soldOut
           producer:
             confirm-ack-channel: queue.book.soldOut.confirm
-        bookOrdered-out-0:
+        bookOrderedSupplier-out-0:
           destination: queue.book.ordered
           producer:
             confirm-ack-channel: queue.book.ordered.confirm
