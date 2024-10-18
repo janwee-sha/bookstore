@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient("book-server")
 public interface BookFeignClient {
-    @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
+    @RequestMapping(method = RequestMethod.HEAD, value = "books/{id}")
     ResponseEntity<Void> checkBook(@PathVariable final Long id);
 }
