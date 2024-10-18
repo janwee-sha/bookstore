@@ -44,7 +44,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
+           <!-- <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${openapi.version}</version>
@@ -54,7 +54,14 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-data-rest</artifactId>
                 <version>${openapi.version}</version>
+            </dependency>-->
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>2.6.0</version>
             </dependency>
+
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
