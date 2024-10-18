@@ -10,7 +10,7 @@ CREATE TABLE "order"."orders"
     id        bigserial NOT NULL,
     book_id   BIGINT    NOT NULL,
     amount    INTEGER,
-    create_by TIMESTAMP WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
     state     SMALLINT,
     CONSTRAINT pk_orders PRIMARY KEY (id)
 );
@@ -25,7 +25,7 @@ CREATE TABLE "order"."tickets"
     id          bigserial NOT NULL,
     "order_id"  BIGINT    NOT NULL,
     "book_id"   BIGINT    NOT NULL,
-    "create_by" timestamp NOT NULL,
+    "created_at" timestamp NOT NULL,
     PRIMARY KEY (id)
 );
 

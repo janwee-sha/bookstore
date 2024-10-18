@@ -7,15 +7,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Schema(description = "Book")
 @Getter
 @Setter
 public class BookResponse implements Serializable {
+    @Serial
     private static final long serialVersionUID = 4874660886108568257L;
     @Schema(description = "ID")
     private Long id;
@@ -30,13 +31,10 @@ public class BookResponse implements Serializable {
     private int amount;
 
     @Schema(description = "publication date")
-    private LocalDate publishBy;
-
-    @Schema(description = "some time")
-    private LocalDateTime someTime = LocalDateTime.now();
+    private LocalDate publishedAt;
 
     @Schema(name = "publisher")
-    private String publisher;
+    private String publishedBy;
 
     @Schema(name = "author")
     private Author author;

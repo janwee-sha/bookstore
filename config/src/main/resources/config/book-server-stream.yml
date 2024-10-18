@@ -4,6 +4,8 @@ spring:
       binders:
         boss:
           type: rabbit
+      function:
+        definition: bookSoldOutSupplier;bookOrderedSupplier;orderCreatedConsumer
       bindings:
         orderCreatedConsumer-in-0:
           destination: queue.order.created
@@ -16,9 +18,10 @@ spring:
           producer:
             confirm-ack-channel: queue.book.ordered.confirm
   rabbitmq:
+    host: 142.171.184.180
+    port: 5672
     username: janwee
     password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
-    addresses: 142.171.184.180:5672
     # 开启生产者确认
     publisher-confirms: true
     publisher-returns: true

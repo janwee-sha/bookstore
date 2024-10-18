@@ -51,7 +51,7 @@ public class OrderApplicationService {
         }
         orderRepo.save(order);
         OrderCreated orderCreated = new OrderCreated(order.getId(), order.getBookId(), order.getAmount(),
-                order.getCreatedBy());
+                order.getCreatedAt());
         eventPublisher.publish(orderCreated);
     }
 }

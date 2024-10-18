@@ -1,10 +1,9 @@
 package com.janwee.bookstore.book.domain.model;
 
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,22 +21,16 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "book_name", nullable = false)
     private String name;
 
-    @Column(name = "amount", nullable = false)
     private int amount;
 
-    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "publish_by", nullable = false)
-    private LocalDate publishBy;
+    private LocalDate publishedAt;
 
-    @Column(name = "publisher", nullable = false)
-    private String publisher;
+    private String publishedBy;
 
-    @Column(name = "author_id", nullable = false)
     private Long authorId;
 
     public Book() {
@@ -49,22 +42,6 @@ public class Book implements Serializable {
 
     public String name() {
         return name;
-    }
-
-    public int amount() {
-        return amount;
-    }
-
-    public BigDecimal price() {
-        return price;
-    }
-
-    public LocalDate publishBy() {
-        return publishBy;
-    }
-
-    public String publisher() {
-        return publisher;
     }
 
     public Long authorId() {

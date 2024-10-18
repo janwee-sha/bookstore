@@ -15,21 +15,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "book_id")
     private Long bookId;
 
-    @Column(name = "amount")
     private int amount;
 
-    @Column(name = "create_by")
-    private LocalDateTime createdBy;
+    private LocalDateTime createdAt;
 
-    @Column(name = "state")
     private State state;
 
     public Order() {
         this.state = State.APPROVAL_PENDING;
-        this.createdBy = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long bookId() {

@@ -15,17 +15,14 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "order_id", nullable = false)
     private Long orderId;
 
-    @Column(name = "book_id", nullable = false)
     private Long bookId;
 
-    @Column(name = "create_by", nullable = false)
-    private LocalDateTime createdBy;
+    private LocalDateTime createdAt;
 
     public Ticket() {
-        this.createdBy = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     public Ticket ofOrder(Long orderId) {

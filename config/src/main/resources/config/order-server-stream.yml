@@ -4,6 +4,8 @@ spring:
       binders:
         boss:
           type: rabbit
+      function:
+        definition: orderCreatedSupplier;bookSoldOutConsumer;bookOrderedConsumer
       bindings:
         bookOrderedConsumer-in-0:
           destination: queue.book.ordered

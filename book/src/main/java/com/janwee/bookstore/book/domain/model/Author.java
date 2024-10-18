@@ -1,7 +1,6 @@
 package com.janwee.bookstore.book.domain.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +18,10 @@ public class Author implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NotBlank
-    @Column(name = "author_name", nullable = false)
     private String name;
 
-    @Column(name = "profile", nullable = false)
     private String profile;
 
-    @Column(name = "phone_no")
     private String phoneNumber;
 
     public Author() {
