@@ -11,7 +11,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 public class ConfigApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConfigApplication.class, args);
+        SpringApplication app = new SpringApplication(ConfigApplication.class);
+        app.setAdditionalProfiles("native");
+        app.run(args);
     }
 
 }
