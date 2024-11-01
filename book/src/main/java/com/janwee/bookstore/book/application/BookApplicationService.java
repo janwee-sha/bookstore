@@ -29,11 +29,10 @@ public class BookApplicationService {
     }
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Page<BookResponse> books(Pageable page) {
+    public Page<BookResponse> books(Pageable pageable) {
         log.info("Loading books.");
-        Page<Book> books = bookRepo.findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(),
-                Sort.by("id").descending()));
-        return new PageImpl<>(bookResponseAssembler.assemble(books.getContent()), page, books.getTotalElements());
+        Page<Book> books = bookRepo.findAll(pageable);
+        return new PageImpl<>(bookResponseAssembler.assemble(books.getContent()), pageable, books.getTotalElements());
     }
 
 

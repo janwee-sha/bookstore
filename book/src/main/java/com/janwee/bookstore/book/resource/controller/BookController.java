@@ -2,6 +2,7 @@ package com.janwee.bookstore.book.resource.controller;
 
 import com.janwee.bookstore.book.application.BookApplicationService;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
+import com.janwee.bookstore.book.domain.model.Book_;
 import com.janwee.bookstore.book.resource.message.BookResponse;
 import com.janwee.bookstore.book.resource.message.PublishingBookRequest;
 import com.janwee.bookstore.book.resource.message.UpdatingBookRequest;
@@ -12,6 +13,8 @@ import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +35,7 @@ public class BookController {
     @Operation(description = "Retrieve books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
-    public Page<BookResponse> books(Pageable page) {
+    public Page<BookResponse> books(@SortDefault.SortDefaults({@SortDefault(sort = Book_.ID)}) Pageable page) {
         return bookAppService.books(page);
     }
 

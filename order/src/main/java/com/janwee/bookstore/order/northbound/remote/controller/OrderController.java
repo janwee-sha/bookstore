@@ -1,6 +1,7 @@
 package com.janwee.bookstore.order.northbound.remote.controller;
 
 import com.janwee.bookstore.order.domain.Order;
+import com.janwee.bookstore.order.domain.Order_;
 import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
 import com.janwee.bookstore.order.northbound.message.OrderingRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,8 @@ import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +33,8 @@ public class OrderController {
     @GetMapping
     @Operation(description = "Orders")
     @PageableAsQueryParam
-    public Page<Order> orders(Pageable page) {
+    public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT,
+            direction = Sort.Direction.DESC)}) Pageable page) {
         return orderAppService.orders(page);
     }
 
