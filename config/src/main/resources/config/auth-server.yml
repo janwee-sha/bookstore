@@ -10,19 +10,8 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:7010/eureka/
-      
+
 spring:
-  application:
-    name: auth-server
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
   security:
     user:
       name: user
@@ -37,8 +26,10 @@ spring:
               client-authentication-methods:
                 - "client_secret_basic"
               authorization-grant-types:
+                - "client_credentials"
                 - "authorization_code"
                 - "refresh_token"
+                - "password"
               redirect-uris:
                 - "http://127.0.0.1:7030/login/oauth2/code/oidc-client"
               post-logout-redirect-uris:

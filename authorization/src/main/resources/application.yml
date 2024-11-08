@@ -1,42 +1,8 @@
-server:
-  port: 7030
-
 spring:
   application:
     name: auth-server
-  security:
-    user:
-      name: user
-      password: password
-    oauth2:
-      authorizationserver:
-        client:
-          oidc-client:
-            registration:
-              client-id: "oidc-client"
-              client-secret: "{noop}secret"
-              client-authentication-methods:
-                - "client_secret_basic"
-              authorization-grant-types:
-                - "client_credentials"
-                - "authorization_code"
-                - "refresh_token"
-                - "password"
-              redirect-uris:
-                - "http://127.0.0.1:7030/login/oauth2/code/oidc-client"
-              post-logout-redirect-uris:
-                - "http://127.0.0.1:7030/"
-              scopes:
-                - "openid"
-                - "profile"
-            require-authorization-consent: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-logging:
-  level:
-    org.springframework.security: trace
+  profiles:
+    active:
+      - default
+  config:
+    import: configserver:http://localhost:7000
