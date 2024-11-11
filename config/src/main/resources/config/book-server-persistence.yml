@@ -7,12 +7,11 @@ spring:
   jpa:
     database: postgresql
     properties:
-      javax:
+      jakarta:
         persistence:
           sharedCache:
             mode: ENABLE_SELECTIVE # Enable @Cacheable annotation
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         cache:
           use_second_level_cache: false # Enable second-level cache
           region:
