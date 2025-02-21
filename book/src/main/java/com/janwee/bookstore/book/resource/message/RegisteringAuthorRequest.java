@@ -2,19 +2,19 @@ package com.janwee.bookstore.book.resource.message;
 
 import com.janwee.bookstore.book.domain.model.Author;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
-import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Getter
 @Setter
-@Schema(description = "Registering Author Request")
+@Schema(description = "Registering Author Request", requiredProperties = {"name"})
 public class RegisteringAuthorRequest implements Serializable {
 
-    @Schema(description = "name", required = true)
+    @Schema(description = "name")
     @NotBlank(message = "name required")
     private String name;
 
