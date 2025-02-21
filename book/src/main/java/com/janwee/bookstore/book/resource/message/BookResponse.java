@@ -49,6 +49,7 @@ public class BookResponse implements Serializable {
             response.price = book.price();
             response.amount = book.amount();
             response.publisher = book.publisher();
+            response.publishedAt = book.publishedAt();
             return response;
         }
         return null;
