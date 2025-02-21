@@ -11,6 +11,8 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 @Setter
 @Schema(description = "Saving book command")
 public class PublishingBookRequest implements Serializable {
+    @Serial
     private static final long serialVersionUID = 6824730576154119263L;
 
     @Schema(description = "name", required = true)
@@ -37,7 +40,7 @@ public class PublishingBookRequest implements Serializable {
 
     @Schema(description = "publication date", required = true)
     @NotNull(message = "publish_by required")
-    private LocalDate publishBy;
+    private LocalDate publishedAt;
 
     @Schema(description = "publisher", required = true)
     @NotBlank(message = "publisher required")

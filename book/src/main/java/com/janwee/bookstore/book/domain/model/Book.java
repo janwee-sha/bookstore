@@ -29,7 +29,7 @@ public class Book implements Serializable {
 
     private LocalDate publishedAt;
 
-    private String publishedBy;
+    private String publisher;
 
     private Long authorId;
 
@@ -42,6 +42,22 @@ public class Book implements Serializable {
 
     public String name() {
         return name;
+    }
+
+    public int amount() {
+        return amount;
+    }
+
+    public BigDecimal price() {
+        return price;
+    }
+
+    public LocalDate publishedAt() {
+        return publishedAt;
+    }
+
+    public String publisher() {
+        return publisher;
     }
 
     public Long authorId() {

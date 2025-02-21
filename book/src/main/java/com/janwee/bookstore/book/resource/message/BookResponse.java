@@ -5,7 +5,6 @@ import com.janwee.bookstore.book.domain.model.Book;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -34,7 +33,7 @@ public class BookResponse implements Serializable {
     private LocalDate publishedAt;
 
     @Schema(name = "publisher")
-    private String publishedBy;
+    private String publisher;
 
     @Schema(name = "author")
     private Author author;
@@ -45,7 +44,11 @@ public class BookResponse implements Serializable {
     public static BookResponse from(Book book) {
         if (book != null) {
             BookResponse response = new BookResponse();
-            BeanUtils.copyProperties(book, response);
+            response.id = book.id();
+            response.name = book.name();
+            response.price = book.price();
+            response.amount = book.amount();
+            response.publisher = book.publisher();
             return response;
         }
         return null;
