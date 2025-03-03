@@ -2,18 +2,18 @@ package com.janwee.bookstore.authorization.infrastructure.security;
 
 import com.janwee.bookstore.authorization.domain.User;
 import com.janwee.bookstore.authorization.domain.UserRepository;
-import com.janwee.bookstore.authorization.domain.UserService;
+import com.janwee.bookstore.authorization.domain.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SecurityBasedUserDetailsService implements UserService {
+public class SecurityBasedUserDetailsManager implements UserManager {
     private final UserRepository userRepo;
 
     @Autowired
-    public SecurityBasedUserDetailsService(UserRepository userRepo) {
+    public SecurityBasedUserDetailsManager(UserRepository userRepo) {
         this.userRepo = userRepo;
     }
 
