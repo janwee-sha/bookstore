@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -21,16 +19,5 @@ public class SecurityConfiguration {
                 .formLogin(withDefaults());
 
         return http.build();
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withDefaultPasswordEncoder()
-                .username("bookstore-admin-0")
-                .password("bookstore-admin-0")
-                .roles("ADMIN")
-                .build());
-        return manager;
     }
 }
