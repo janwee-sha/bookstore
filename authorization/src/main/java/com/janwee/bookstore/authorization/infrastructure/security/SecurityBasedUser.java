@@ -42,6 +42,11 @@ public class SecurityBasedUser implements User {
     }
 
     @Override
+    public String username() {
+        return email;
+    }
+
+    @Override
     public String password() {
         return password;
     }

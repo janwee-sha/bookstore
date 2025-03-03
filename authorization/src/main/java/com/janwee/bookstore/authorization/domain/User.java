@@ -7,6 +7,8 @@ public interface User extends UserDetails {
 
     String email();
 
+    String username();
+
     String password();
 
     User ofId(long id);

@@ -3,24 +3,44 @@ package com.janwee.bookstore.authorization.infrastructure.persistence;
 import com.janwee.bookstore.authorization.domain.User;
 import com.janwee.bookstore.authorization.domain.UserRepository;
 import com.janwee.bookstore.authorization.infrastructure.security.SecurityBasedUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class UserInMemoryRepository implements UserRepository {
     private final Map<String, User> usersByEmail;
 
-    public UserInMemoryRepository() {
-        String encryptedPass = "{bcrypt}$2a$10$h/AJueu7Xt9yh3qYuAXtk.WZJ544Uc2kdOKlHu2qQzCh/A3rq46qm";
-        this.usersByEmail = Map.of("bookstore-admin-0@outlook.com",
-                new SecurityBasedUser().ofId(1).withEmail("bookstore-admin-0@outlook.com")
-                        .identifiedBy(encryptedPass));
+    private final AtomicLong SEQ_ID = new AtomicLong(1);
+
+    @Autowired
+    public UserInMemoryRepository(PasswordEncoder passwordEncoder) {
+        String encryptedPass = passwordEncoder.encode("admin@bookstore.com");
+        this.usersByEmail = new HashMap<>() {{
+            put("admin@bookstore.com",
+                    new SecurityBasedUser().ofId(1).withEmail("admin@bookstore.com")
+                            .identifiedBy(encryptedPass));
+        }};
     }
 
     @Override
     public Optional<User> userOfEmail(String email) {
         return Optional.ofNullable(usersByEmail.get(email));
+    }
+
+    @Override
+    public List<User> users() {
+        return new ArrayList<>(usersByEmail.values());
+    }
+
+    @Override
+    public void save(User user) {
+        if (!usersByEmail.containsKey(user.email())) {
+            user = user.ofId(SEQ_ID.addAndGet(1));
+        }
+        usersByEmail.put(user.email(), user);
     }
 }
