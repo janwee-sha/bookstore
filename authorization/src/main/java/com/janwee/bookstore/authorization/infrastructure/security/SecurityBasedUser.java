@@ -25,12 +25,6 @@ public class SecurityBasedUser implements User {
     public SecurityBasedUser() {
     }
 
-    public SecurityBasedUser(long id, String email, String password) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
-
     @Override
     public long id() {
         return id;
