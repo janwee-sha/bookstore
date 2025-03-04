@@ -7,8 +7,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.function.Function;
 
@@ -17,7 +15,6 @@ import java.util.function.Function;
 @SpringBootApplication(scanBasePackages = {"com.janwee.bookstore.foundation", "com.janwee.bookstore.book"})
 @Slf4j
 @RefreshScope
-@Controller
 public class BookApplication {
 
     public static void main(String[] args) {
@@ -30,10 +27,5 @@ public class BookApplication {
             System.out.println("Received " + s);
             return s.toUpperCase();
         };
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index";
     }
 }

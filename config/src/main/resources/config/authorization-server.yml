@@ -1,5 +1,6 @@
 server:
   port: 7030
+
 spring:
   jackson:
     timeZone: GMT+8
