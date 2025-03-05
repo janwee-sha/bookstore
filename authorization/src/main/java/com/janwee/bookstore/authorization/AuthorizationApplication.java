@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -19,6 +21,8 @@ public class AuthorizationApplication {
 
     @GetMapping("/")
     public String index() {
+        SecurityContext ctx = SecurityContextHolder.getContext();
+        System.out.println(ctx.getAuthentication().getName() + " is accessing home page");
         return "index";
     }
 }

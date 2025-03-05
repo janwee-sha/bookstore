@@ -20,7 +20,9 @@ public class SecurityConfiguration {
                         authorize.anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.maximumSessions(1)
+                        .expiredSessionStrategy(new CustomizedExpiredSessionStrategy()));
 
         return http.build();
     }
