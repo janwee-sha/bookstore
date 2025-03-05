@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class UserController {
     @GetMapping
     @Operation(description = "Retrieve all users")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('VIEW_USER')")
     public List<User> users() {
         return userRepo.users();
     }
@@ -36,6 +38,7 @@ public class UserController {
     @GetMapping("/{username}")
     @Operation(description = "Retrieve user of given username")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('VIEW_USER')")
     public User userWithUsername(@PathVariable String username) {
         return userManager.userOfUsername(username);
     }
@@ -43,6 +46,7 @@ public class UserController {
     @PostMapping
     @Operation(description = "Register a new user account")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('EDIT_USER')")
     public void registerUser(@RequestBody RegisteringUserRequest request) {
         userManager.createUser(request.toUser());
     }

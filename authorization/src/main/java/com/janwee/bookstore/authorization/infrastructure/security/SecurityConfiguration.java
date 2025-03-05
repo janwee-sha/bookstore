@@ -20,10 +20,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers(HttpMethod.GET, "/users/**")
-                                .hasAnyAuthority(Authority.VIEW_USER.name())
-                                .requestMatchers(HttpMethod.POST, "/users/**")
-                                .hasAnyAuthority(Authority.EDIT_USER.name())
+                                // Authorize based on request
+//                                .requestMatchers(HttpMethod.GET, "/users/**")
+//                                .hasAnyAuthority(Authority.VIEW_USER.name())
+//                                .requestMatchers(HttpMethod.POST, "/users/**")
+//                                .hasAnyAuthority(Authority.EDIT_USER.name())
                                 .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
