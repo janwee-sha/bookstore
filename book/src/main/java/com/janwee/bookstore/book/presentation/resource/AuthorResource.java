@@ -1,8 +1,8 @@
-package com.janwee.bookstore.book.resource.controller;
+package com.janwee.bookstore.book.presentation.resource;
 
 import com.janwee.bookstore.book.application.AuthorApplicationService;
-import com.janwee.bookstore.book.resource.message.AuthorResponse;
-import com.janwee.bookstore.book.resource.message.RegisteringAuthorRequest;
+import com.janwee.bookstore.book.presentation.message.AuthorResponse;
+import com.janwee.bookstore.book.presentation.message.RegisteringAuthorRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("authors")
 @Tag(name = "Author Resources")
 @Validated
-public class AuthorController {
+public class AuthorResource {
     private final AuthorApplicationService authorAppService;
 
     @Autowired
-    public AuthorController(AuthorApplicationService authorAppService) {
+    public AuthorResource(AuthorApplicationService authorAppService) {
         this.authorAppService = authorAppService;
     }
 

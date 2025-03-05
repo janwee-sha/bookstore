@@ -3,3 +3,10 @@ spring:
     name: gateway-server
   config:
     import: configserver:http://localhost:7000
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23li0TCedWOcZS8Dm7
+            client-secret: 2848af385711ae2db49fe845eb5aaba455b70f4d

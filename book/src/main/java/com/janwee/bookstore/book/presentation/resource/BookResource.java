@@ -1,11 +1,11 @@
-package com.janwee.bookstore.book.resource.controller;
+package com.janwee.bookstore.book.presentation.resource;
 
 import com.janwee.bookstore.book.application.BookApplicationService;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book_;
-import com.janwee.bookstore.book.resource.message.BookResponse;
-import com.janwee.bookstore.book.resource.message.PublishingBookRequest;
-import com.janwee.bookstore.book.resource.message.UpdatingBookRequest;
+import com.janwee.bookstore.book.presentation.message.BookResponse;
+import com.janwee.bookstore.book.presentation.message.PublishingBookRequest;
+import com.janwee.bookstore.book.presentation.message.UpdatingBookRequest;
 import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +13,6 @@ import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -23,11 +22,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("books")
 @Tag(name = "Book Resources")
 @Validated
-public class BookController {
+public class BookResource {
     private final BookApplicationService bookAppService;
 
     @Autowired
-    public BookController(BookApplicationService bookAppService) {
+    public BookResource(BookApplicationService bookAppService) {
         this.bookAppService = bookAppService;
     }
 
