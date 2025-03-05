@@ -1,5 +1,6 @@
 package com.janwee.bookstore.authorization.presentation.message;
 
+import com.janwee.bookstore.authorization.domain.Role;
 import com.janwee.bookstore.authorization.domain.User;
 import com.janwee.bookstore.authorization.infrastructure.security.SecurityBasedUser;
 import lombok.Getter;
@@ -9,9 +10,13 @@ public class RegisteringUserRequest {
 
     private String email;
 
+    private Role role;
+
     private String password;
 
     public User toUser() {
-        return new SecurityBasedUser().withEmail(email).identifiedBy(password);
+        return new SecurityBasedUser().withEmail(email)
+                .ofRole(role)
+                .identifiedBy(password);
     }
 }

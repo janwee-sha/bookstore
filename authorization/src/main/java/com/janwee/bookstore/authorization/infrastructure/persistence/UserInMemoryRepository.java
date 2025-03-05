@@ -1,5 +1,6 @@
 package com.janwee.bookstore.authorization.infrastructure.persistence;
 
+import com.janwee.bookstore.authorization.domain.Role;
 import com.janwee.bookstore.authorization.domain.User;
 import com.janwee.bookstore.authorization.domain.UserRepository;
 import com.janwee.bookstore.authorization.infrastructure.security.SecurityBasedUser;
@@ -22,6 +23,7 @@ public class UserInMemoryRepository implements UserRepository {
         this.usersByEmail = new HashMap<>() {{
             put("admin@bookstore.com",
                     new SecurityBasedUser().ofId(1).withEmail("admin@bookstore.com")
+                            .ofRole(Role.ADMIN)
                             .identifiedBy(encryptedPass));
         }};
     }

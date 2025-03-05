@@ -1,7 +1,9 @@
 package com.janwee.bookstore.authorization.infrastructure.security;
 
+import com.janwee.bookstore.authorization.domain.Authority;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,7 +19,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize ->
-                        authorize.anyRequest().authenticated())
+                        authorize
+                                .requestMatchers(HttpMethod.GET, "/users/**")
+                                .hasAnyAuthority(Authority.VIEW_USER.name())
+                                .requestMatchers(HttpMethod.POST, "/users/**")
+                                .hasAnyAuthority(Authority.EDIT_USER.name())
+                                .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

@@ -1,14 +1,12 @@
 package com.janwee.bookstore.authorization.infrastructure.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.janwee.bookstore.authorization.domain.Role;
 import com.janwee.bookstore.authorization.domain.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 @Getter
 public class SecurityBasedUser implements User {
@@ -19,10 +17,10 @@ public class SecurityBasedUser implements User {
     @JsonIgnore
     private String password;
 
-    private static final List<GrantedAuthority> ROLE_USER = Collections
-            .unmodifiableList(AuthorityUtils.createAuthorityList("ROLE_USER"));
+    private Role role;
 
     public SecurityBasedUser() {
+        this.role = Role.USER;
     }
 
     @Override
@@ -63,10 +61,15 @@ public class SecurityBasedUser implements User {
         return this;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return ROLE_USER;
+        return role.authorities();
+    }
+
+    @Override
+    public User ofRole(Role role) {
+        this.role = role;
+        return this;
     }
 
     @Override

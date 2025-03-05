@@ -16,4 +16,6 @@ public interface User extends UserDetails {
     User withEmail(String email);
 
     User identifiedBy(String password);
+
+    User ofRole(Role role);
 }
