@@ -30,6 +30,20 @@ spring:
           github:
             client-id: Ov23li0TCedWOcZS8Dm7
             client-secret: 2848af385711ae2db49fe845eb5aaba455b70f4d
+          bookstore:
+            provider: spring
+            client-id: bookstore
+            client-secret: "{noop}secret"
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8080/authorized
+            scope: message:read, message:write
+            client-name: Spring
+        provider:
+          spring:
+            authorization-uri: http://localhost:7030/oauth2/authorize
+            token-uri: http://localhost:7030/oauth2/token
+            jwk-set-uri: http://localhost:7030/oauth2/jwks
 
 management:
   endpoints:
