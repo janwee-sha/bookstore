@@ -1,11 +1,10 @@
 server:
-  port: 7100
+  port: 7030
 spring:
   jackson:
     timeZone: GMT+8
     dateFormat: yyyy-MM-dd HH:mm:ss
-  jpa:
-    open-in-view: true
+
 eureka:
   instance:
     preferIpAddress: true # 注册服务的IP，而不是服务器名称
@@ -14,7 +13,6 @@ eureka:
     fetchRegistry: true # 拉取注册表的本地副本
     serviceUrl:
       defaultZone: http://localhost:7010/eureka/ # Eureka服务的位置
-
 springdoc:
   api-docs:
     path: /api-docs

@@ -33,6 +33,7 @@
         <module>gateway</module>
         <module>book</module>
         <module>order</module>
+        <module>authorization</module>
     </modules>
 
     <dependencyManagement>

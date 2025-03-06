@@ -1,8 +1,7 @@
-package com.janwee.bookstore.book.resource.message;
+package com.janwee.bookstore.book.presentation.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.book.domain.model.Book;
-import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -19,14 +18,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Schema(description = "Saving book command",
-        requiredProperties = {"id", "name", "price", "amount", "publishedAt", "publisher", "authorId"})
-public class UpdatingBookRequest implements Serializable {
+        requiredProperties = {"name", "price", "amount", "publishedAt", "publisher", "authorId"})
+public class PublishingBookRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
-
-    @Schema(description = "ID")
-    @NotNull(groups = ValidationGroup.Modification.class, message = "id required")
-    private Long id;
 
     @Schema(description = "name")
     @NotBlank(message = "name required")
@@ -54,13 +49,12 @@ public class UpdatingBookRequest implements Serializable {
     @NotNull(message = "authorId required")
     private Long authorId;
 
-    public UpdatingBookRequest() {
+    public PublishingBookRequest() {
     }
 
     @JsonIgnore
     public Book toBook() {
         return new Book()
-                .ofId(this.id)
                 .withName(this.name)
                 .ofAmount(this.amount)
                 .ofPrice(this.price)
