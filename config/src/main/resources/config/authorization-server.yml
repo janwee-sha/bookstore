@@ -4,8 +4,7 @@ spring:
   jackson:
     timeZone: GMT+8
     dateFormat: yyyy-MM-dd HH:mm:ss
-  jpa:
-    open-in-view: true
+
 eureka:
   instance:
     preferIpAddress: true # 注册服务的IP，而不是服务器名称
