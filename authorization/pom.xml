@@ -11,7 +11,7 @@
 
     <artifactId>authorization</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Authorization Server</name>
+    <name>Authorization</name>
     <packaging>jar</packaging>
 
     <properties>

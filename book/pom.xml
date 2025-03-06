@@ -9,7 +9,7 @@
     </parent>
     <artifactId>book</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Book Server</name>
+    <name>Book</name>
     <packaging>jar</packaging>
 
     <dependencies>

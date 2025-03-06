@@ -9,7 +9,7 @@
     </parent>
     <artifactId>config</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>config-server</name>
+    <name>Config</name>
     <packaging>jar</packaging>
 
     <dependencies>

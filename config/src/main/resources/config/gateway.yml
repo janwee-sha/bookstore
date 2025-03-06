@@ -3,7 +3,7 @@ server:
  
 eureka:
   instance:
-    hostname: gateway-server
+    hostname: gateway
     preferIpAddress: true
   client:
     registerWithEureka: true
@@ -13,7 +13,7 @@ eureka:
       
 spring:
   application:
-    name: gateway-server
+    name: gateway
   cloud:
     loadbalancer:
       ribbon:

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: order-server
+    name: order
   profiles:
     active: default,persistence,stream
   config:

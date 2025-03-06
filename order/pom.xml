@@ -9,7 +9,7 @@
     </parent>
     <artifactId>order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>order-server</name>
+    <name>Order</name>
     <description>Order Server</description>
 
     <dependencies>

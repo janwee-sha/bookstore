@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>gateway</artifactId>
-    <name>Gateway Server</name>
+    <name>Gateway</name>
 
     <dependencies>
         <dependency>
