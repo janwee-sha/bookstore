@@ -30,7 +30,7 @@ public class UserController {
     @GetMapping
     @Operation(description = "Retrieve all users")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyAuthority('READ')")
+    @PreAuthorize("hasAnyAuthority('user:read')")
     public List<User> users() {
         return userRepo.users();
     }
@@ -38,7 +38,7 @@ public class UserController {
     @GetMapping("/{username}")
     @Operation(description = "Retrieve user of given username")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyAuthority('READ')")
+    @PreAuthorize("hasAnyAuthority('user:read')")
     public User userWithUsername(@PathVariable String username) {
         return userManager.userOfUsername(username);
     }

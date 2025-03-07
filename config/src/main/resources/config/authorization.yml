@@ -27,8 +27,8 @@ spring:
               redirect-uris:
                 - "http://127.0.0.1:8080/authorized"
               scopes:
-                - "message:read"
-                - "message:write"
+                - "user:read"
+                - "user:write"
             require-authorization-consent: true
 
 eureka:
