@@ -4,8 +4,7 @@ import com.janwee.bookstore.authorization.domain.Role;
 import com.janwee.bookstore.authorization.domain.User;
 import com.janwee.bookstore.authorization.domain.UserRepository;
 import com.janwee.bookstore.authorization.infrastructure.security.SecurityBasedUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -17,14 +16,13 @@ public class UserInMemoryRepository implements UserRepository {
 
     private final AtomicLong SEQ_ID = new AtomicLong(1);
 
-    @Autowired
-    public UserInMemoryRepository(PasswordEncoder passwordEncoder) {
-        String encryptedPass = passwordEncoder.encode("admin@bookstore.com");
+    public UserInMemoryRepository(@Value("${spring.security.user.name}") String adminEmail,
+                                  @Value("${spring.security.user.password}") String adminPassword) {
         this.usersByEmail = new HashMap<>() {{
-            put("admin@bookstore.com",
-                    new SecurityBasedUser().ofId(1).withEmail("admin@bookstore.com")
+            put(adminEmail,
+                    new SecurityBasedUser().ofId(1).withEmail(adminEmail)
                             .ofRole(Role.ADMIN)
-                            .identifiedBy(encryptedPass));
+                            .identifiedBy(adminPassword));
         }};
     }
 
