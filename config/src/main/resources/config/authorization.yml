@@ -24,12 +24,13 @@ spring:
                 - "authorization_code"
                 - "refresh_token"
                 - "client_credentials"
+                - "password"
               redirect-uris:
                 - "http://127.0.0.1:8080/authorized"
               scopes:
                 - "user:read"
                 - "user:write"
-            require-authorization-consent: true
+            require-authorization-consent: false
 
 eureka:
   instance:
@@ -54,3 +55,7 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    org.springframework.security: trace
