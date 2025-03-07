@@ -5,11 +5,11 @@ spring:
     timeZone: GMT+8
     dateFormat: yyyy-MM-dd HH:mm:ss
   security:
-    user:
-      name: "admin@bookstore.com"
-      password: "admin@bookstore.com"
-      roles:
-        - "ADMIN"
+#    user:
+#      name: "admin@bookstore.com"
+#      password: "admin@bookstore.com"
+#      roles:
+#        - "ADMIN"
     oauth2:
       authorizationserver:
         issuer: http://localhost:7030

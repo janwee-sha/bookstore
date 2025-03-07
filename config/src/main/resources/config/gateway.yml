@@ -33,7 +33,7 @@ spring:
           bookstore:
             provider: spring
             client-id: bookstore
-            client-secret: "{noop}secret"
+            client-secret: secret
             client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
             redirect-uri: http://127.0.0.1:8080/authorized
