@@ -17,20 +17,22 @@ spring:
           bookstore:
             registration:
               client-id: "bookstore"
-              client-secret: "{noop}secret"
+              client-secret: "{bcrypt}$2a$10$N0ull8s2QSOUG/BLO7l99uVkMx6Ofls3Knhfxm.56MTn5YU2uvIvy"
               client-authentication-methods:
                 - "client_secret_basic"
               authorization-grant-types:
                 - "authorization_code"
                 - "refresh_token"
                 - "client_credentials"
-                - "password"
               redirect-uris:
                 - "http://127.0.0.1:8080/authorized"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
               scopes:
+                - "openid"
                 - "user:read"
                 - "user:write"
-            require-authorization-consent: false
+            require-authorization-consent: true
 
 eureka:
   instance:

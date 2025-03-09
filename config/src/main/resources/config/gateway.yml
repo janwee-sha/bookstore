@@ -29,7 +29,8 @@ spring:
         registration:
           github:
             client-id: Ov23li0TCedWOcZS8Dm7
-            client-secret: 2848af385711ae2db49fe845eb5aaba455b70f4d
+            client-secret: 703ae066d78fe39796b9337d5a37e8c15fec6d1a
+            scope: user:read, user:write
           bookstore:
             provider: spring
             client-id: bookstore
@@ -37,7 +38,7 @@ spring:
             client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
             redirect-uri: http://127.0.0.1:8080/authorized
-            scope: user:read, user:write
+            scope: openid, user:read, user:write
             client-name: Spring
         provider:
           spring:

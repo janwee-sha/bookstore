@@ -8,10 +8,10 @@ import java.util.List;
 
 public enum Role {
     ADMIN(Collections
-            .unmodifiableList(AuthorityUtils.createAuthorityList(Authority.USER_READ.name(),
-                    Authority.USER_WRITE.name()))),
+            .unmodifiableList(AuthorityUtils.createAuthorityList(Authority.USER_READ.value(),
+                    Authority.USER_WRITE.value()))),
     USER(Collections
-            .unmodifiableList(AuthorityUtils.createAuthorityList(Authority.USER_READ.name())));
+            .unmodifiableList(AuthorityUtils.createAuthorityList(Authority.USER_READ.value())));
     private final List<GrantedAuthority> authorities;
 
     public List<GrantedAuthority> authorities() {

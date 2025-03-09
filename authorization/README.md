@@ -1,4 +1,5 @@
-1. Authorization Code(授权码)模式：
+1. 
+2. Authorization Code(授权码)模式：
 
     a. 用户代理向授权服务器发起获取授权码并在成功后重定向到客户端应用的请求：
     ```
@@ -52,4 +53,5 @@
     -d "username=admin@bookstore.com" \
     -d "password=admin@bookstore.com" \
     -d "scope=user:read user:write"
+       curl -X POST http://localhost:7030/oauth2/token -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: Basic Ym9va3N0b3JlOnNlY3JldA== -d "grant_type=password" -d "username=admin@bookstore.com" -d "password=admin@bookstore.com" -d "scope=user:read user:write"
     ```
