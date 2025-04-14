@@ -59,11 +59,10 @@ public class UpdatingBookRequest implements Serializable {
 
     @JsonIgnore
     public Book toBook() {
-        return new Book()
-                .ofId(this.id)
-                .withName(this.name)
-                .ofAmount(this.amount)
-                .ofPrice(this.price)
+        return Book.update(this.id)
+                .changeNameTo(this.name)
+                .changeAmountTo(this.amount)
+                .changePriceTo(this.price)
                 .atPublicationDate(this.publishedAt)
                 .byPublisher(this.publisher)
                 .byAuthor(this.authorId);

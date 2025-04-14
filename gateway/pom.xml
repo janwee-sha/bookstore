@@ -23,10 +23,12 @@
         </dependency>
 
         <!-- As a Gateway server -->
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <artifactId>spring-cloud-starter-gateway-mvc</artifactId>
         </dependency>
+
 
         <!-- As an Eureka client-->
         <dependency>

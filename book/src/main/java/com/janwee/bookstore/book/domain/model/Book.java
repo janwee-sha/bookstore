@@ -34,22 +34,28 @@ public class Book implements Serializable {
     private Long authorId;
 
     public Book() {
+        this.publishedAt = LocalDate.now();
+    }
+
+    public static Book create() {
+        return new Book();
+    }
+
+    public static Book update(long id) {
+        Book book = new Book();
+        book.id = id;
+        return book;
     }
 
     public Long id() {
         return id;
     }
 
-    public Book ofId(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public String name() {
         return name;
     }
 
-    public Book withName(String name) {
+    public Book changeNameTo(String name) {
         this.name = name;
         return this;
     }
@@ -58,7 +64,7 @@ public class Book implements Serializable {
         return amount;
     }
 
-    public Book ofAmount(int amount) {
+    public Book changeAmountTo(int amount) {
         this.amount = amount;
         return this;
     }
@@ -67,7 +73,7 @@ public class Book implements Serializable {
         return price;
     }
 
-    public Book ofPrice(BigDecimal price) {
+    public Book changePriceTo(BigDecimal price) {
         this.price = price;
         return this;
     }

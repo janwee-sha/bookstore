@@ -50,8 +50,7 @@
     -H "Content-Type: application/x-www-form-urlencoded" \
     -H "Authorization: Basic Ym9va3N0b3JlOnNlY3JldA== \
     -d "grant_type=password" \
-    -d "username=admin@bookstore.com" \
-    -d "password=admin@bookstore.com" \
+    -d "username=usr0@bookstore.com" \
+    -d "password=pass@bookstore.com" \
     -d "scope=user:read user:write"
-       curl -X POST http://localhost:7030/oauth2/token -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: Basic Ym9va3N0b3JlOnNlY3JldA== -d "grant_type=password" -d "username=admin@bookstore.com" -d "password=admin@bookstore.com" -d "scope=user:read user:write"
     ```
