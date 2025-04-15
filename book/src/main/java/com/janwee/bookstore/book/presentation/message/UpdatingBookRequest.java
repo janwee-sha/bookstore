@@ -2,9 +2,9 @@ package com.janwee.bookstore.book.presentation.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.domain.model.Price;
 import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -13,7 +13,6 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -34,8 +33,7 @@ public class UpdatingBookRequest implements Serializable {
 
     @Schema(description = "price")
     @NotNull(message = "price required")
-    @DecimalMin(value = "0.0", message = "price must not be less than zero")
-    private BigDecimal price;
+    private Price price;
 
     @Schema(description = "amount")
     @NotNull(message = "amount required")

@@ -1,6 +1,7 @@
 package com.janwee.bookstore.book.domain.model;
 
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
+import com.janwee.bookstore.book.infrastructure.persistence.PriceConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,8 @@ public class Book implements Serializable {
 
     private int amount;
 
-    private BigDecimal price;
+    @Convert(converter = PriceConverter.class)
+    private Price price;
 
     private LocalDate publishedAt;
 
@@ -69,11 +71,14 @@ public class Book implements Serializable {
         return this;
     }
 
-    public BigDecimal price() {
+    public Price price() {
         return price;
     }
 
-    public Book changePriceTo(BigDecimal price) {
+    public Book changePriceTo(Price price) {
+        if (price == null || price.amount().compareTo(BigDecimal.ZERO) < 0) {
+            throw InvalidBookException.validPriceRequired();
+        }
         this.price = price;
         return this;
     }

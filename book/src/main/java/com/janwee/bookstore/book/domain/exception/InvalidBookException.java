@@ -13,6 +13,10 @@ public class InvalidBookException extends BadRequestException {
         throw new InvalidBookException("No such author");
     }
 
+    public static InvalidBookException validPriceRequired() {
+        throw new InvalidBookException("Price is required and should not be less than 0");
+    }
+
     public static InvalidBookException soldOut() {
         throw new InvalidBookException("Sorry, the book has been sold out");
     }

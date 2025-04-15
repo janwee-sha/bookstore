@@ -2,13 +2,13 @@ package com.janwee.bookstore.book.presentation.message;
 
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.domain.model.Price;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Schema(description = "Book")
@@ -24,7 +24,7 @@ public class BookResponse implements Serializable {
     private String name;
 
     @Schema(description = "price")
-    private BigDecimal price;
+    private Price price;
 
     @Schema
     private int amount;
