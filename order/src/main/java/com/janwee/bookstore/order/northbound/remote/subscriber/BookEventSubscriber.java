@@ -32,7 +32,7 @@ public class BookEventSubscriber {
     public void onBookOrdered(BookOrdered event) {
         log.info("Received TicketCreated event: {}", event);
         Order order = orderRepo.findById(event.orderId())
-                .orElseThrow(OrderNotFoundException::new);
+                .orElseThrow(() -> new OrderNotFoundException(event.orderId()));
         order.approve();
         orderRepo.save(order);
         Ticket ticket = new Ticket().ofOrder(event.orderId()).ofBook(event.bookId());

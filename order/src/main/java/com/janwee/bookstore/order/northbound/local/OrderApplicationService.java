@@ -3,6 +3,7 @@ package com.janwee.bookstore.order.northbound.local;
 import com.janwee.bookstore.foundation.event.EventPublisher;
 import com.janwee.bookstore.order.domain.InvalidOrderException;
 import com.janwee.bookstore.order.domain.Order;
+import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import com.janwee.bookstore.order.southbound.adapter.RabbitEventPublisher;
 import com.janwee.bookstore.order.southbound.message.BookReview;
@@ -36,6 +37,11 @@ public class OrderApplicationService {
     public Page<Order> orders(Pageable pageable) {
         log.info("Loading orders");
         return orderRepo.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Order nonNullOrderOfId(long id) {
+        return orderRepo.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     @Transactional(rollbackFor = Throwable.class)

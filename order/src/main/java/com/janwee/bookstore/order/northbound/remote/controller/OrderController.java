@@ -35,11 +35,18 @@ public class OrderController {
     }
 
     @GetMapping
-    @Operation(description = "Orders")
+    @Operation(description = "Retrieve all orders")
     @PageableAsQueryParam
     public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT,
             direction = Sort.Direction.DESC)}) Pageable page) {
         return orderAppService.orders(page);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(description = "Retrieve details for order of given ID")
+    @PageableAsQueryParam
+    public Order order(@PathVariable long id) {
+        return orderAppService.nonNullOrderOfId(id);
     }
 
     @PostMapping
