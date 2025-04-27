@@ -48,10 +48,8 @@ public class OrderController {
     public ResponseEntity<Void> orderBook(@RequestBody OrderingBookRequest request) {
         long newOrderId = orderAppService.orderBook(request);
         String newOrderLocation = "/orders/" + newOrderId;
-
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(newOrderLocation));
-
         return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
     }
 }
