@@ -3,7 +3,7 @@ package com.janwee.bookstore.order.northbound.remote.controller;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.Order_;
 import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
-import com.janwee.bookstore.order.northbound.message.OrderingRequest;
+import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("orders")
@@ -39,9 +43,15 @@ public class OrderController {
     }
 
     @PostMapping
-    @Operation(description = "Create an order")
-    @ResponseStatus(HttpStatus.OK)
-    public void createOrder(@RequestBody OrderingRequest request) {
-        orderAppService.createOrder(request);
+    @Operation(description = "Order a book")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public ResponseEntity<Void> orderBook(@RequestBody OrderingBookRequest request) {
+        long newOrderId = orderAppService.orderBook(request);
+        String newOrderLocation = "/orders/" + newOrderId;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(newOrderLocation));
+
+        return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
     }
 }

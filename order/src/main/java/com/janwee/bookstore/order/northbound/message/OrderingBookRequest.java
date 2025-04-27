@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Positive;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderingRequest {
+public class OrderingBookRequest {
     @Schema(description = "Book ID")
     @NotNull(message = "Book ID required")
     private Long bookId;

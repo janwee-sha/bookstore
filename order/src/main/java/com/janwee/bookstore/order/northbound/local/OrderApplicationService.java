@@ -3,7 +3,7 @@ package com.janwee.bookstore.order.northbound.local;
 import com.janwee.bookstore.foundation.event.EventPublisher;
 import com.janwee.bookstore.order.domain.InvalidOrderException;
 import com.janwee.bookstore.order.domain.Order;
-import com.janwee.bookstore.order.northbound.message.OrderingRequest;
+import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import com.janwee.bookstore.order.southbound.adapter.RabbitEventPublisher;
 import com.janwee.bookstore.order.southbound.message.BookReview;
 import com.janwee.bookstore.order.southbound.message.OrderCreated;
@@ -39,16 +39,18 @@ public class OrderApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void createOrder(OrderingRequest request) {
-        log.info("Creating an order");
+    public long orderBook(OrderingBookRequest request) {
+        log.info("Order a book");
         Order order = Order.create().ofBook(request.getBookId()).ofAmount(request.getAmount());
         BookReview bookReview = bookClient.check(order);
         if (bookReview.isUnavailable()) {
             throw InvalidOrderException.unavailableBook();
         }
-        orderRepo.save(order);
+        orderRepo.saveAndFlush(order);
+
         OrderCreated orderCreated = new OrderCreated(order.getId(), order.getBookId(), order.getAmount(),
                 order.getCreatedAt());
         eventPublisher.publish(orderCreated);
+        return order.getId();
     }
 }
