@@ -12,7 +12,6 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -35,10 +34,6 @@ public class PublishingBookRequest implements Serializable {
     @PositiveOrZero(message = "amount must not be less than zero")
     private int amount;
 
-    @Schema(description = "publication date")
-    @NotNull(message = "publishedAt required")
-    private LocalDate publishedAt;
-
     @Schema(description = "publisher")
     @NotBlank(message = "publisher required")
     private String publisher;
@@ -51,13 +46,13 @@ public class PublishingBookRequest implements Serializable {
     }
 
     @JsonIgnore
-    public Book toBook() {
-        return Book.create()
-                .changeNameTo(this.name)
-                .changeAmountTo(this.amount)
-                .changePriceTo(this.price)
-                .atPublicationDate(this.publishedAt)
-                .byPublisher(this.publisher)
-                .byAuthor(this.authorId);
+    public Book toNewBook() {
+        Book book = new Book();
+        book.changeNameTo(this.name);
+        book.changeAmountTo(this.amount);
+        book.changePriceTo(this.price);
+        book.changePublisherTo(this.publisher);
+        book.changeAuthorTo(this.authorId);
+        return book;
     }
 }

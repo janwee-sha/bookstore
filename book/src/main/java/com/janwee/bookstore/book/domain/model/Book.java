@@ -39,16 +39,6 @@ public class Book implements Serializable {
         this.publishedAt = LocalDate.now();
     }
 
-    public static Book create() {
-        return new Book();
-    }
-
-    public static Book update(long id) {
-        Book book = new Book();
-        book.id = id;
-        return book;
-    }
-
     public Long id() {
         return id;
     }
@@ -57,57 +47,54 @@ public class Book implements Serializable {
         return name;
     }
 
-    public Book changeNameTo(String name) {
+    public void changeNameTo(String name) {
         this.name = name;
-        return this;
     }
 
     public int amount() {
         return amount;
     }
 
-    public Book changeAmountTo(int amount) {
+    public void changeAmountTo(int amount) {
+        if (amount < 0) {
+            throw InvalidBookException.negativeAmount();
+        }
         this.amount = amount;
-        return this;
     }
 
     public Price price() {
         return price;
     }
 
-    public Book changePriceTo(Price price) {
+    public void changePriceTo(Price price) {
         if (price == null || price.amount().compareTo(BigDecimal.ZERO) < 0) {
             throw InvalidBookException.validPriceRequired();
         }
         this.price = price;
-        return this;
     }
 
     public LocalDate publishedAt() {
         return publishedAt;
     }
 
-    public Book atPublicationDate(LocalDate publishedAt) {
+    public void changePublicationDate(LocalDate publishedAt) {
         this.publishedAt = publishedAt;
-        return this;
     }
 
     public String publisher() {
         return publisher;
     }
 
-    public Book byPublisher(String publisher) {
+    public void changePublisherTo(String publisher) {
         this.publisher = publisher;
-        return this;
     }
 
     public Long authorId() {
         return authorId;
     }
 
-    public Book byAuthor(Long authorId) {
+    public void changeAuthorTo(Long authorId) {
         this.authorId = authorId;
-        return this;
     }
 
     public void sell(int amount) {

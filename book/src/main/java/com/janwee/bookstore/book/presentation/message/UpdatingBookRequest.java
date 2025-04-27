@@ -1,12 +1,8 @@
 package com.janwee.bookstore.book.presentation.message;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Price;
-import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,52 +13,52 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Schema(description = "Saving book command",
-        requiredProperties = {"id", "name", "price", "amount", "publishedAt", "publisher", "authorId"})
+@Schema(description = "Updating book request")
 public class UpdatingBookRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
 
-    @Schema(description = "ID")
-    @NotNull(groups = ValidationGroup.Modification.class, message = "id required")
-    private Long id;
-
     @Schema(description = "name")
-    @NotBlank(message = "name required")
     private String name;
 
     @Schema(description = "price")
-    @NotNull(message = "price required")
     private Price price;
 
     @Schema(description = "amount")
-    @NotNull(message = "amount required")
     @PositiveOrZero(message = "amount must not be less than zero")
-    private int amount;
+    private Integer amount;
 
     @Schema(description = "publication date")
-    @NotNull(message = "publishedAt required")
     private LocalDate publishedAt;
 
     @Schema(description = "publisher")
-    @NotBlank(message = "publisher required")
     private String publisher;
 
     @Schema(description = "author's ID")
-    @NotNull(message = "authorId required")
     private Long authorId;
 
     public UpdatingBookRequest() {
     }
 
-    @JsonIgnore
-    public Book toBook() {
-        return Book.update(this.id)
-                .changeNameTo(this.name)
-                .changeAmountTo(this.amount)
-                .changePriceTo(this.price)
-                .atPublicationDate(this.publishedAt)
-                .byPublisher(this.publisher)
-                .byAuthor(this.authorId);
+    public Book changedInfoOf(Book existingBook) {
+        if (this.getName() != null) {
+            existingBook.changeNameTo(this.getName());
+        }
+        if (this.getAmount() != null) {
+            existingBook.changeAmountTo(this.getAmount());
+        }
+        if (this.getPrice() != null) {
+            existingBook.changePriceTo(this.getPrice());
+        }
+        if (this.getPublishedAt() != null) {
+            existingBook.changePublicationDate(this.getPublishedAt());
+        }
+        if (this.getPublisher() != null) {
+            existingBook.changePublisherTo(this.getPublisher());
+        }
+        if (this.getAuthorId() != null) {
+            existingBook.changeAuthorTo(this.getAuthorId());
+        }
+        return existingBook;
     }
 }

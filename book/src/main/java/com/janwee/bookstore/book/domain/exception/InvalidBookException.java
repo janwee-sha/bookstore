@@ -9,12 +9,16 @@ public class InvalidBookException extends BadRequestException {
         super(message);
     }
 
-    public static InvalidBookException invalidAuthor() {
+    public static InvalidBookException unavailableAuthor() {
         throw new InvalidBookException("No such author");
     }
 
     public static InvalidBookException validPriceRequired() {
         throw new InvalidBookException("Price is required and should not be less than 0");
+    }
+
+    public static InvalidBookException negativeAmount() {
+        throw new InvalidBookException("Amount of the book should not be less than 0");
     }
 
     public static InvalidBookException soldOut() {

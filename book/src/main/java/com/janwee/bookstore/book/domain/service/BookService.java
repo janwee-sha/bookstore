@@ -21,11 +21,11 @@ public class BookService {
 
     public void validate(Book book) {
         if (book.id() != null && !bookRepo.existsById(book.id())) {
-            throw new BookNotFoundException();
+            throw new BookNotFoundException(book.id());
         }
         if (book.authorId() != null
                 && !authorRepo.existsById(book.authorId())) {
-            throw InvalidBookException.invalidAuthor();
+            throw InvalidBookException.unavailableAuthor();
         }
     }
 }

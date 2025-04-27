@@ -7,26 +7,23 @@ import com.janwee.bookstore.book.domain.service.BookService;
 import com.janwee.bookstore.book.presentation.message.BookResponse;
 import com.janwee.bookstore.book.presentation.message.PublishingBookRequest;
 import com.janwee.bookstore.book.presentation.message.UpdatingBookRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BookApplicationService {
     private final BookRepository bookRepo;
     private final BookService bookService;
     private final BookResponseAssembler bookResponseAssembler;
-
-    @Autowired
-    public BookApplicationService(BookRepository bookRepo, BookService bookService,
-                                  BookResponseAssembler bookResponseAssembler) {
-        this.bookRepo = bookRepo;
-        this.bookService = bookService;
-        this.bookResponseAssembler = bookResponseAssembler;
-    }
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
     public Page<BookResponse> books(Pageable pageable) {
@@ -36,36 +33,42 @@ public class BookApplicationService {
     }
 
 
-    public void checkExistenceOfBook(Long id) {
+    public void hasBookOfId(long id) {
         log.info("Checking existence of book with ID: {}.", id);
         if (!bookRepo.existsById(id)) {
-            throw new BookNotFoundException();
+            throw new BookNotFoundException(id);
         }
     }
 
     @Transactional(readOnly = true)
-    public BookResponse bookOfId(Long id) {
-        return bookRepo.findById(id).map(bookResponseAssembler::assemble).orElseThrow(BookNotFoundException::new);
+    public BookResponse bookOfId(long id) {
+        return bookRepo.findById(id).map(bookResponseAssembler::assemble)
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void publish(PublishingBookRequest request) {
         log.info("Publishing book.");
-        Book book = request.toBook();
+        Book book = request.toNewBook();
         bookService.validate(book);
         bookRepo.save(book);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void update(UpdatingBookRequest request) {
-        log.info("Modifying book.");
-        Book book = request.toBook();
-        bookService.validate(book);
-        bookRepo.save(book);
+    public void change(long id, UpdatingBookRequest request) {
+        log.info("Changing book information.");
+        Optional<Book> existing = bookRepo.findById(id);
+        if (existing.isEmpty()) {
+            throw new BookNotFoundException(id);
+        }
+
+        Book changedBook = request.changedInfoOf(existing.get());
+        bookService.validate(changedBook);
+        bookRepo.save(changedBook);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void withdraw(Long id) {
+    public void withdraw(long id) {
         log.info("Removing book with ID: {}.", id);
         if (!bookRepo.existsById(id))
             return;

@@ -31,7 +31,7 @@ public class BookResource {
     }
 
     @GetMapping
-    @Operation(description = "Retrieve books")
+    @Operation(description = "Retrieve all books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
     public Page<BookResponse> books(@SortDefault.SortDefaults({@SortDefault(sort = Book_.ID)}) Pageable page) {
@@ -39,17 +39,17 @@ public class BookResource {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Retrieve book of given ID")
+    @Operation(description = "Retrieve the details for the book of given ID")
     @ResponseStatus(HttpStatus.OK)
     public BookResponse book(@PathVariable final Long id) {
         return bookAppService.bookOfId(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    @Operation(description = "Check book of given ID")
+    @Operation(description = "Check if is there any book of given ID")
     @ResponseStatus(HttpStatus.OK)
-    public void checkBook(@PathVariable final Long id) {
-        bookAppService.checkExistenceOfBook(id);
+    public void hasBookOfId(@PathVariable final Long id) {
+        bookAppService.hasBookOfId(id);
     }
 
     @PostMapping
@@ -59,12 +59,13 @@ public class BookResource {
         bookAppService.publish(request);
     }
 
-    @PutMapping
-    @Operation(description = "Update book information")
+    @PatchMapping("/{id}")
+    @Operation(description = "Change book information")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@Validated(value = ValidationGroup.Modification.class) @RequestBody UpdatingBookRequest request)
+    public void change(@PathVariable long id,
+                       @Validated(value = ValidationGroup.Modification.class) @RequestBody UpdatingBookRequest request)
             throws BookNotFoundException {
-        bookAppService.update(request);
+        bookAppService.change(id, request);
     }
 
     @DeleteMapping("/{id}")
