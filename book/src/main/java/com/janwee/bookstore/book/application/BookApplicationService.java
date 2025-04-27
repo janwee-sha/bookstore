@@ -3,7 +3,7 @@ package com.janwee.bookstore.book.application;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
-import com.janwee.bookstore.book.domain.service.BookService;
+import com.janwee.bookstore.book.domain.service.BookValidator;
 import com.janwee.bookstore.book.presentation.message.BookResponse;
 import com.janwee.bookstore.book.presentation.message.PublishingBookRequest;
 import com.janwee.bookstore.book.presentation.message.UpdatingBookRequest;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookApplicationService {
     private final BookRepository bookRepo;
-    private final BookService bookService;
+    private final BookValidator bookValidator;
     private final BookResponseAssembler bookResponseAssembler;
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
@@ -50,7 +50,7 @@ public class BookApplicationService {
     public void publish(PublishingBookRequest request) {
         log.info("Publishing book.");
         Book book = request.toNewBook();
-        bookService.validate(book);
+        bookValidator.validate(book);
         bookRepo.save(book);
     }
 
@@ -63,7 +63,7 @@ public class BookApplicationService {
         }
 
         Book changedBook = request.changedInfoOf(existing.get());
-        bookService.validate(changedBook);
+        bookValidator.validate(changedBook);
         bookRepo.save(changedBook);
     }
 

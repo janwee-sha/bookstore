@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookService {
+public class BookValidator {
     private final BookRepository bookRepo;
     private final AuthorRepository authorRepo;
 
     @Autowired
-    public BookService(BookRepository bookRepo, AuthorRepository authorRepo) {
+    public BookValidator(BookRepository bookRepo, AuthorRepository authorRepo) {
         this.bookRepo = bookRepo;
         this.authorRepo = authorRepo;
     }
