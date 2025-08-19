@@ -1,0 +1,24 @@
+dependencies {
+    implementation project(':foundation')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-function-context'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+
+    runtimeOnly 'org.postgresql:postgresql'
+    compileOnly 'org.hibernate.orm:hibernate-jpamodelgen'
+
+    configurations.implementation {
+        exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-ribbon'
+        exclude group: 'com.netflix.ribbon', module: 'ribbon-eureka'
+    }
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+}

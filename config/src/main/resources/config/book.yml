@@ -22,7 +22,7 @@ springdoc:
     path: /swagger-ui.html
   show-actuator: true
 
-#Enable all Spring Boot Actuator endpoints.
+# Enable all Spring Boot Actuator endpoints.
 management:
   security:
     enabled: false
