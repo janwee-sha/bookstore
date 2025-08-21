@@ -18,8 +18,8 @@ dependencies {
 
     runtimeOnly 'org.postgresql:postgresql'
 
-    compileOnly 'org.hibernate.orm:hibernate-jpamodelgen'
-    annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
+    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen'
+    annotationProcessor 'org.hibernate.orm:hibernate-processor'
 
     configurations.implementation {
         exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-ribbon'
