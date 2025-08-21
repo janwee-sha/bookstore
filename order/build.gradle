@@ -13,13 +13,14 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
     implementation 'com.alibaba.fastjson2:fastjson2'
 
-    configurations.implementation {
-        exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-ribbon'
-        exclude group: 'com.netflix.ribbon', module: 'ribbon-eureka'
-    }
-
     runtimeOnly 'org.postgresql:postgresql'
 
     compileOnly 'org.hibernate.orm:hibernate-jpamodelgen'
     annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
+
+    configurations.implementation {
+        exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-ribbon'
+        exclude group: 'com.netflix.ribbon', module: 'ribbon-eureka'
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }

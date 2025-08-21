@@ -1,5 +1,7 @@
 package com.janwee.bookstore.foundation.exception;
 
+import java.io.Serial;
+
 /**
  * TODO add comments here
  *
@@ -8,6 +10,7 @@ package com.janwee.bookstore.foundation.exception;
  * @since 2024/3/8
  */
 public abstract class BadRequestException extends DomainException {
+    @Serial
     private static final long serialVersionUID = 374294020417040197L;
 
     public BadRequestException(String message) {
