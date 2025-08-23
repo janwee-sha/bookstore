@@ -3,7 +3,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
-    implementation 'org.springframework.security:spring-security-jwt'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
     implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client') {
         exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-ribbon'
         exclude group: 'com.netflix.ribbon', module: 'ribbon-eureka'
