@@ -13,28 +13,28 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Schema(description = "Updating book request")
+@Schema(title = "Updating Book Request")
 public class UpdatingBookRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
 
-    @Schema(description = "name")
+    @Schema(title = "Name")
     private String name;
 
-    @Schema(description = "price")
+    @Schema(title = "Price")
     private Price price;
 
-    @Schema(description = "amount")
-    @PositiveOrZero(message = "amount must not be less than zero")
+    @Schema(title = "Amount")
+    @PositiveOrZero(message = "Amount must not be less than zero")
     private Integer amount;
 
-    @Schema(description = "publication date")
+    @Schema(title = "Publication Date")
     private LocalDate publishedAt;
 
-    @Schema(description = "publisher")
+    @Schema(title = "Publisher")
     private String publisher;
 
-    @Schema(description = "author's ID")
+    @Schema(title = "Author ID")
     private Long authorId;
 
     public UpdatingBookRequest() {

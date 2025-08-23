@@ -3,16 +3,12 @@ package com.janwee.bookstore.book.domain.model;
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
 import com.janwee.bookstore.book.infrastructure.persistence.PriceConverter;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "books")
 public class Book implements Serializable {
@@ -102,5 +98,47 @@ public class Book implements Serializable {
             throw InvalidBookException.soldOut();
         }
         this.amount -= amount;
+    }
+
+    public static class Builder {
+        private final Book book;
+
+        public Builder() {
+            this.book = new Book();
+        }
+
+        public Builder withName(String name) {
+            book.changeNameTo(name);
+            return this;
+        }
+
+        public Builder withAmount(int amount) {
+            book.changeAmountTo(amount);
+            return this;
+        }
+
+        public Builder withPrice(Price price) {
+            book.changePriceTo(price);
+            return this;
+        }
+
+        public Builder publishAt(LocalDate publishedAt) {
+            book.changePublicationDate(publishedAt);
+            return this;
+        }
+
+        public Builder byPublisher(String publisher) {
+            book.changePublisherTo(publisher);
+            return this;
+        }
+
+        public Builder byAuthor(Long authorId) {
+            book.changeAuthorTo(authorId);
+            return this;
+        }
+
+        public Book build() {
+            return book;
+        }
     }
 }

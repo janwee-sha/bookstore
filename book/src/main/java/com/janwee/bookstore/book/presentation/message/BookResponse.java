@@ -11,31 +11,31 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Schema(description = "Book")
+@Schema(title = "Book")
 @Getter
 @Setter
 public class BookResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 4874660886108568257L;
-    @Schema(description = "ID")
+    @Schema(title = "ID")
     private Long id;
 
-    @Schema(description = "name")
+    @Schema(title = "Name")
     private String name;
 
-    @Schema(description = "price")
+    @Schema(title = "Price")
     private Price price;
 
-    @Schema
+    @Schema(title = "Amount")
     private int amount;
 
-    @Schema(description = "publication date")
+    @Schema(title = "Publication Date")
     private LocalDate publishedAt;
 
-    @Schema(name = "publisher")
+    @Schema(name = "Publisher")
     private String publisher;
 
-    @Schema(name = "author")
+    @Schema(name = "Author")
     private Author author;
 
     public BookResponse() {

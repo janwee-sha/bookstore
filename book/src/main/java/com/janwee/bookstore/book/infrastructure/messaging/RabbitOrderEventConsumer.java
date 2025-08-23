@@ -38,7 +38,7 @@ public class RabbitOrderEventConsumer implements OrderEventConsumer {
         log.info("Received OrderCreated event: {}", event);
         Optional<Book> optBook = bookRepo.findById(event.bookId());
 
-        if (optBook.isEmpty() || optBook.get().getAmount() - event.amount() < 0) {
+        if (optBook.isEmpty() || optBook.get().amount() - event.amount() < 0) {
             log.info("Book is not found or out of stock.");
             Event bookSoldOut = new BookSoldOut(event.orderId(), event.bookId());
             eventPublisher.publish(bookSoldOut);

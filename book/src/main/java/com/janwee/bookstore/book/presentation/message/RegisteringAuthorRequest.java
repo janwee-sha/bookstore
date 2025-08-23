@@ -11,17 +11,17 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Schema(description = "Registering Author Request", requiredProperties = {"name"})
+@Schema(title = "Registering Author Request", requiredProperties = {"name"})
 public class RegisteringAuthorRequest implements Serializable {
 
-    @Schema(description = "name")
+    @Schema(title = "name")
     @NotBlank(message = "name required")
     private String name;
 
-    @Schema(description = "profile")
+    @Schema(title = "profile")
     private String profile;
 
-    @Schema(description = "profile")
+    @Schema(title = "profile")
     private String phoneNumber;
 
     public RegisteringAuthorRequest() {

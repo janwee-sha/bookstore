@@ -10,18 +10,18 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Schema(description = "Author Response")
+@Schema(title = "Author")
 public class AuthorResponse implements Serializable {
-    @Schema(description = "ID")
+    @Schema(title = "ID")
     private Long id;
 
-    @Schema(description = "name")
+    @Schema(title = "Name")
     private String name;
 
-    @Schema(description = "profile")
+    @Schema(title = "Profile")
     private String profile;
 
-    @Schema(description = "profile")
+    @Schema(title = "Phone Number")
     private String phoneNumber;
 
     public AuthorResponse() {

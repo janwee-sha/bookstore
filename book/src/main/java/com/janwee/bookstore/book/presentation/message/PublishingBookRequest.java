@@ -15,31 +15,31 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Schema(description = "Saving book command",
+@Schema(title = "Publishing Book Request",
         requiredProperties = {"name", "price", "amount", "publishedAt", "publisher", "authorId"})
 public class PublishingBookRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
 
-    @Schema(description = "name")
-    @NotBlank(message = "name required")
+    @Schema(title = "Name")
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @Schema(description = "price")
-    @NotNull(message = "price required")
+    @Schema(title = "Price")
+    @NotNull(message = "Price is required")
     private Price price;
 
-    @Schema(description = "amount")
-    @NotNull(message = "amount required")
-    @PositiveOrZero(message = "amount must not be less than zero")
+    @Schema(title = "Amount")
+    @NotNull(message = "Amount is required")
+    @PositiveOrZero(message = "Amount should not be negative")
     private int amount;
 
-    @Schema(description = "publisher")
-    @NotBlank(message = "publisher required")
+    @Schema(title = "Publisher")
+    @NotBlank(message = "Publisher is required")
     private String publisher;
 
-    @Schema(description = "author's ID")
-    @NotNull(message = "authorId required")
+    @Schema(title = "Author ID")
+    @NotNull(message = "Author ID is required")
     private Long authorId;
 
     public PublishingBookRequest() {
@@ -47,12 +47,12 @@ public class PublishingBookRequest implements Serializable {
 
     @JsonIgnore
     public Book toNewBook() {
-        Book book = new Book();
-        book.changeNameTo(this.name);
-        book.changeAmountTo(this.amount);
-        book.changePriceTo(this.price);
-        book.changePublisherTo(this.publisher);
-        book.changeAuthorTo(this.authorId);
-        return book;
+        return new Book.Builder()
+                .withName(this.name)
+                .withAmount(this.amount)
+                .withPrice(this.price)
+                .byPublisher(this.publisher)
+                .byAuthor(this.authorId)
+                .build();
     }
 }

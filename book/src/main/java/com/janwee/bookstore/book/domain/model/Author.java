@@ -42,4 +42,31 @@ public class Author implements Serializable {
     public String phoneNumber() {
         return phoneNumber;
     }
+
+    public static class Builder {
+        private final Author author;
+
+        public Builder() {
+            this.author = new Author();
+        }
+
+        public Builder ofName(String name) {
+            this.author.name = name;
+            return this;
+        }
+
+        public Builder withProfile(String profile) {
+            this.author.profile = profile;
+            return this;
+        }
+
+        public Builder withPhoneNumber(String phoneNumber) {
+            this.author.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Author build() {
+            return this.author;
+        }
+    }
 }
