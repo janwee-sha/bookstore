@@ -18,7 +18,6 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen'
-    annotationProcessor 'org.hibernate.orm:hibernate-processor'
 
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
