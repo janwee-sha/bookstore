@@ -1,5 +1,7 @@
 package com.janwee.bookstore.foundation.exception;
 
+import java.io.Serial;
+
 /**
  * TODO add comments here
  *
@@ -8,6 +10,7 @@ package com.janwee.bookstore.foundation.exception;
  * @since 2024/3/9
  */
 public abstract class DomainException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = -1499926993701124659L;
 
     public DomainException(String message) {
