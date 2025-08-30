@@ -31,17 +31,12 @@ public enum ErrorStatus {
      * e.g. {@link org.springframework.web.bind.MethodArgumentNotValidException} encountered
      */
     ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, 4003),
+
     /**
-     * Status for data integrity violation errors,
-     * e.g. {@link java.sql.SQLIntegrityConstraintViolationException},
-     * {@link org.springframework.dao.DataIntegrityViolationException} encountered
+     * Status for invalid property reference of models,
+     * e.g. {@link org.springframework.data.mapping.PropertyReferenceException} encountered
      */
-    DATA_INTEGRITY_VIOLATION(HttpStatus.INTERNAL_SERVER_ERROR, 5001),
-    /**
-     * Status for generic SQL errors,
-     * e.g. {@link java.sql.SQLException} encountered
-     */
-    SQL_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, 5002);
+    INVALID_PROPERTY_REFERENCE(HttpStatus.BAD_REQUEST, 4004);
 
     private final HttpStatus httpStatus;
 

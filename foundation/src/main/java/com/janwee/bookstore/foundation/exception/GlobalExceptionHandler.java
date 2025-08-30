@@ -4,6 +4,7 @@ import com.janwee.bookstore.foundation.web.ErrorResponse;
 import com.janwee.bookstore.foundation.web.ErrorStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -28,15 +29,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleBadRequestExceptions(BadRequestException e) {
-        log.warn(e.getMessage(), e);
-        return ErrorResponse.of(ErrorStatus.BAD_DOMAIN_REQUEST)
-                .withError(e.getMessage())
-                .underPath(path());
-    }
-
-    @ExceptionHandler(value = {NotFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected ErrorResponse handleNotFoundExceptions(Exception e) {
         log.warn(e.getMessage(), e);
         return ErrorResponse.of(ErrorStatus.BAD_DOMAIN_REQUEST)
                 .withError(e.getMessage())
@@ -72,29 +64,20 @@ public class GlobalExceptionHandler {
                 .underPath(path());
     }
 
-    private static Map<String, String> extractBindingResultErrors(BindingResult bindingResult) {
-        return bindingResult.hasErrors()
-                ? bindingResult.getFieldErrors().stream()
-                .collect(Collectors.toMap(FieldError::getField,
-                        fieldError -> Optional.ofNullable(fieldError.getDefaultMessage())
-                                .orElse(DEFAULT_FIELD_VALID_MSG)))
-                : null;
-    }
-
-    //    @ExceptionHandler({DataIntegrityViolationException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleDataIntegrationViolationExceptions(Exception e) {
-        log.error(e.getMessage(), e);
-        return ErrorResponse.of(ErrorStatus.DATA_INTEGRITY_VIOLATION)
+    @ExceptionHandler(value = {PropertyReferenceException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse handlePropertyReferenceExceptions(PropertyReferenceException e) {
+        log.warn(e.getMessage(), e);
+        return ErrorResponse.of(ErrorStatus.INVALID_PROPERTY_REFERENCE)
                 .withError(e.getMessage())
                 .underPath(path());
     }
 
-    //    @ExceptionHandler({SQLException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleSqlExceptionHelper(Exception e) {
-        log.error(e.getMessage(), e);
-        return ErrorResponse.of(ErrorStatus.SQL_EXCEPTION)
+    @ExceptionHandler(value = {NotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ErrorResponse handleNotFoundExceptions(Exception e) {
+        log.warn(e.getMessage(), e);
+        return ErrorResponse.of(HttpStatus.NOT_FOUND)
                 .withError(e.getMessage())
                 .underPath(path());
     }
@@ -104,5 +87,14 @@ public class GlobalExceptionHandler {
                 .map(ServletRequestAttributes::getRequest)
                 .map(HttpServletRequest::getServletPath)
                 .orElse("/unknown");
+    }
+
+    private static Map<String, String> extractBindingResultErrors(BindingResult bindingResult) {
+        return bindingResult.hasErrors()
+                ? bindingResult.getFieldErrors().stream()
+                .collect(Collectors.toMap(FieldError::getField,
+                        fieldError -> Optional.ofNullable(fieldError.getDefaultMessage())
+                                .orElse(DEFAULT_FIELD_VALID_MSG)))
+                : null;
     }
 }

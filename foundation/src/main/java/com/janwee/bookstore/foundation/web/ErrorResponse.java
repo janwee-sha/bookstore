@@ -1,6 +1,7 @@
 package com.janwee.bookstore.foundation.web;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,7 +21,11 @@ public class ErrorResponse implements Serializable {
     private ErrorResponse() {
         this.timestamp = LocalDateTime.now();
         this.detailedStatus = 0;
-        this.path = null;
+    }
+
+    private ErrorResponse(HttpStatus status) {
+        this();
+        this.status = status.value();
     }
 
     private ErrorResponse(ErrorStatus status) {
@@ -30,8 +35,12 @@ public class ErrorResponse implements Serializable {
         this.detailedPhrase = status.name();
     }
 
+    public static Builder of(HttpStatus status) {
+        return new Builder(status);
+    }
+
     public static Builder of(ErrorStatus status) {
-        return new Builder(new ErrorResponse(status));
+        return new Builder(status);
     }
 
     public static class Builder implements Serializable {
@@ -39,8 +48,12 @@ public class ErrorResponse implements Serializable {
         private static final long serialVersionUID = -1799966974383264801L;
         private final ErrorResponse response;
 
-        public Builder(ErrorResponse response) {
-            this.response = response;
+        public Builder(HttpStatus status) {
+            this.response = new ErrorResponse(status);
+        }
+
+        public Builder(ErrorStatus status) {
+            this.response = new ErrorResponse(status);
         }
 
         public Builder withError(Object error) {

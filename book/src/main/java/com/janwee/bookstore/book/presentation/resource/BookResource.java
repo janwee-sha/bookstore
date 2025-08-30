@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +34,8 @@ public class BookResource {
     @Operation(description = "Retrieve all books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
-    public ResponseEntity<Page<BookResponse>> books(@SortDefault.SortDefaults({@SortDefault(sort = Book_.ID)}) Pageable page) {
-        throw new IllegalArgumentException("Some reason");
-//        return bookAppService.books(page);
+    public Page<BookResponse> books(@SortDefault.SortDefaults({@SortDefault(sort = Book_.ID)}) Pageable page) {
+        return bookAppService.books(page);
     }
 
     @GetMapping("/{id}")
