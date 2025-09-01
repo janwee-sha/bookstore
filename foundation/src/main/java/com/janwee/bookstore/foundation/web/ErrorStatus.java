@@ -22,21 +22,27 @@ public enum ErrorStatus {
      */
     PARAMETER_REQUIRED(HttpStatus.BAD_REQUEST, 4001),
     /**
-     * Status for parameter binding errors,
-     * e.g. {@link org.springframework.validation.BindException} encountered
+     * Status for request parameter/path variable type mismatch errors,
      */
-    PARAMETER_BIND_ERROR(HttpStatus.BAD_REQUEST, 4002),
+    PARAMETER_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, 4002),
     /**
-     * Status for method argument validation errors,
-     * e.g. {@link org.springframework.web.bind.MethodArgumentNotValidException} encountered
+     * Status for request parameter/path variable constraint violation errors,
      */
-    ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, 4003),
+    PARAMETER_CONSTRAINT_VIOLATION(HttpStatus.BAD_REQUEST, 4003),
+    /**
+     * Status for unreadable request body,
+     */
+    BODY_MESSAGE_NOT_READABLE(HttpStatus.BAD_REQUEST, 4004),
+    /**
+     * Status for request body constraint violation errors,
+     */
+    BODY_CONSTRAINT_VIOLATION(HttpStatus.BAD_REQUEST, 4005),
 
     /**
      * Status for invalid property reference of models,
      * e.g. {@link org.springframework.data.mapping.PropertyReferenceException} encountered
      */
-    INVALID_PROPERTY_REFERENCE(HttpStatus.BAD_REQUEST, 4004);
+    INVALID_PROPERTY_REFERENCE(HttpStatus.BAD_REQUEST, 4006);
 
     private final HttpStatus httpStatus;
 

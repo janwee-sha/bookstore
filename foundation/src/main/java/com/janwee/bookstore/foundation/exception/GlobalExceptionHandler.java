@@ -3,9 +3,12 @@ package com.janwee.bookstore.foundation.exception;
 import com.janwee.bookstore.foundation.web.ErrorResponse;
 import com.janwee.bookstore.foundation.web.ErrorStatus;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Map;
 import java.util.Optional;
@@ -44,27 +49,61 @@ public class GlobalExceptionHandler {
                 .underPath(path());
     }
 
-    @ExceptionHandler({BindException.class})
+    @ExceptionHandler({
+            MethodArgumentTypeMismatchException.class,
+            MethodArgumentConversionNotSupportedException.class,
+            ConversionNotSupportedException.class,
+            BindException.class
+    })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleParameterBindExceptions(BindException e) {
-        log.warn(e.getMessage(), e);
-        BindingResult bindingResult = e.getBindingResult();
-        return ErrorResponse.of(ErrorStatus.PARAMETER_BIND_ERROR)
-                .withError(extractBindingResultErrors(bindingResult))
+    public ErrorResponse handleParameterTypeMismatch(Exception e) {
+        log.warn("Parameter type mismatch: {}", e.getMessage(), e);
+        if (e instanceof BindException be) {
+            return ErrorResponse.of(ErrorStatus.PARAMETER_TYPE_MISMATCH)
+                    .withError(extractBindingResultErrors(be.getBindingResult()))
+                    .underPath(path());
+        }
+        return ErrorResponse.of(ErrorStatus.PARAMETER_TYPE_MISMATCH)
+                .withError(e.getMessage())
                 .underPath(path());
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleArgumentValidationExceptions(MethodArgumentNotValidException e) {
-        log.warn(e.getMessage(), e);
-        BindingResult bindingResult = e.getBindingResult();
-        return ErrorResponse.of(ErrorStatus.ARGUMENT_NOT_VALID)
-                .withError(extractBindingResultErrors(bindingResult))
+    public ErrorResponse handleParameterConstraintViolation(ConstraintViolationException e) {
+        log.warn("Parameter constraint violation: {}", e.getMessage(), e);
+        Map<String, String> errors = e.getConstraintViolations().stream()
+                .collect(Collectors.toMap(
+                        cv -> {
+                            String path = cv.getPropertyPath().toString();
+                            return path.contains(".") ? path.substring(path.lastIndexOf('.') + 1) : path;
+                        },
+                        cv -> Optional.ofNullable(cv.getMessage()).orElse(DEFAULT_FIELD_VALID_MSG)
+                ));
+        return ErrorResponse.of(ErrorStatus.PARAMETER_CONSTRAINT_VIOLATION)
+                .withError(errors)
                 .underPath(path());
     }
 
-    @ExceptionHandler(value = {PropertyReferenceException.class})
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleRequestBodyConversion(HttpMessageNotReadableException e) {
+        log.warn("Request body not readable: {}", e.getMessage(), e);
+        return ErrorResponse.of(ErrorStatus.BODY_MESSAGE_NOT_READABLE)
+                .withError(e.getMostSpecificCause().getMessage())
+                .underPath(path());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleRequestBodyConstraintViolation(MethodArgumentNotValidException e) {
+        log.warn("Request body constraint violation: {}", e.getMessage(), e);
+        return ErrorResponse.of(ErrorStatus.BODY_CONSTRAINT_VIOLATION)
+                .withError(extractBindingResultErrors(e.getBindingResult()))
+                .underPath(path());
+    }
+
+    @ExceptionHandler({PropertyReferenceException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handlePropertyReferenceExceptions(PropertyReferenceException e) {
         log.warn(e.getMessage(), e);
@@ -73,7 +112,7 @@ public class GlobalExceptionHandler {
                 .underPath(path());
     }
 
-    @ExceptionHandler(value = {NotFoundException.class})
+    @ExceptionHandler({NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ErrorResponse handleNotFoundExceptions(Exception e) {
         log.warn(e.getMessage(), e);

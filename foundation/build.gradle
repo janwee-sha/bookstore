@@ -2,6 +2,8 @@ dependencies {
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation("jakarta.validation:jakarta.validation-api")
+    implementation("org.springframework:spring-webmvc")
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
     compileOnly 'jakarta.servlet:jakarta.servlet-api'
