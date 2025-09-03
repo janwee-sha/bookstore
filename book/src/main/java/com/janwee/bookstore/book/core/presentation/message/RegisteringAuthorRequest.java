@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
@@ -14,6 +15,8 @@ import java.io.Serializable;
 @Schema(title = "Registering Author Request", requiredProperties = {"name"})
 public class RegisteringAuthorRequest implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 520082938370824138L;
     @Schema(title = "name")
     @NotBlank(message = "name required")
     private String name;

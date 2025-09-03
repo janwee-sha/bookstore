@@ -15,10 +15,6 @@ public class BookReview {
         return new BookReview(Status.UNAVAILABLE);
     }
 
-    public boolean isAvailable() {
-        return Status.AVAILABLE.equals(this.status);
-    }
-
     public boolean isUnavailable() {
         return Status.UNAVAILABLE.equals(this.status);
     }
