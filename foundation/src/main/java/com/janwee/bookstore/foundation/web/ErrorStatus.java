@@ -3,13 +3,6 @@ package com.janwee.bookstore.foundation.web;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-/**
- * A detailed status for more specific error identification
- *
- * @author Will Hsia
- * @version 1.0
- * @since 2025/8/28
- */
 @Getter
 public enum ErrorStatus {
     /**

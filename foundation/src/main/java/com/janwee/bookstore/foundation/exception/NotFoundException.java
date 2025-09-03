@@ -1,13 +1,9 @@
 package com.janwee.bookstore.foundation.exception;
 
-/**
- * TODO add comments here
- *
- * @author Janwee Xia
- * @version 1.0
- * @since 2024/3/8
- */
+import java.io.Serial;
+
 public class NotFoundException extends DomainException {
+    @Serial
     private static final long serialVersionUID = -7247463424039127929L;
 
     protected NotFoundException(String message) {

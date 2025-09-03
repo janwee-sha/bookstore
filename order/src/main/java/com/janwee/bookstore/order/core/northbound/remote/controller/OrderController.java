@@ -37,6 +37,7 @@ public class OrderController {
     @GetMapping
     @Operation(description = "Retrieve all orders")
     @PageableAsQueryParam
+    @ResponseStatus(HttpStatus.OK)
     public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT,
             direction = Sort.Direction.DESC)}) Pageable page) {
         return orderAppService.orders(page);
@@ -45,13 +46,13 @@ public class OrderController {
     @GetMapping("/{id}")
     @Operation(description = "Retrieve details for order of given ID")
     @PageableAsQueryParam
+    @ResponseStatus(HttpStatus.OK)
     public Order order(@PathVariable long id) {
         return orderAppService.nonNullOrderOfId(id);
     }
 
     @PostMapping
     @Operation(description = "Order a book")
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public ResponseEntity<Void> orderBook(@RequestBody OrderingBookRequest request) {
         long newOrderId = orderAppService.orderBook(request);
         String newOrderLocation = "/orders/" + newOrderId;

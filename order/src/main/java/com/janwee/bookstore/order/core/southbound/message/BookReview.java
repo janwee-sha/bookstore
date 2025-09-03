@@ -1,11 +1,5 @@
 package com.janwee.bookstore.order.core.southbound.message;
 
-/**
- * TODO Add a description for the class here
- *
- * @author Will Hsia
- * @since 2024/6/13
- */
 public class BookReview {
     private final Status status;
 
