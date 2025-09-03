@@ -3,7 +3,12 @@ package com.janwee.bookstore.book.core.domain.exception;
 
 import com.janwee.bookstore.foundation.exception.BadRequestException;
 
+import java.io.Serial;
+
 public class InvalidBookException extends BadRequestException {
+
+    @Serial
+    private static final long serialVersionUID = 3803992791295815329L;
 
     protected InvalidBookException(String message) {
         super(message);
