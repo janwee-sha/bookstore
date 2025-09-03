@@ -1,6 +1,6 @@
 package com.janwee.bookstore.authorization.foundation.security;
 
-import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomizedExpiredSessionStrategy implements SessionInformationExpiredStrategy {
+    private final ObjectMapper objectMapper;
+
+    public CustomizedExpiredSessionStrategy(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
         Map<String, Object> result = new HashMap<>();
@@ -23,6 +29,6 @@ public class CustomizedExpiredSessionStrategy implements SessionInformationExpir
 
         HttpServletResponse response = event.getResponse();
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().println(JSON.toJSONString(responseEntity));
+        response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
     }
 }

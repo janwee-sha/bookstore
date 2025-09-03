@@ -6,12 +6,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/public/users")
 @Tag(name = "Public User Resources")
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class PublicUserResources {
 
     private final UserManager userManager;
@@ -19,7 +21,7 @@ public class PublicUserResources {
     @PostMapping("/sign-in")
     @Operation(description = "Register a new user account")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@RequestBody RegisteringUserRequest request) {
+    public void registerUser(@Validated @RequestBody RegisteringUserRequest request) {
         userManager.createUser(request.toUser());
     }
 }

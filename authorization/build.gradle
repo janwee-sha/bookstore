@@ -11,7 +11,6 @@ dependencies {
     }
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
-    implementation 'com.alibaba.fastjson2:fastjson2'
 
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
