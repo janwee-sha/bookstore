@@ -1,8 +1,8 @@
 package integration.com.janwee.bookstore.book;
 
 import com.janwee.bookstore.book.BookApplication;
-import com.janwee.bookstore.book.domain.model.Author;
-import com.janwee.bookstore.book.domain.repository.AuthorRepository;
+import com.janwee.bookstore.book.core.domain.model.Author;
+import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,6 @@
 package unit.com.janwee.bookstore.order;
 
-import com.janwee.bookstore.order.domain.Order;
+import com.janwee.bookstore.order.core.domain.Order;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

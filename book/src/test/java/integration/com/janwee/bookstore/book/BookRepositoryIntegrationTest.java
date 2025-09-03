@@ -1,10 +1,10 @@
 package integration.com.janwee.bookstore.book;
 
 import com.janwee.bookstore.book.BookApplication;
-import com.janwee.bookstore.book.domain.model.Book;
-import com.janwee.bookstore.book.domain.model.Currency;
-import com.janwee.bookstore.book.domain.model.Price;
-import com.janwee.bookstore.book.domain.repository.BookRepository;
+import com.janwee.bookstore.book.core.domain.model.Book;
+import com.janwee.bookstore.book.core.domain.model.Currency;
+import com.janwee.bookstore.book.core.domain.model.Price;
+import com.janwee.bookstore.book.core.domain.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
