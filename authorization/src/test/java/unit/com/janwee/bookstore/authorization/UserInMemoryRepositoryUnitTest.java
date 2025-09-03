@@ -1,4 +1,4 @@
-package integration.com.janwee.bookstore.authorization;
+package unit.com.janwee.bookstore.authorization;
 
 import com.janwee.bookstore.authorization.domain.Role;
 import com.janwee.bookstore.authorization.domain.User;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-public class UserRepositoryIntegrationTest {
+public class UserInMemoryRepositoryUnitTest {
     @InjectMocks
     private UserInMemoryRepository userRepo;
 
