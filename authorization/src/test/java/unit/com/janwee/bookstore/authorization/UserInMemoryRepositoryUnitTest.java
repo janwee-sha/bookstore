@@ -1,9 +1,9 @@
 package unit.com.janwee.bookstore.authorization;
 
-import com.janwee.bookstore.authorization.domain.Role;
-import com.janwee.bookstore.authorization.domain.User;
-import com.janwee.bookstore.authorization.infrastructure.persistence.UserInMemoryRepository;
-import com.janwee.bookstore.authorization.infrastructure.security.SecurityBasedUser;
+import com.janwee.bookstore.authorization.core.domain.Role;
+import com.janwee.bookstore.authorization.core.domain.User;
+import com.janwee.bookstore.authorization.core.infrastructure.persistence.UserInMemoryRepository;
+import com.janwee.bookstore.authorization.core.infrastructure.persistence.SecurityBasedUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

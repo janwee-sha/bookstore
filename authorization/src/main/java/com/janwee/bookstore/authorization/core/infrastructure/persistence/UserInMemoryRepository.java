@@ -1,9 +1,8 @@
-package com.janwee.bookstore.authorization.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.infrastructure.persistence;
 
-import com.janwee.bookstore.authorization.domain.Role;
-import com.janwee.bookstore.authorization.domain.User;
-import com.janwee.bookstore.authorization.domain.UserRepository;
-import com.janwee.bookstore.authorization.infrastructure.security.SecurityBasedUser;
+import com.janwee.bookstore.authorization.core.domain.Role;
+import com.janwee.bookstore.authorization.core.domain.User;
+import com.janwee.bookstore.authorization.core.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 

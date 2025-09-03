@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.domain;
+package com.janwee.bookstore.authorization.core.domain;
 
 public enum Authority {
     USER_READ("user:read"),

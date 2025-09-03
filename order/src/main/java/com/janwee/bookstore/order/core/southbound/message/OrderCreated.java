@@ -3,9 +3,13 @@ package com.janwee.bookstore.order.core.southbound.message;
 import com.janwee.bookstore.foundation.event.DomainEvent;
 import com.janwee.bookstore.foundation.event.Event;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 public class OrderCreated extends DomainEvent implements Event {
+    @Serial
+    private static final long serialVersionUID = -7501613599101584679L;
+
     private final Long orderId;
     private final Long bookId;
     private final int amount;

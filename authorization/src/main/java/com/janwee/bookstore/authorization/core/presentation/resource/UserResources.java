@@ -1,8 +1,8 @@
-package com.janwee.bookstore.authorization.presentation.resource;
+package com.janwee.bookstore.authorization.core.presentation.resource;
 
-import com.janwee.bookstore.authorization.domain.User;
-import com.janwee.bookstore.authorization.domain.UserManager;
-import com.janwee.bookstore.authorization.domain.UserRepository;
+import com.janwee.bookstore.authorization.core.domain.User;
+import com.janwee.bookstore.authorization.core.domain.UserManager;
+import com.janwee.bookstore.authorization.core.domain.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

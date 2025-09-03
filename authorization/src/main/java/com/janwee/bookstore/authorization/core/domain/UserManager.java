@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.domain;
+package com.janwee.bookstore.authorization.core.domain;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

@@ -1,8 +1,8 @@
-package com.janwee.bookstore.authorization.infrastructure.security;
+package com.janwee.bookstore.authorization.core.infrastructure.service;
 
-import com.janwee.bookstore.authorization.domain.User;
-import com.janwee.bookstore.authorization.domain.UserManager;
-import com.janwee.bookstore.authorization.domain.UserRepository;
+import com.janwee.bookstore.authorization.core.domain.User;
+import com.janwee.bookstore.authorization.core.domain.UserManager;
+import com.janwee.bookstore.authorization.core.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

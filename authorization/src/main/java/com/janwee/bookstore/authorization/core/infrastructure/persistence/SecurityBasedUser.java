@@ -1,15 +1,19 @@
-package com.janwee.bookstore.authorization.infrastructure.security;
+package com.janwee.bookstore.authorization.core.infrastructure.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.janwee.bookstore.authorization.domain.Role;
-import com.janwee.bookstore.authorization.domain.User;
+import com.janwee.bookstore.authorization.core.domain.Role;
+import com.janwee.bookstore.authorization.core.domain.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serial;
 import java.util.Collection;
 
 @Getter
 public class SecurityBasedUser implements User {
+    @Serial
+    private static final long serialVersionUID = 7990143688548707092L;
+
     private long id;
 
     private String email;
