@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.core.northbound.remote.controller;
+package com.janwee.bookstore.order.core.northbound.remote.resource;
 
 import com.janwee.bookstore.order.core.domain.Order;
 import com.janwee.bookstore.order.core.domain.Order_;
@@ -26,11 +26,11 @@ import java.net.URI;
 @Tag(name = "Order resource")
 @Validated
 @Slf4j
-public class OrderController {
+public class OrderResource {
     private final OrderApplicationService orderAppService;
 
     @Autowired
-    public OrderController(OrderApplicationService orderAppService) {
+    public OrderResource(OrderApplicationService orderAppService) {
         this.orderAppService = orderAppService;
     }
 

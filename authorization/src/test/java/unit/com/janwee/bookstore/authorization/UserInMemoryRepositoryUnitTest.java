@@ -22,7 +22,7 @@ public class UserInMemoryRepositoryUnitTest {
     @Test
     void testSavingUser() {
         User user1 = new SecurityBasedUser()
-                .identifiedBy("pass")
+                .identifiedBy("pass1")
                 .ofRole(Role.USER)
                 .withEmail("user_a@gmail.com");
         userRepo.save(user1);

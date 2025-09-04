@@ -23,9 +23,7 @@ subprojects {
     version = '0.0.1-SNAPSHOT'
 
     configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
+        compileOnly.extendsFrom(annotationProcessor)
     }
 
     configurations.configureEach {
@@ -58,6 +56,7 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        include 'unit/**'
     }
 }
 
