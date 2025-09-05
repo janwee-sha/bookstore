@@ -1,9 +1,9 @@
-rootProject.name = 'bookstore'
+rootProject.name = "bookstore"
 
-include 'foundation'
-include 'config'
-include 'eureka'
-include 'gateway'
-include 'book'
-include 'order'
-include 'authorization'
+include("foundation")
+include("config")
+include("eureka")
+include("gateway")
+include("book")
+include("order")
+include("authorization")
