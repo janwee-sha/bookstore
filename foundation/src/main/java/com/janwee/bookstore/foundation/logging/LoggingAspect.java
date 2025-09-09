@@ -30,12 +30,12 @@ public class LoggingAspect {
         log.info("Bookstore Logging - Calling {}", serializedJoinPoint(joinPoint));
     }
 
-    @AfterReturning(pointcut = "loggingPointcut()")
+    @AfterReturning("loggingPointcut()")
     public void logAfter(JoinPoint joinPoint) {
         log.info("Bookstore Logging - Exited {}", serializedJoinPoint(joinPoint));
     }
 
-    @AfterThrowing(pointcut = "loggingPointcut()")
+    @AfterThrowing("loggingPointcut()")
     public void logAfterThrowing(JoinPoint joinPoint) {
         log.info("Bookstore Logging - Unexpectedly exited {}", serializedJoinPoint(joinPoint));
     }
