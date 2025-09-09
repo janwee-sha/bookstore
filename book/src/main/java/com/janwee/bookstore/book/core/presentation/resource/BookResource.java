@@ -6,6 +6,7 @@ import com.janwee.bookstore.book.core.domain.model.Book_;
 import com.janwee.bookstore.book.core.presentation.message.BookResponse;
 import com.janwee.bookstore.book.core.presentation.message.PublishingBookRequest;
 import com.janwee.bookstore.book.core.presentation.message.UpdatingBookRequest;
+import com.janwee.bookstore.foundation.logging.Logging;
 import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("books")
 @Tag(name = "Book Resources")
 @Validated
+@Logging
 public class BookResource {
     private final BookApplicationService bookAppService;
 
@@ -34,7 +36,7 @@ public class BookResource {
     @Operation(description = "Retrieve all books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
-    public Page<BookResponse> books(@SortDefault.SortDefaults({@SortDefault(sort = Book_.ID)}) Pageable page) {
+    public Page<BookResponse> books(@SortDefault.SortDefaults({@SortDefault(sort = "x")}) Pageable page) {
         return bookAppService.books(page);
     }
 
