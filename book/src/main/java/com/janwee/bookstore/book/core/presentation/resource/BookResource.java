@@ -14,6 +14,7 @@ import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -36,7 +37,8 @@ public class BookResource {
     @Operation(description = "Retrieve all books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
-    public Page<BookResponse> books(@SortDefault.SortDefaults({@SortDefault(sort = "x")}) Pageable page) {
+    public Page<BookResponse> books(@SortDefault.SortDefaults({
+            @SortDefault(sort = Book_.PUBLISHED_AT, direction = Sort.Direction.DESC)}) Pageable page) {
         return bookAppService.books(page);
     }
 
