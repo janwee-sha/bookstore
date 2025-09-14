@@ -13,6 +13,7 @@ allprojects {
 subprojects {
     apply(plugin: "java-library")
     apply(plugin: "io.spring.dependency-management")
+    apply(plugin: "com.github.spotbugs")
 
     java {
         toolchain {
