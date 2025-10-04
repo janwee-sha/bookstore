@@ -22,15 +22,22 @@ subprojects {
     group = "com.janwee.bookstore"
     version = "0.0.1-SNAPSHOT"
 
-    configurations {
-        compileOnly.extendsFrom(annotationProcessor)
-    }
-
     configurations.configureEach {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
 
-    def integrationTest = sourceSets.create("integrationTest")
+    def integrationTest = sourceSets.create("integrationTest") {
+        java.srcDir("src/integrationTest/java")
+        resources.srcDir("src/integrationTest/resources")
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+
+    configurations {
+        compileOnly.extendsFrom(annotationProcessor)
+        integrationTestImplementation.extendsFrom(testImplementation)
+        integrationTestRuntimeOnly.extendsFrom(testRuntimeOnly)
+    }
 
     def integrationTestTask = tasks.register("integrationTest", Test) {
         description = "Runs the integration tests."
@@ -55,6 +62,9 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
         integrationTestImplementation(project)
+        integrationTestImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
+        integrationTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
+        integrationTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
     dependencyManagement {
