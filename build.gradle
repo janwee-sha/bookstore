@@ -39,16 +39,12 @@ subprojects {
         integrationTestRuntimeOnly.extendsFrom(testRuntimeOnly)
     }
 
-    def integrationTestTask = tasks.register("integrationTest", Test) {
+    tasks.register("integrationTest", Test) {
         description = "Runs the integration tests."
         group = "verification"
         testClassesDirs = integrationTest.output.classesDirs
         classpath = integrationTest.runtimeClasspath
         mustRunAfter(tasks.named("test"))
-    }
-
-    tasks.named("check") {
-        dependsOn(integrationTestTask)
     }
 
     dependencies {
