@@ -1,7 +1,6 @@
 plugins {
     id("org.springframework.boot") version "3.3.4" apply false
     id("io.spring.dependency-management") version "1.1.4" apply false
-    id("com.github.spotbugs") version "6.0.7"
 }
 
 allprojects {
@@ -13,7 +12,6 @@ allprojects {
 subprojects {
     apply(plugin: "java-library")
     apply(plugin: "io.spring.dependency-management")
-    apply(plugin: "com.github.spotbugs")
 
     java {
         toolchain {
@@ -60,13 +58,6 @@ subprojects {
         useJUnitPlatform()
         include("unit/**")
     }
-
-    tasks.register("qualityCheck") {
-        group = "myBuildGroup"
-        description = "Runs checks (excluding tests)."
-        dependsOn(tasks.classes, tasks.spotbugsMain)
-        dependsOn(tasks.testClasses, tasks.spotbugsTest)
-    }
 }
 
 tasks.register("hello") {
@@ -79,5 +70,11 @@ tasks.register("greet") {
     doLast {
         println("How are you?")
     }
-    dependsOn("hello")
+//    dependsOn("hello")
+}
+
+tasks.named("hello").configure {
+//    mustRunAfter(tasks.named("hello"))
+//    shouldRunAfter(tasks.named("hello"))
+    finalizedBy(tasks.named("greet"))
 }

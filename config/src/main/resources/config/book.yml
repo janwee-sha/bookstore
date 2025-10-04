@@ -20,13 +20,13 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-  show-actuator: true
+  show-actuator: false
 
 # Enable all Spring Boot Actuator endpoints.
-management:
-  security:
-    enabled: false
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+#management:
+#  security:
+#    enabled: false
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
