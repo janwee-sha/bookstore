@@ -30,13 +30,31 @@ subprojects {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
 
+    def integrationTest = sourceSets.create("integrationTest")
+
+    def integrationTestTask = tasks.register("integrationTest", Test) {
+        description = "Runs the integration tests."
+        group = "verification"
+        testClassesDirs = integrationTest.output.classesDirs
+        classpath = integrationTest.runtimeClasspath
+        mustRunAfter(tasks.named("test"))
+    }
+
+    tasks.named("check") {
+        dependsOn(integrationTestTask)
+    }
+
     dependencies {
         implementation("org.ow2.asm:asm:9.6")
         implementation("org.springframework.boot:spring-boot-starter-log4j2")
 
-        annotationProcessor("org.projectlombok:lombok:1.18.24")
+        annotationProcessor("org.projectlombok:lombok")
 
+        testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+        integrationTestImplementation(project)
     }
 
     dependencyManagement {
@@ -51,12 +69,13 @@ subprojects {
             dependency("org.postgresql:postgresql:42.6.0")
             dependency("jakarta.servlet:jakarta.servlet-api:6.1.0")
             dependency("org.mockito:mockito-core:5.19.0")
+            dependency("org.mockito:mockito-junit-jupiter:5.19.0")
+            dependency("org.projectlombok:lombok:1.18.24")
         }
     }
 
-    test {
+    tasks.withType(Test).configureEach {
         useJUnitPlatform()
-        include("unit/**")
     }
 }
 

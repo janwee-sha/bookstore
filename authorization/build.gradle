@@ -12,6 +12,6 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
 
-    testImplementation 'org.mockito:mockito-core'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.mockito:mockito-junit-jupiter")
 }

@@ -1,4 +1,4 @@
-package unit.com.janwee.bookstore.order;
+package com.janwee.bookstore.order;
 
 import com.janwee.bookstore.order.core.domain.Order;
 import org.junit.jupiter.api.Test;

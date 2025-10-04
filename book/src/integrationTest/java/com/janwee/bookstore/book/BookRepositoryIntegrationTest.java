@@ -1,6 +1,5 @@
-package integration.com.janwee.bookstore.book;
+package com.janwee.bookstore.book;
 
-import com.janwee.bookstore.book.BookApplication;
 import com.janwee.bookstore.book.core.domain.model.Book;
 import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;
