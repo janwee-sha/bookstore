@@ -1,4 +1,4 @@
-package unit.com.janwee.bookstore.authorization;
+package com.janwee.bookstore.authorization;
 
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;

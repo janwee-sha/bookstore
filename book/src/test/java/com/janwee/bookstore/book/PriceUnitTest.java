@@ -1,4 +1,4 @@
-package unit.com.janwee.bookstore.book;
+package com.janwee.bookstore.book;
 
 import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;

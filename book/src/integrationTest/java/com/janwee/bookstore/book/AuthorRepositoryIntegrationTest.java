@@ -1,6 +1,5 @@
-package integration.com.janwee.bookstore.book;
+package com.janwee.bookstore.book;
 
-import com.janwee.bookstore.book.BookApplication;
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
 import org.junit.jupiter.api.Test;

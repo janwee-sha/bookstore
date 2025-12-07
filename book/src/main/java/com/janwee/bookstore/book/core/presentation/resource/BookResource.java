@@ -34,7 +34,7 @@ public class BookResource {
     }
 
     @GetMapping
-    @Operation(description = "Retrieve all books")
+    @Operation(summary = "Retrieve all books", description = "Retrieve all books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
     public Page<BookResponse> books(@SortDefault.SortDefaults({
@@ -43,37 +43,38 @@ public class BookResource {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Retrieve the details for the book of given ID")
+    @Operation(summary = "Retrieve book details", description = "Retrieve the details for the book of given ID")
     @ResponseStatus(HttpStatus.OK)
     public BookResponse book(@PathVariable final Long id) {
         return bookAppService.bookOfId(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    @Operation(description = "Check if is there any book of given ID")
+    @Operation(summary = "Check existence of a book", description = "Check if is there any book of given ID")
     @ResponseStatus(HttpStatus.OK)
     public void hasBookOfId(@PathVariable final Long id) {
         bookAppService.hasBookOfId(id);
     }
 
     @PostMapping
-    @Operation(description = "Publish new book")
+    @Operation(summary = "Publish a new book", description = "Publish new book")
     @ResponseStatus(HttpStatus.CREATED)
     public void publish(@Validated @RequestBody PublishingBookRequest request) {
         bookAppService.publish(request);
     }
 
     @PatchMapping("/{id}")
-    @Operation(description = "Change book information")
+    @Operation(summary = "Change a book",description = "Change book information")
     @ResponseStatus(HttpStatus.OK)
     public void change(@PathVariable long id,
-                       @Validated(value = ValidationGroup.Modification.class) @RequestBody UpdatingBookRequest request)
+                       @Validated(value = ValidationGroup.Modification.class)
+                       @RequestBody UpdatingBookRequest request)
             throws BookNotFoundException {
         bookAppService.change(id, request);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "Withdraw book of given ID")
+    @Operation(summary = "Withdraw a book",description = "Withdraw book of given ID")
     @ResponseStatus(HttpStatus.OK)
     public void withdraw(@PathVariable Long id) {
         bookAppService.withdraw(id);
