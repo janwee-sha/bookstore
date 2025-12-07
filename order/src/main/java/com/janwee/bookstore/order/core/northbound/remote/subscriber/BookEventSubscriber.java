@@ -30,7 +30,7 @@ public class BookEventSubscriber {
 
     @Transactional(rollbackFor = Throwable.class)
     public void onBookOrdered(BookOrdered event) {
-        log.info("Received TicketCreated event: {}", event);
+        log.info("Received BookOrdered event: {}", event);
         Order order = orderRepo.findById(event.orderId())
                 .orElseThrow(() -> new OrderNotFoundException(event.orderId()));
         order.approve();
@@ -41,7 +41,7 @@ public class BookEventSubscriber {
 
     @Transactional(rollbackFor = Throwable.class)
     public void onBookSoldOut(BookSoldOut event) {
-        log.info("Received OrderRejected event: {}", event);
+        log.info("Received BookSoldOut event: {}", event);
         Optional<Order> optOrder = orderRepo.findById(event.orderId());
         if (optOrder.isPresent()) {
             Order order = optOrder.get();

@@ -5,7 +5,6 @@ import com.janwee.bookstore.order.core.domain.InvalidOrderException;
 import com.janwee.bookstore.order.core.domain.Order;
 import com.janwee.bookstore.order.core.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.core.northbound.message.OrderingBookRequest;
-import com.janwee.bookstore.order.core.southbound.adapter.RabbitEventPublisher;
 import com.janwee.bookstore.order.core.southbound.message.BookReview;
 import com.janwee.bookstore.order.core.southbound.message.OrderCreated;
 import com.janwee.bookstore.order.core.southbound.port.BookClient;
@@ -26,7 +25,7 @@ public class OrderApplicationService {
     private final BookClient bookClient;
 
     @Autowired
-    public OrderApplicationService(OrderRepository orderRepo, RabbitEventPublisher eventPublisher,
+    public OrderApplicationService(OrderRepository orderRepo, EventPublisher eventPublisher,
                                    BookClient bookClient) {
         this.orderRepo = orderRepo;
         this.eventPublisher = eventPublisher;

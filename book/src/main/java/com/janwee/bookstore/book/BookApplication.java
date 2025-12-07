@@ -24,7 +24,7 @@ public class BookApplication {
     @Bean
     public Function<String, String> uppercase() {
         return s -> {
-            System.out.println("Received " + s);
+            log.debug("Received {}", s);
             return s.toUpperCase();
         };
     }
