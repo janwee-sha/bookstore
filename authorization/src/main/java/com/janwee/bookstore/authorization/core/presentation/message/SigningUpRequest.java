@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Getter
 @Schema(title = "Registering User Request", description = "Request to register a new user")
-public class RegisteringUserRequest implements Serializable {
+public class SigningUpRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7959543857288854933L;

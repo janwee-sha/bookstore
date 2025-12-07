@@ -26,7 +26,7 @@ public class PriceUnitTest {
     }
 
     @Test
-    void givenPricesWithDifferenceCurrenciesOrAmountsShouldBeEqual() {
+    void givenPricesWithDifferenceCurrenciesOrAmountsShouldNotBeEqual() {
         Price price1 = Price.of(Currency.USD, BigDecimal.valueOf(0));
         Price price2 = Price.of(Currency.CNY, BigDecimal.valueOf(0));
         Price price3 = Price.of(Currency.JPY, BigDecimal.valueOf(0));
