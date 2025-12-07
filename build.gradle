@@ -89,22 +89,3 @@ subprojects {
         useJUnitPlatform()
     }
 }
-
-tasks.register("hello") {
-    doLast {
-        println("Hello!")
-    }
-}
-
-tasks.register("greet") {
-    doLast {
-        println("How are you?")
-    }
-//    dependsOn("hello")
-}
-
-tasks.named("hello").configure {
-//    mustRunAfter(tasks.named("hello"))
-//    shouldRunAfter(tasks.named("hello"))
-    finalizedBy(tasks.named("greet"))
-}
