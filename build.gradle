@@ -47,6 +47,12 @@ subprojects {
         mustRunAfter(tasks.named("test"))
     }
 
+    tasks.named("check").configure { dependsOn(tasks.named("integrationTest")) }
+
+    tasks.matching { it.name == "processIntegrationTestResources"}.configureEach {
+        it.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
     dependencies {
         implementation("org.ow2.asm:asm:9.6")
         implementation("org.springframework.boot:spring-boot-starter-log4j2")
@@ -57,7 +63,6 @@ subprojects {
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-        integrationTestImplementation(project)
         integrationTestImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
         integrationTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
         integrationTestRuntimeOnly("org.junit.platform:junit-platform-launcher")

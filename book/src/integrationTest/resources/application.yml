@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: book
+  config:
+    # 覆盖主配置中的远程导入，避免连 Config Server
+    import: ""
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    stream:
+      # 若项目启用了 Stream，避免绑定真实中间件
+      bindings: { }
+  datasource:
+    url: jdbc:h2:mem:book-it;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+# 关掉服务发现/注册
+eureka:
+  client:
+    enabled: false
+
+management:
+  health:
+    rabbit:
+      enabled: false

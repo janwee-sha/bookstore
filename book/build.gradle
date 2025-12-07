@@ -21,5 +21,7 @@ dependencies {
     annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen'
 
     testImplementation 'org.mockito:mockito-core'
-    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    integrationTestRuntimeOnly 'com.h2database:h2'
 }
