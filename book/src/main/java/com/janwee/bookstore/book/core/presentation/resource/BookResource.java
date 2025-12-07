@@ -38,8 +38,8 @@ public class BookResource {
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
     public Page<BookResponse> books(@SortDefault.SortDefaults({
-            @SortDefault(sort = Book_.PUBLISHED_AT, direction = Sort.Direction.DESC)}) Pageable page) {
-        return bookAppService.books(page);
+            @SortDefault(sort = Book_.PUBLISHED_AT, direction = Sort.Direction.DESC)}) Pageable pageable) {
+        return bookAppService.books(pageable);
     }
 
     @GetMapping("/{id}")
