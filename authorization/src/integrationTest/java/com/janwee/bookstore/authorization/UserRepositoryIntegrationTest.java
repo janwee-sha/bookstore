@@ -2,22 +2,21 @@ package com.janwee.bookstore.authorization;
 
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.infrastructure.persistence.UserInMemoryRepository;
+import com.janwee.bookstore.authorization.core.domain.UserRepository;
 import com.janwee.bookstore.authorization.core.infrastructure.persistence.SecurityBasedUser;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(MockitoExtension.class)
-public class UserInMemoryRepositoryUnitTest {
-    @InjectMocks
-    private UserInMemoryRepository userRepo;
+@SpringBootTest(classes = AuthorizationApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+public class UserRepositoryIntegrationTest {
+    @Autowired
+    private UserRepository userRepo;
 
     @Test
     void testSavingUser() {

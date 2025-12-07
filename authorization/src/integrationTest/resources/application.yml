@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: authorization
+  config:
+    # 覆盖主配置中的远程导入，避免连 Config Server
+    import: ""
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    stream:
+      # 若项目启用了 Stream，避免绑定真实中间件
+      bindings: { }
+  datasource:
+    url: jdbc:h2:mem:book-it;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  jackson:
+    timeZone: GMT+8
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  security:
+    user:
+      name: "admin@bookstore.com"
+      password: "{bcrypt}$2a$10$BdYWnKbH7Kk5.JyJ5I4OGe.EoUjiTeU2hDY4y4SA62.nZ3maeIv5K"
+      roles:
+        - "ADMIN"
+    oauth2:
+      authorizationserver:
+        issuer: http://localhost:7030
+        client:
+          bookstore:
+            registration:
+              client-id: "bookstore"
+              client-secret: "{bcrypt}$2a$10$N0ull8s2QSOUG/BLO7l99uVkMx6Ofls3Knhfxm.56MTn5YU2uvIvy"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+                - "client_credentials"
+              redirect-uris:
+                - "http://127.0.0.1:8080/authorized"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
+              scopes:
+                - "openid"
+                - "user:read"
+                - "user:write"
+            require-authorization-consent: true
+
+# 关掉服务发现/注册
+eureka:
+  client:
+    enabled: false
+
+management:
+  health:
+    rabbit:
+      enabled: false
