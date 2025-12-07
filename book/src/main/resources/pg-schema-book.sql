@@ -1,8 +1,6 @@
-DROP SCHEMA IF EXISTS "book" CASCADE;
-CREATE SCHEMA "book";
+CREATE SCHEMA IF NOT EXISTS "book";
 
-DROP TABLE IF EXISTS "book"."books";
-CREATE TABLE "book"."books"
+CREATE TABLE IF NOT EXISTS "book"."books"
 (
     id           bigserial    NOT NULL,
     name         VARCHAR(255) NOT NULL,
@@ -14,8 +12,7 @@ CREATE TABLE "book"."books"
     CONSTRAINT pk_books PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS "book"."authors";
-CREATE TABLE "book"."authors"
+CREATE TABLE IF NOT EXISTS "book"."authors"
 (
     id       bigserial    NOT NULL,
     name     VARCHAR(255) NOT NULL,

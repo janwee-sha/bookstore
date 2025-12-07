@@ -1,11 +1,8 @@
-DROP SCHEMA IF EXISTS "order" CASCADE;
-CREATE SCHEMA "order";
+CREATE SCHEMA IF NOT EXISTS "order";
 
-ALTER SCHEMA "order" OWNER to janwee;
+ALTER SCHEMA IF EXISTS "order" OWNER to janwee;
 
-DROP TABLE IF EXISTS "order"."orders";
-
-CREATE TABLE "order"."orders"
+CREATE TABLE IF NOT EXISTS "order"."orders"
 (
     id        bigserial NOT NULL,
     book_id   BIGINT    NOT NULL,
@@ -18,9 +15,7 @@ CREATE TABLE "order"."orders"
 ALTER TABLE IF EXISTS "order"."orders"
     OWNER to janwee;
 
-DROP TABLE IF EXISTS "order"."tickets";
-
-CREATE TABLE "order"."tickets"
+CREATE TABLE IF NOT EXISTS "order"."tickets"
 (
     id          bigserial NOT NULL,
     "order_id"  BIGINT    NOT NULL,

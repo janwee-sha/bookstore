@@ -35,9 +35,10 @@ public class LoggingAspect {
         log.info("Bookstore Logging - Exited {}", serializedJoinPoint(joinPoint));
     }
 
-    @AfterThrowing("loggingPointcut()")
-    public void logAfterThrowing(JoinPoint joinPoint) {
-        log.info("Bookstore Logging - Unexpectedly exited {}", serializedJoinPoint(joinPoint));
+    @AfterThrowing(pointcut = "loggingPointcut()", throwing = "ex")
+    public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
+        log.error("Bookstore Logging - Threw exception at {} - {}: {}",
+                serializedJoinPoint(joinPoint), ex.getClass().getName(), ex.getMessage(), ex);
     }
 
     private String serializedJoinPoint(JoinPoint joinPoint) {
