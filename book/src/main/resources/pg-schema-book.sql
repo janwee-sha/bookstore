@@ -1,8 +1,16 @@
-CREATE SCHEMA IF NOT EXISTS "book";
+DROP SCHEMA IF EXISTS "book" CASCADE;
+CREATE SCHEMA "book";
 
-CREATE TABLE IF NOT EXISTS "book"."books"
+DROP SEQUENCE IF EXISTS "book".seq_books;
+CREATE SEQUENCE "book".seq_books INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+
+DROP SEQUENCE IF EXISTS "book".seq_authors;
+CREATE SEQUENCE "book".seq_authors INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+
+DROP TABLE IF EXISTS "book"."books";
+CREATE TABLE "book"."books"
 (
-    id           bigserial    NOT NULL,
+    id           BIGINT       NOT NULL DEFAULT nextval('"book".seq_books'::regclass),
     name         VARCHAR(255) NOT NULL,
     amount       INTEGER      NOT NULL,
     price        VARCHAR(255) NOT NULL,
@@ -12,9 +20,10 @@ CREATE TABLE IF NOT EXISTS "book"."books"
     CONSTRAINT pk_books PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "book"."authors"
+DROP TABLE IF EXISTS "book"."authors";
+CREATE TABLE "book"."authors"
 (
-    id       bigserial    NOT NULL,
+    id       BIGINT       NOT NULL DEFAULT nextval('"book".seq_authors'::regclass),
     name     VARCHAR(255) NOT NULL,
     profile  VARCHAR(255) NOT NULL,
     phone_no VARCHAR(255),

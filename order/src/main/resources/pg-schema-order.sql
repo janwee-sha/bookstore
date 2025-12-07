@@ -1,28 +1,30 @@
-CREATE SCHEMA IF NOT EXISTS "order";
+DROP SCHEMA IF EXISTS "order" CASCADE;
+CREATE SCHEMA "order";
 
-ALTER SCHEMA IF EXISTS "order" OWNER to janwee;
+DROP SEQUENCE IF EXISTS "order".seq_orders;
+CREATE SEQUENCE "order".seq_orders INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-CREATE TABLE IF NOT EXISTS "order"."orders"
+DROP SEQUENCE IF EXISTS "order".seq_tickets;
+CREATE SEQUENCE "order".seq_tickets INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+
+DROP TABLE IF EXISTS "order"."orders";
+CREATE TABLE "order"."orders"
 (
-    id        bigserial NOT NULL,
-    book_id   BIGINT    NOT NULL,
-    amount    INTEGER,
+    id         BIGINT NOT NULL DEFAULT nextval('"order".seq_orders'::regclass),
+    book_id    BIGINT NOT NULL,
+    amount     INTEGER,
     created_at TIMESTAMP WITHOUT TIME ZONE,
-    state     VARCHAR(255),
+    state      VARCHAR(255),
     CONSTRAINT pk_orders PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS "order"."orders"
-    OWNER to janwee;
 
-CREATE TABLE IF NOT EXISTS "order"."tickets"
+DROP TABLE IF EXISTS "order"."tickets";
+CREATE TABLE "order"."tickets"
 (
-    id          bigserial NOT NULL,
-    "order_id"  BIGINT    NOT NULL,
-    "book_id"   BIGINT    NOT NULL,
+    id           BIGINT    NOT NULL DEFAULT nextval('"order".seq_tickets'::regclass),
+    "order_id"   BIGINT    NOT NULL,
+    "book_id"    BIGINT    NOT NULL,
     "created_at" timestamp NOT NULL,
     PRIMARY KEY (id)
 );
-
-ALTER TABLE IF EXISTS "order"."tickets"
-    OWNER to janwee;
