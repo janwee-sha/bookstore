@@ -13,7 +13,7 @@ public class PriceConverter implements AttributeConverter<Price, String> {
     @Override
     public String convertToDatabaseColumn(Price price) {
         if (price == null) {
-            return null;
+            throw new IllegalArgumentException("Price cannot be null");
         }
         return price.toString();
     }
@@ -21,11 +21,11 @@ public class PriceConverter implements AttributeConverter<Price, String> {
     @Override
     public Price convertToEntityAttribute(String dbValue) {
         if (dbValue == null) {
-            return null;
+            throw new IllegalArgumentException("Price cannot be null");
         }
         String[] values = dbValue.split("/");
         if (values.length != 2) {
-            return null;
+            throw new IllegalArgumentException("Price is not a valid price");
         }
         return Price.of(Currency.valueOf(values[1]), new BigDecimal(values[0]));
     }
