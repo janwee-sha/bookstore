@@ -16,4 +16,8 @@ public class InvalidOrderException extends BadRequestException {
     public static InvalidOrderException unavailableBook() {
         return new InvalidOrderException("No such book");
     }
+
+    public static InvalidOrderException illegalAmount() {
+        return new InvalidOrderException("Order amount must not be less than 1");
+    }
 }

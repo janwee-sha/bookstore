@@ -22,6 +22,7 @@ public class Author implements Serializable {
 
     private String profile;
 
+    @Column(name = "phone_no")
     private String phoneNumber;
 
     public Author() {

@@ -11,7 +11,7 @@ CREATE TABLE "order"."orders"
     book_id   BIGINT    NOT NULL,
     amount    INTEGER,
     created_at TIMESTAMP WITHOUT TIME ZONE,
-    state     SMALLINT,
+    state     VARCHAR(255),
     CONSTRAINT pk_orders PRIMARY KEY (id)
 );
 

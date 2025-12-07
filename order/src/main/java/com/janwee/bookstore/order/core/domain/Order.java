@@ -25,6 +25,7 @@ public class Order implements Serializable {
 
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
     private State state;
 
     public Order() {
@@ -47,7 +48,7 @@ public class Order implements Serializable {
 
     public Order ofAmount(int amount) {
         if (amount < 1) {
-            throw new IllegalArgumentException("Order amount must not be less than 1");
+            throw InvalidOrderException.illegalAmount();
         }
         this.amount = amount;
         return this;

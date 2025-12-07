@@ -49,7 +49,7 @@ public class Price implements Serializable {
     @Override
     public int hashCode() {
         int result = currency.hashCode();
-        result = 31 * result + amount.hashCode();
+        result = 31 * result + amount.stripTrailingZeros().hashCode();
         return result;
     }
 }
