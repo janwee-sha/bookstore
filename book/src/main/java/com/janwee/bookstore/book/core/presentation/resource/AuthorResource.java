@@ -23,9 +23,9 @@ public class AuthorResource {
         this.authorAppService = authorAppService;
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @Operation(description = "Retrieve author of given ID")
-    public AuthorResponse authorOfId(@RequestParam Long id) {
+    public AuthorResponse authorOfId(@PathVariable Long id) {
         return authorAppService.authorOfId(id).map(AuthorResponse::from).orElse(null);
     }
 
