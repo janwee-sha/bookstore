@@ -6,15 +6,18 @@ import com.janwee.bookstore.book.core.domain.model.Price;
 import com.janwee.bookstore.book.core.domain.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = BookApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ContextConfiguration(classes = BookJpaTestConfiguration.class)
 public class BookRepositoryIntegrationTest {
     @Autowired
     private BookRepository bookRepo;
@@ -34,10 +37,14 @@ public class BookRepositoryIntegrationTest {
 
         Optional<Book> book2 = bookRepo.findById(book1.id());
         assertTrue(book2.isPresent());
-        assertEquals(book1.name(), book2.get().name());
-        assertEquals(book1.amount(), book2.get().amount());
-        assertEquals(book1.price(), book2.get().price());
-        assertEquals(book1.publisher(), book2.get().publisher());
-        assertEquals(book1.authorId(), book2.get().authorId());
+        assertAll(
+                () -> assertNotNull(book1.id()),
+                () -> assertEquals(book1.name(), book2.get().name()),
+                () -> assertEquals(book1.amount(), book2.get().amount()),
+                () -> assertEquals(book1.price(), book2.get().price()),
+                () -> assertEquals(book1.publisher(), book2.get().publisher()),
+                () -> assertEquals(book1.authorId(), book2.get().authorId()),
+                () -> assertEquals(book1.publishedAt(), book2.get().publishedAt())
+        );
     }
 }
