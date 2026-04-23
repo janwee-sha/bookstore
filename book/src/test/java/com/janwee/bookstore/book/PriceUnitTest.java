@@ -123,9 +123,7 @@ public class PriceUnitTest {
             BigDecimal amt = new BigDecimal("12.34");
             Price p = Price.of(Currency.USD, amt);
             assertEquals(Currency.USD, p.currency());
-            assertEquals(Currency.USD, p.getCurrency());
             assertEquals(0, p.amount().compareTo(amt));
-            assertEquals(0, p.getAmount().compareTo(amt));
         }
     }
 }

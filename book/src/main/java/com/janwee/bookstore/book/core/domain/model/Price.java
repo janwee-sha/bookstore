@@ -1,17 +1,19 @@
 package com.janwee.bookstore.book.core.domain.model;
 
-import lombok.Getter;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Getter
 public class Price implements Serializable {
     @Serial
     private static final long serialVersionUID = -5756225597894095578L;
     private final Currency currency;
     private final BigDecimal amount;
+
+    public Price() {
+        this.currency = Currency.DEFAULT;
+        this.amount = BigDecimal.ZERO;
+    }
 
     private Price(Currency currency, BigDecimal amount) {
         this.currency = currency;
