@@ -10,6 +10,7 @@ spring:
     discovery:
       enabled: false
     stream:
+      enabled: false
       # 若项目启用了 Stream，避免绑定真实中间件
       bindings: { }
   datasource:

@@ -2,13 +2,17 @@ package com.janwee.bookstore.book.core.application.response;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.model.Book;
+import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Schema(title = "Book")
@@ -24,7 +28,7 @@ public class BookResponse implements Serializable {
     private String name;
 
     @Schema(title = "Price")
-    private Price price;
+    private PriceResponse price;
 
     @Schema(title = "Amount")
     private int amount;
@@ -46,12 +50,32 @@ public class BookResponse implements Serializable {
             BookResponse response = new BookResponse();
             response.id = book.id();
             response.name = book.name();
-            response.price = book.price();
+            response.price = PriceResponse.fromPrice(book.price());
             response.amount = book.amount();
             response.publisher = book.publisher();
             response.publishedAt = book.publishedAt();
             return response;
         }
         return null;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PriceResponse implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = 7366372589098101989L;
+
+        @Schema(title = "Currency")
+        private Currency currency;
+
+        @Schema(title = "Amount")
+        private BigDecimal amount;
+
+        public static PriceResponse fromPrice(Price price) {
+            return price == null ? null : new PriceResponse(price.currency(), price.amount());
+        }
     }
 }

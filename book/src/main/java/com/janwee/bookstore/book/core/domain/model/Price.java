@@ -21,9 +21,18 @@ public class Price implements Serializable {
     }
 
     public static Price of(Currency currency, BigDecimal amount) {
+        if (currency == null) {
+            currency = Currency.DEFAULT;
+        }
+
+        if (amount == null) {
+            throw new IllegalArgumentException("Price amount cannot be null");
+        }
+
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Illegal negative price: " + amount);
         }
+
         return new Price(currency, amount);
     }
 

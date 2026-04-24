@@ -9,6 +9,7 @@ import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -124,7 +125,9 @@ public class GlobalExceptionHandler {
     private String path() {
         return Optional.ofNullable((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
-                .map(HttpServletRequest::getServletPath)
+                .map(request -> StringUtils.hasText(request.getServletPath())
+                        ? request.getServletPath()
+                        : request.getRequestURI())
                 .orElse("/unknown");
     }
 

@@ -31,7 +31,7 @@ public class AuthorResource {
 
     @PostMapping
     @Operation(description = "Register new author")
-    public void register(@RequestBody RegisteringAuthorRequest request) {
+    public void register(@Validated @RequestBody RegisteringAuthorRequest request) {
         authorAppService.register(request);
     }
 }

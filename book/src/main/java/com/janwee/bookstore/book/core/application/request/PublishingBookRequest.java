@@ -2,6 +2,7 @@ package com.janwee.bookstore.book.core.application.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.book.core.domain.model.Book;
+import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -27,7 +29,7 @@ public class PublishingBookRequest implements Serializable {
 
     @Schema(title = "Price")
     @NotNull(message = "Price is required")
-    private Price price;
+    private PriceRequest price;
 
     @Schema(title = "Amount")
     @NotNull(message = "Amount is required")
@@ -50,9 +52,28 @@ public class PublishingBookRequest implements Serializable {
         return new Book.Builder()
                 .withName(this.name)
                 .withAmount(this.amount)
-                .withPrice(this.price)
+                .withPrice(this.price == null ? null : this.price.toPrice())
                 .byPublisher(this.publisher)
                 .byAuthor(this.authorId)
                 .build();
+    }
+
+    @Getter
+    @Setter
+    public static class PriceRequest implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = 2134020968896660585L;
+
+        @Schema(title = "Currency")
+        private Currency currency;
+
+        @Schema(title = "Amount")
+        @NotNull(message = "Amount is required")
+        private BigDecimal amount;
+
+        public Price toPrice() {
+            return Price.of(this.currency, this.amount);
+        }
     }
 }
