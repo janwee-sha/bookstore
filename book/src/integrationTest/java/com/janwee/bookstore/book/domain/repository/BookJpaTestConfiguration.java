@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book;
+package com.janwee.bookstore.book.domain.repository;
 
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

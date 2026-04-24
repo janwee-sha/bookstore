@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.core.presentation.message;
+package com.janwee.bookstore.book.core.application.response;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.core.presentation.message;
+package com.janwee.bookstore.book.core.application.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.book.core.domain.model.Book;

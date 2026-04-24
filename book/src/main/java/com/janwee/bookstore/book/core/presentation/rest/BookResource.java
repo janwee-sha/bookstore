@@ -1,11 +1,11 @@
-package com.janwee.bookstore.book.core.presentation.resource;
+package com.janwee.bookstore.book.core.presentation.rest;
 
 import com.janwee.bookstore.book.core.application.BookApplicationService;
 import com.janwee.bookstore.book.core.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.core.domain.model.Book_;
-import com.janwee.bookstore.book.core.presentation.message.BookResponse;
-import com.janwee.bookstore.book.core.presentation.message.PublishingBookRequest;
-import com.janwee.bookstore.book.core.presentation.message.UpdatingBookRequest;
+import com.janwee.bookstore.book.core.application.response.BookResponse;
+import com.janwee.bookstore.book.core.application.request.PublishingBookRequest;
+import com.janwee.bookstore.book.core.application.request.UpdatingBookRequest;
 import com.janwee.bookstore.foundation.logging.Logging;
 import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;

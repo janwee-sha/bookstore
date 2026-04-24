@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book;
+package com.janwee.bookstore.book.domain.repository;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
