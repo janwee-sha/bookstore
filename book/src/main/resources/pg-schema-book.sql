@@ -1,14 +1,10 @@
-DROP SCHEMA IF EXISTS "book" CASCADE;
-CREATE SCHEMA "book";
+CREATE SCHEMA IF NOT EXISTS "book";
 
-DROP SEQUENCE IF EXISTS "book".seq_books;
-CREATE SEQUENCE "book".seq_books INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS "book".seq_books INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-DROP SEQUENCE IF EXISTS "book".seq_authors;
-CREATE SEQUENCE "book".seq_authors INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS "book".seq_authors INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-DROP TABLE IF EXISTS "book"."books";
-CREATE TABLE "book"."books"
+CREATE TABLE IF NOT EXISTS "book"."books"
 (
     id           BIGINT       NOT NULL DEFAULT nextval('"book".seq_books'::regclass),
     name         VARCHAR(255) NOT NULL,
@@ -20,8 +16,7 @@ CREATE TABLE "book"."books"
     CONSTRAINT pk_books PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS "book"."authors";
-CREATE TABLE "book"."authors"
+CREATE TABLE IF NOT EXISTS "book"."authors"
 (
     id       BIGINT       NOT NULL DEFAULT nextval('"book".seq_authors'::regclass),
     name     VARCHAR(255) NOT NULL,

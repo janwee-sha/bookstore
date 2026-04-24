@@ -1,14 +1,10 @@
-DROP SCHEMA IF EXISTS "order" CASCADE;
-CREATE SCHEMA "order";
+CREATE SCHEMA IF NOT EXISTS "order";
 
-DROP SEQUENCE IF EXISTS "order".seq_orders;
-CREATE SEQUENCE "order".seq_orders INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS "order".seq_orders INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-DROP SEQUENCE IF EXISTS "order".seq_tickets;
-CREATE SEQUENCE "order".seq_tickets INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS "order".seq_tickets INCREMENT BY 1 START WITH 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-DROP TABLE IF EXISTS "order"."orders";
-CREATE TABLE "order"."orders"
+CREATE TABLE IF NOT EXISTS "order"."orders"
 (
     id         BIGINT NOT NULL DEFAULT nextval('"order".seq_orders'::regclass),
     book_id    BIGINT NOT NULL,
@@ -18,9 +14,7 @@ CREATE TABLE "order"."orders"
     CONSTRAINT pk_orders PRIMARY KEY (id)
 );
 
-
-DROP TABLE IF EXISTS "order"."tickets";
-CREATE TABLE "order"."tickets"
+CREATE TABLE IF NOT EXISTS "order"."tickets"
 (
     id           BIGINT    NOT NULL DEFAULT nextval('"order".seq_tickets'::regclass),
     "order_id"   BIGINT    NOT NULL,

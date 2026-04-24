@@ -18,14 +18,6 @@ spring:
           producer:
             confirm-ack-channel: queue.book.ordered.confirm
   rabbitmq:
-    host: 142.171.184.180
-    port: 5672
-    username: janwee
-    password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
-    # 开启生产者确认
-#    publisher-confirms: true
-#    publisher-returns: true
-    # 消费者确认
-#    listener:
-#      simple:
-#        acknowledge-mode: manual
+    username: guest
+    password: guest
+    addresses: 127.0.0.1:5672

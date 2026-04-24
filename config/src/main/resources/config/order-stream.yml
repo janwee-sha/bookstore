@@ -14,6 +14,6 @@ spring:
         orderCreatedSupplier-out-0:
           destination: queue.order.created
   rabbitmq:
-    username: janwee
-    password: '{cipher}63ed5d612148bbb4389580149c87d747204ab8e17c907da7f4034e391711accb'
-    addresses: 142.171.184.180:5672
+    username: guest
+    password: guest
+    addresses: 127.0.0.1:5672
