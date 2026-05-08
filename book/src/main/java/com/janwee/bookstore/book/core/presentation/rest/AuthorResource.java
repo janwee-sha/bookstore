@@ -1,8 +1,8 @@
 package com.janwee.bookstore.book.core.presentation.rest;
 
 import com.janwee.bookstore.book.core.application.AuthorApplicationService;
-import com.janwee.bookstore.book.core.application.response.AuthorResponse;
-import com.janwee.bookstore.book.core.application.request.RegisteringAuthorRequest;
+import com.janwee.bookstore.book.core.presentation.response.AuthorResponse;
+import com.janwee.bookstore.book.core.presentation.request.RegisteringAuthorRequest;
 import com.janwee.bookstore.foundation.logging.Logging;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

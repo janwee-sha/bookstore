@@ -1,5 +1,7 @@
-1. 
-2. Authorization Code(授权码)模式：
+
+# OAuth 2 知识
+
+## 1. Authorization Code(授权码)模式：
 
     a. 用户代理向授权服务器发起获取授权码并在成功后重定向到客户端应用的请求：
     ```
@@ -24,7 +26,7 @@
       -d "code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU" \
       -d "redirect_uri=http://127.0.0.1:7001/authorized"
     ```
-2. Client Credential（客户端授权）模式
+## 2. Client Credential（客户端授权）模式
 
     客户端发起如下请求：
     ```
@@ -41,7 +43,7 @@
       "expires_in":300
     }
     ```
-3. 密码模式
+## 3. 密码模式
 
     客户端发起如下请求：
     ```

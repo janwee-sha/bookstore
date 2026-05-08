@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.core.application.response;
+package com.janwee.bookstore.book.core.presentation.response;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.model.Book;

@@ -15,11 +15,16 @@ bookstore/
 └── order/            # 订单服务
 ```
 
+## 目录约定
+
+各服务模块具有如下的目录结构：
+- `src/main` 目录：存放实际业务代码。
+- `src/test` 目录：存放单元测试代码。
+- `src/integrationTest` 目录：存放集成测试代码。
+
 ## 环境要求
 
 - JDK 17 或更高版本
-- Gradle Wrapper (已包含在项目中)
-- H2 数据库
 - RabbitMQ
 
 ## 构建命令
@@ -60,7 +65,7 @@ bookstore/
 ./gradlew :book:dependencies
 ```
 
-### 运行Spring Boot应用(按建议启动顺序)
+### 运行 Spring Boot 应用（按建议启动顺序）
 
 1. **配置中心**: `./gradlew :config:bootRun`
 2. **服务注册中心**: `./gradlew :eureka:bootRun`
@@ -76,44 +81,3 @@ bookstore/
 ./gradlew :authorization:bootJar
 ./gradlew :gateway:bootJar
 ```
-
-### 开发辅助命令
-
-```bash
-# 刷新依赖
-./gradlew --refresh-dependencies
-
-# 查看可用的Gradle任务
-./gradlew tasks
-
-# 查看构建版本信息
-./gradlew properties
-
-# 生成IDE项目文件（IntelliJ IDEA）
-./gradlew idea
-
-# 生成IDE项目文件（Eclipse）
-./gradlew eclipse
-```
-
-## 问题排查
-
-### 查看详细的构建日志
-```bash
-./gradlew build --info
-```
-### 查看堆栈跟踪
-```bash
-./gradlew build --stacktrace
-```
-
-### 使用Gradle扫描诊断构建问题
-```bash
-./gradlew build --scan
-```
-
-## 注意事项
-
-1. 首次构建可能需要较长时间下载依赖
-2. 确保所有服务的配置正确指向配置中心
-3. 服务启动前确保 Eureka 和 Config 服务已正常运行

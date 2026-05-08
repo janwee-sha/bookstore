@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.foundation.security;
+package com.janwee.bookstore.authorization.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
