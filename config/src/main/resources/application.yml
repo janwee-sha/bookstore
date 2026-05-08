@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: config-server
+  profiles:
+    default: native
   cloud:
     config:
       server:
@@ -12,10 +14,3 @@ spring:
 
 encrypt:
   key: j@NwEes_KeY
-
-#Enable all Spring Boot Actuator endpoints.
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"

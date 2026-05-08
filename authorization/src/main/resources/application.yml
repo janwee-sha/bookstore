@@ -1,8 +1,48 @@
+server:
+  port: 7030
+
 spring:
   application:
     name: authorization
   profiles:
-    active:
-      - default
+    default: local
   config:
-    import: configserver:http://localhost:7000
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:7000}
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  security:
+    user:
+      name: "admin@bookstore.com"
+      roles:
+        - "ADMIN"
+    oauth2:
+      authorizationserver:
+        client:
+          bookstore:
+            registration:
+              client-id: "bookstore"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+                - "client_credentials"
+              scopes:
+                - "openid"
+                - "user:read"
+                - "user:write"
+            require-authorization-consent: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

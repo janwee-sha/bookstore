@@ -45,9 +45,9 @@ spring:
                 - "refresh_token"
                 - "client_credentials"
               redirect-uris:
-                - "http://127.0.0.1:8080/authorized"
+                - "http://127.0.0.1:7001/authorized"
               post-logout-redirect-uris:
-                - "http://127.0.0.1:8080/"
+                - "http://127.0.0.1:7001/"
               scopes:
                 - "openid"
                 - "user:read"

@@ -1,7 +1,35 @@
+server:
+  port: 7120
+
 spring:
   application:
     name: order
   profiles:
-    active: default,persistence,stream
+    default: local
   config:
-    import: configserver:http://localhost:7000
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:7000}
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  jpa:
+    open-in-view: true
+  cloud:
+    stream:
+      binders:
+        boss:
+          type: rabbit
+      function:
+        definition: orderCreatedSupplier;bookSoldOutConsumer;bookOrderedConsumer
+      bindings:
+        bookOrderedConsumer-in-0:
+          destination: queue.book.ordered
+        bookSoldOutConsumer-in-0:
+          destination: queue.book.soldOut
+        orderCreatedSupplier-out-0:
+          destination: queue.order.created
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

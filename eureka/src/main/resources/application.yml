@@ -1,5 +1,24 @@
+server:
+  port: 7010
+
 spring:
   application:
     name: eureka
+  profiles:
+    default: local
   config:
-    import: configserver:http://localhost:7000
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:7000}
+  boot:
+    admin:
+      context-path: /admin
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 5
+  instance:
+    prefer-ip-address: true

@@ -3,14 +3,14 @@
 
     a. 用户代理向授权服务器发起获取授权码并在成功后重定向到客户端应用的请求：
     ```
-    http://localhost:7030/oauth2/authorize?response_type=code&client_id=bookstore&redirect_uri=http://127.0.0.1:8080/authorized&scope=user:read user:write
+    http://localhost:7030/oauth2/authorize?response_type=code&client_id=bookstore&redirect_uri=http://127.0.0.1:7001/authorized&scope=user:read user:write
     ```
     
     b. 用户在授权服务器通过用户名/密码登录并确认授权范围提交许可
     
     c. 用户代理收到授权码并被重定向到客户端应用，如下所示：
     ```
-    http://127.0.0.1:8080/authorized?code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU
+    http://127.0.0.1:7001/authorized?code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU
     ```
     
     d. 使用授权码获取访问令牌
@@ -22,7 +22,7 @@
       -H "Authorization: Basic $(echo -n 'bookstore:secret' | base64)" \
       -d "grant_type=authorization_code" \
       -d "code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU" \
-      -d "redirect_uri=http://127.0.0.1:8080/authorized"
+      -d "redirect_uri=http://127.0.0.1:7001/authorized"
     ```
 2. Client Credential（客户端授权）模式
 

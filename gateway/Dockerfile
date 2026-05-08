@@ -19,6 +19,6 @@ COPY --from=build /workspace/gateway/build/libs/*.jar app.jar
 
 USER app:app
 
-EXPOSE 8080
+EXPOSE 7001
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
