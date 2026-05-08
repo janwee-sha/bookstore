@@ -19,7 +19,7 @@ bookstore/
 
 - JDK 17 或更高版本
 - Gradle Wrapper (已包含在项目中)
-- PostgreSQL 数据库
+- H2 数据库
 - RabbitMQ
 
 ## 构建命令

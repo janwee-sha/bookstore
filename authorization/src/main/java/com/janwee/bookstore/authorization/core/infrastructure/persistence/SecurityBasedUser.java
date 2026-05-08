@@ -3,6 +3,7 @@ package com.janwee.bookstore.authorization.core.infrastructure.persistence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -10,17 +11,25 @@ import java.io.Serial;
 import java.util.Collection;
 
 @Getter
+@Entity
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
 public class SecurityBasedUser implements User {
     @Serial
     private static final long serialVersionUID = 7990143688548707092L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     public SecurityBasedUser() {

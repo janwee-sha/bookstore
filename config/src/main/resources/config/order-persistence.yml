@@ -1,12 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/bookstore?currentSchema=order&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
-    username: dev
-    password: dev
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:bookstore-order;MODE=PostgreSQL;NON_KEYWORDS=ORDER;INIT=CREATE SCHEMA IF NOT EXISTS order;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
   jpa:
-    database: postgresql
+    database: h2
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
     generate-ddl: true

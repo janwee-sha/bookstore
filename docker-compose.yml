@@ -1,0 +1,106 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: bookstore-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  config:
+    image: bookstore/config:local
+    build:
+      context: .
+      dockerfile: config/Dockerfile
+    container_name: bookstore-config
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    ports:
+      - "7000:7000"
+
+  eureka:
+    image: bookstore/eureka:local
+    build:
+      context: .
+      dockerfile: eureka/Dockerfile
+    container_name: bookstore-eureka
+    depends_on:
+      - config
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:7000"
+      EUREKA_INSTANCE_HOSTNAME: eureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:7010/eureka/"
+    ports:
+      - "7010:7010"
+
+  authorization:
+    image: bookstore/authorization:local
+    build:
+      context: .
+      dockerfile: authorization/Dockerfile
+    container_name: bookstore-authorization
+    depends_on:
+      - config
+      - eureka
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:7000"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:7010/eureka/"
+    ports:
+      - "7030:7030"
+
+  book:
+    image: bookstore/book:local
+    build:
+      context: .
+      dockerfile: book/Dockerfile
+    container_name: bookstore-book
+    depends_on:
+      - config
+      - eureka
+      - rabbitmq
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:7000"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:7010/eureka/"
+      SPRING_DATASOURCE_URL: "jdbc:h2:mem:bookstore-book;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS book;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+      SPRING_RABBITMQ_ADDRESSES: "rabbitmq:5672"
+    ports:
+      - "7100:7100"
+
+  order:
+    image: bookstore/order:local
+    build:
+      context: .
+      dockerfile: order/Dockerfile
+    container_name: bookstore-order
+    depends_on:
+      - config
+      - eureka
+      - rabbitmq
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:7000"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:7010/eureka/"
+      SPRING_DATASOURCE_URL: "jdbc:h2:mem:bookstore-order;MODE=PostgreSQL;NON_KEYWORDS=ORDER;INIT=CREATE SCHEMA IF NOT EXISTS order;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+      SPRING_RABBITMQ_ADDRESSES: "rabbitmq:5672"
+    ports:
+      - "7120:7120"
+
+  gateway:
+    image: bookstore/gateway:local
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: bookstore-gateway
+    depends_on:
+      - config
+      - eureka
+      - authorization
+      - book
+      - order
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:7000"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:7010/eureka/"
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SPRING_TOKEN_URI: "http://authorization:7030/oauth2/token"
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SPRING_JWK_SET_URI: "http://authorization:7030/oauth2/jwks"
+      GITHUB_CLIENT_ID: replace-me
+      GITHUB_CLIENT_SECRET: replace-me
+    ports:
+      - "8080:8080"

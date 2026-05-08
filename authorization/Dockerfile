@@ -4,7 +4,7 @@ WORKDIR /workspace
 
 COPY --chown=gradle:gradle . .
 
-RUN gradle :config:bootJar --no-daemon
+RUN gradle :authorization:bootJar --no-daemon
 
 
 FROM eclipse-temurin:17-jre
@@ -15,10 +15,10 @@ WORKDIR /app
 
 RUN groupadd --system app && useradd --system --gid app --home-dir /app --shell /usr/sbin/nologin app
 
-COPY --from=build /workspace/config/build/libs/*.jar app.jar
+COPY --from=build /workspace/authorization/build/libs/*.jar app.jar
 
 USER app:app
 
-EXPOSE 7000
+EXPOSE 7030
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

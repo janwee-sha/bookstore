@@ -1,6 +1,16 @@
 server:
   port: 7030
 spring:
+  datasource:
+    url: jdbc:h2:mem:bookstore-authorization;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
   jackson:
     timeZone: GMT+8
     dateFormat: yyyy-MM-dd HH:mm:ss
