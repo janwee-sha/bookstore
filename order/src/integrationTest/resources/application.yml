@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: order
+  config:
+    import: ""
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    stream:
+      enabled: false
+      bindings: { }
+  datasource:
+    url: jdbc:h2:mem:order-it;MODE=PostgreSQL;NON_KEYWORDS=ORDER;INIT=CREATE SCHEMA IF NOT EXISTS order;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+eureka:
+  client:
+    enabled: false
+
+management:
+  health:
+    rabbit:
+      enabled: false

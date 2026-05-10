@@ -20,15 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(
         classes = AuthorizationApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        properties = {
-                "spring.config.import=",
-                "spring.cloud.config.enabled=false",
-                "spring.cloud.discovery.enabled=false",
-                "spring.cloud.stream.enabled=false",
-                "eureka.client.enabled=false",
-                "management.health.rabbit.enabled=false"
-        }
+        webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @AutoConfigureMockMvc
 class PublicSigningUpResourcesIntegrationTest {
