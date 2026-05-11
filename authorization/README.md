@@ -10,6 +10,7 @@
 - `core.southbound.port` 承载南向出口端口逻辑，例如领域模型的仓储接口。
 - `core.southbound.adapter` 承载南向出口的适配器逻辑，例如依赖 RabbitMQ 的领域事件发布器实现。
 - `core.southbound.message` 承载南向出口消息，例如向下游服务发布的异步消息模型、依赖 JPA 的持久化模型实现等。
+- `security`：安全子域。
 
 # OAuth 2 知识
 
