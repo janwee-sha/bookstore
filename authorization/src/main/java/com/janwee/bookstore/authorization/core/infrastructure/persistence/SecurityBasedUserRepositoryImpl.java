@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserJpaRepositoryImpl implements UserRepository {
+public class SecurityBasedUserRepositoryImpl implements UserRepository {
     private final SecurityBasedUserJpaRepository userJpaRepo;
 
     @Override

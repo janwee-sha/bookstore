@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = AuthorizationJpaTestConfiguration.class)
-@Import(UserJpaRepositoryImpl.class)
+@Import(SecurityBasedUserRepositoryImpl.class)
 class UserRepositoryIntegrationTest {
 
     @Autowired
