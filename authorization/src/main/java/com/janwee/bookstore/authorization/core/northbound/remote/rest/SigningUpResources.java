@@ -9,19 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/public")
+@RequestMapping("/public/sign-up")
 @Tag(name = "Public Signing Up Resources")
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class PublicSigningUpResources {
+public class SigningUpResources {
 
-    private final UserService userManager;
+    private final UserService userService;
 
-    @PostMapping("/sign-up")
+    @PostMapping
     @Operation(description = "Register a new user account")
     @ResponseStatus(HttpStatus.CREATED)
     public void signup(@Validated @RequestBody SigningUpRequest request) {
-        userManager.createUser(request.toUser());
+        userService.signup(request.toUser());
     }
 }

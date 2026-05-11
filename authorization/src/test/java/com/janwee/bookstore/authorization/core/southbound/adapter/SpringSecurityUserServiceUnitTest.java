@@ -58,7 +58,7 @@ class SpringSecurityUserServiceUnitTest {
                 .ofRole(Role.USER);
         when(passwordEncoder.encode("raw-password")).thenReturn("encoded-password");
 
-        userDetailsManager.createUser(user);
+        userDetailsManager.signup(user);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepo).save(userCaptor.capture());

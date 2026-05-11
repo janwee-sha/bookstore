@@ -33,7 +33,7 @@ public class SpringSecurityUserService implements UserService, UserDetailsServic
     }
 
     @Override
-    public void createUser(User user) {
+    public void signup(User user) {
         String encryptedPass = passwordEncoder.encode(user.password());
         user.changePasswordTo(encryptedPass);
         userRepo.save(user);
