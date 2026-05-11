@@ -3,8 +3,8 @@ package com.janwee.bookstore.authorization.core.southbound.adapter;
 import com.janwee.bookstore.authorization.core.domain.Authority;
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ class AdminUserInitializerIntegrationTest {
     void shouldCreateAdminUserWhenMissing() {
         adminUserInitializer.run(new DefaultApplicationArguments());
 
-        User admin = userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
+        SpringSecurityUser admin = (SpringSecurityUser) userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
         List<String> authorities = admin.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
@@ -72,7 +72,7 @@ class AdminUserInitializerIntegrationTest {
         adminUserInitializer.run(new DefaultApplicationArguments());
 
         List<User> users = userRepo.users();
-        User admin = userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
+        SpringSecurityUser admin = (SpringSecurityUser) userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
         List<String> authorities = admin.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();

@@ -6,14 +6,15 @@ import com.janwee.bookstore.authorization.core.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.util.Collection;
 
 @Getter
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
-public class SpringSecurityUser implements User {
+@Table(name = "user_accounts", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
+public class SpringSecurityUser implements User, UserDetails {
     @Serial
     private static final long serialVersionUID = 7990143688548707092L;
 
@@ -57,19 +58,21 @@ public class SpringSecurityUser implements User {
     }
 
     @Override
-    public User ofId(long id) {
+    public void changePasswordTo(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public SpringSecurityUser ofId(long id) {
         this.id = id;
         return this;
     }
 
-    @Override
-    public User withEmail(String email) {
+    public SpringSecurityUser withEmail(String email) {
         this.email = email;
         return this;
     }
 
-    @Override
-    public User identifiedBy(String password) {
+    public SpringSecurityUser identifiedBy(String password) {
         this.password = password;
         return this;
     }
@@ -79,8 +82,7 @@ public class SpringSecurityUser implements User {
         return role.authorities();
     }
 
-    @Override
-    public User ofRole(Role role) {
+    public SpringSecurityUser ofRole(Role role) {
         this.role = role;
         return this;
     }

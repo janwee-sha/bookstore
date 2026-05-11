@@ -2,7 +2,6 @@ package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Authority;
 import com.janwee.bookstore.authorization.core.domain.Role;
-import com.janwee.bookstore.authorization.core.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -14,7 +13,7 @@ class SpringSecurityUserUnitTest {
 
     @Test
     void shouldBuildUserDetailsFromDomainMutators() {
-        User user = new SpringSecurityUser()
+        SpringSecurityUser user = new SpringSecurityUser()
                 .ofId(42L)
                 .withEmail("user@bookstore.com")
                 .identifiedBy("secret")
@@ -40,7 +39,7 @@ class SpringSecurityUserUnitTest {
 
     @Test
     void newUserShouldDefaultToUserRole() {
-        User user = new SpringSecurityUser()
+        SpringSecurityUser user = new SpringSecurityUser()
                 .withEmail("user@bookstore.com")
                 .identifiedBy("secret");
 

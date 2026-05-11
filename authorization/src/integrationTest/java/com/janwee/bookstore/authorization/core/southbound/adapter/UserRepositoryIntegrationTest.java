@@ -34,7 +34,8 @@ class UserRepositoryIntegrationTest {
                 .ofRole(Role.ADMIN);
 
         User saved = userRepo.save(user);
-        Optional<User> found = userRepo.userOfEmail("user@bookstore.com");
+        Optional<SpringSecurityUser> found = Optional.ofNullable(
+                (SpringSecurityUser) userRepo.userOfEmail("user@bookstore.com").orElse(null));
 
         assertAll(
                 () -> assertTrue(saved.id() > 0),

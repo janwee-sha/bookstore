@@ -1,6 +1,6 @@
 package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
-import com.janwee.bookstore.authorization.core.domain.UserAccountService;
+import com.janwee.bookstore.authorization.core.domain.UserService;
 import com.janwee.bookstore.authorization.core.northbound.remote.message.SigningUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class PublicSigningUpResources {
 
-    private final UserAccountService userManager;
+    private final UserService userManager;
 
     @PostMapping("/sign-up")
     @Operation(description = "Register a new user account")

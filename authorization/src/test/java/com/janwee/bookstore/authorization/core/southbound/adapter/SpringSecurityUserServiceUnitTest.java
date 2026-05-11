@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SpringSecurityUserAccountServiceUnitTest {
+class SpringSecurityUserServiceUnitTest {
 
     @Mock
     private UserRepository userRepo;
@@ -27,7 +27,7 @@ class SpringSecurityUserAccountServiceUnitTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private SpringSecurityUserAccountService userDetailsManager;
+    private SpringSecurityUserService userDetailsManager;
 
     @Test
     void shouldLoadUserByUsername() {

@@ -1,7 +1,7 @@
 package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserAccountService;
+import com.janwee.bookstore.authorization.core.domain.UserService;
 import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserResources {
-    private final UserAccountService userAcctService;
+    private final UserService userAcctService;
 
     private final UserRepository userRepo;
 
