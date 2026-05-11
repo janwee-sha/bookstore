@@ -1,8 +1,8 @@
-package com.janwee.bookstore.authorization.core.presentation.resource;
+package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserManager;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
+import com.janwee.bookstore.authorization.core.domain.UserAccountService;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserResources {
-    private final UserManager userManager;
+    private final UserAccountService userAcctService;
 
     private final UserRepository userRepo;
 
@@ -34,6 +34,6 @@ public class UserResources {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('user:read')")
     public User userWithUsername(@PathVariable String username) {
-        return userManager.userOfUsername(username);
+        return userAcctService.userOfUsername(username);
     }
 }

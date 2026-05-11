@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.core.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Authority;
 import com.janwee.bookstore.authorization.core.domain.Role;
@@ -10,11 +10,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SecurityBasedUserUnitTest {
+class SpringSecurityUserUnitTest {
 
     @Test
     void shouldBuildUserDetailsFromDomainMutators() {
-        User user = new SecurityBasedUser()
+        User user = new SpringSecurityUser()
                 .ofId(42L)
                 .withEmail("user@bookstore.com")
                 .identifiedBy("secret")
@@ -40,7 +40,7 @@ class SecurityBasedUserUnitTest {
 
     @Test
     void newUserShouldDefaultToUserRole() {
-        User user = new SecurityBasedUser()
+        User user = new SpringSecurityUser()
                 .withEmail("user@bookstore.com")
                 .identifiedBy("secret");
 

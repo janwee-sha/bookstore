@@ -18,6 +18,7 @@ bookstore/
 ## 目录约定
 
 各服务模块具有如下的目录结构：
+- `README.md`：模块介绍文档。
 - `src/main` 目录：存放实际业务代码。
 - `src/test` 目录：存放单元测试代码。
 - `src/integrationTest` 目录：存放集成测试代码。

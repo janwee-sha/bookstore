@@ -1,10 +1,10 @@
-package com.janwee.bookstore.authorization.core.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Authority;
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
-import com.janwee.bookstore.authorization.core.infrastructure.persistence.jpa.SecurityBasedUserJpaRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
+import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = AuthorizationJpaTestConfiguration.class)
-@Import({AdminUserInitializer.class, SecurityBasedUserRepositoryImpl.class})
+@Import({AdminUserInitializer.class, SpringSecurityUserRepositoryJpaAdapter.class})
 @TestPropertySource(properties = {
         "spring.security.user.name=admin@bookstore.com",
         "spring.security.user.password={noop}password_1"
@@ -37,7 +37,7 @@ class AdminUserInitializerIntegrationTest {
     private UserRepository userRepo;
 
     @Autowired
-    private SecurityBasedUserJpaRepository userJpaRepo;
+    private SpringSecurityUserJpaRepository userJpaRepo;
 
     @BeforeEach
     void cleanDatabase() {
@@ -64,7 +64,7 @@ class AdminUserInitializerIntegrationTest {
 
     @Test
     void shouldLeaveExistingAdminUserUntouched() {
-        userRepo.save(new SecurityBasedUser()
+        userRepo.save(new SpringSecurityUser()
                 .withEmail("admin@bookstore.com")
                 .identifiedBy("password_2")
                 .ofRole(Role.USER));

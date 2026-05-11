@@ -1,7 +1,7 @@
-package com.janwee.bookstore.authorization.core.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Role;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,7 +26,7 @@ public class AdminUserInitializer implements ApplicationRunner {
         if (userRepo.userOfEmail(adminEmail).isPresent()) {
             return;
         }
-        userRepo.save(new SecurityBasedUser()
+        userRepo.save(new SpringSecurityUser()
                 .withEmail(adminEmail)
                 .ofRole(Role.ADMIN)
                 .identifiedBy(adminPassword));

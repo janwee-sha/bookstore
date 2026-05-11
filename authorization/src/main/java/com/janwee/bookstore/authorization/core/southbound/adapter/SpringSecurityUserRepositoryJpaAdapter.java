@@ -1,8 +1,8 @@
-package com.janwee.bookstore.authorization.core.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
-import com.janwee.bookstore.authorization.core.infrastructure.persistence.jpa.SecurityBasedUserJpaRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
+import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class SecurityBasedUserRepositoryImpl implements UserRepository {
-    private final SecurityBasedUserJpaRepository userJpaRepo;
+public class SpringSecurityUserRepositoryJpaAdapter implements UserRepository {
+    private final SpringSecurityUserJpaRepository userJpaRepo;
 
     @Override
     public Optional<User> userOfEmail(String email) {
@@ -26,7 +26,7 @@ public class SecurityBasedUserRepositoryImpl implements UserRepository {
     }
 
     public User save(User user) {
-        if (user instanceof SecurityBasedUser securityBasedUser) {
+        if (user instanceof SpringSecurityUser securityBasedUser) {
             return userJpaRepo.save(securityBasedUser);
         }
         throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getName());

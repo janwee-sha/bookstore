@@ -1,9 +1,8 @@
-package com.janwee.bookstore.authorization.core.infrastructure.service;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
-import com.janwee.bookstore.authorization.core.infrastructure.persistence.SecurityBasedUser;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SecurityBasedUserDetailsManagerUnitTest {
+class SpringSecurityUserAccountServiceUnitTest {
 
     @Mock
     private UserRepository userRepo;
@@ -28,11 +27,11 @@ class SecurityBasedUserDetailsManagerUnitTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private SecurityBasedUserDetailsManager userDetailsManager;
+    private SpringSecurityUserAccountService userDetailsManager;
 
     @Test
     void shouldLoadUserByUsername() {
-        User user = new SecurityBasedUser()
+        User user = new SpringSecurityUser()
                 .withEmail("user@bookstore.com")
                 .identifiedBy("encoded-password")
                 .ofRole(Role.USER);
@@ -53,7 +52,7 @@ class SecurityBasedUserDetailsManagerUnitTest {
 
     @Test
     void shouldEncodePasswordBeforeCreatingUser() {
-        User user = new SecurityBasedUser()
+        User user = new SpringSecurityUser()
                 .withEmail("new@bookstore.com")
                 .identifiedBy("raw-password")
                 .ofRole(Role.USER);

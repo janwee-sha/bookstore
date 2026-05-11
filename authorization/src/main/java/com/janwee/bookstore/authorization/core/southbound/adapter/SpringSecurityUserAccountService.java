@@ -1,8 +1,8 @@
-package com.janwee.bookstore.authorization.core.infrastructure.service;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserManager;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
+import com.janwee.bookstore.authorization.core.domain.UserAccountService;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,12 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SecurityBasedUserDetailsManager implements UserManager {
+public class SpringSecurityUserAccountService implements UserAccountService {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SecurityBasedUserDetailsManager(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+    public SpringSecurityUserAccountService(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
     }

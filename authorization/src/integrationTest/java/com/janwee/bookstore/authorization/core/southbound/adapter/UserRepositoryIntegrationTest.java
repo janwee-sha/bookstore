@@ -1,9 +1,9 @@
-package com.janwee.bookstore.authorization.core.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Authority;
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = AuthorizationJpaTestConfiguration.class)
-@Import(SecurityBasedUserRepositoryImpl.class)
+@Import(SpringSecurityUserRepositoryJpaAdapter.class)
 class UserRepositoryIntegrationTest {
 
     @Autowired
@@ -28,7 +28,7 @@ class UserRepositoryIntegrationTest {
 
     @Test
     void shouldSaveAndFindUserByEmail() {
-        User user = new SecurityBasedUser()
+        User user = new SpringSecurityUser()
                 .withEmail("user@bookstore.com")
                 .identifiedBy("encoded-password")
                 .ofRole(Role.ADMIN);
@@ -51,11 +51,11 @@ class UserRepositoryIntegrationTest {
 
     @Test
     void shouldReturnAllPersistedUsers() {
-        userRepo.save(new SecurityBasedUser()
+        userRepo.save(new SpringSecurityUser()
                 .withEmail("first@bookstore.com")
                 .identifiedBy("first-password")
                 .ofRole(Role.USER));
-        userRepo.save(new SecurityBasedUser()
+        userRepo.save(new SpringSecurityUser()
                 .withEmail("second@bookstore.com")
                 .identifiedBy("second-password")
                 .ofRole(Role.USER));

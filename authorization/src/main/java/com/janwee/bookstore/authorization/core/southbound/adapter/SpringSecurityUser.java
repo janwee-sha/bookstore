@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.core.infrastructure.persistence;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.authorization.core.domain.Role;
@@ -13,7 +13,7 @@ import java.util.Collection;
 @Getter
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
-public class SecurityBasedUser implements User {
+public class SpringSecurityUser implements User {
     @Serial
     private static final long serialVersionUID = 7990143688548707092L;
 
@@ -32,7 +32,7 @@ public class SecurityBasedUser implements User {
     @Column(nullable = false)
     private Role role;
 
-    public SecurityBasedUser() {
+    public SpringSecurityUser() {
         this.role = Role.USER;
     }
 

@@ -1,9 +1,9 @@
-package com.janwee.bookstore.authorization.core.presentation.resource;
+package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
 import com.janwee.bookstore.authorization.AuthorizationApplication;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserRepository;
-import com.janwee.bookstore.authorization.core.infrastructure.persistence.jpa.SecurityBasedUserJpaRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
+import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ class PublicSigningUpResourcesIntegrationTest {
     private UserRepository userRepo;
 
     @Autowired
-    private SecurityBasedUserJpaRepository userJpaRepo;
+    private SpringSecurityUserJpaRepository userJpaRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
