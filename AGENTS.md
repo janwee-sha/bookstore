@@ -30,7 +30,8 @@
 
 ## 测试与验证
 
-- 修改业务逻辑时优先补充或调整对应单元测试；修改持久化、REST API、启动配置或跨模块行为时优先考虑 `src/integrationTest` 覆盖。
+- 新增或修改业务逻辑时应补充或调整必要的测试验证。
+- 补充测试时应优先考虑单元测试；补充持久化、REST API、启动配置或跨模块行为相关的测试时优先考虑覆盖集成测试。
 - 本仓库根 `build.gradle` 已定义 `integrationTest` source set；集成测试应放在对应模块的 `src/integrationTest/java` 和 `src/integrationTest/resources`。
 - 运行验证命令前先说明验证范围；若用户明确要求不要编译或不要测试，则只做静态检查并在结果中说明未验证项。
 - 测试命令优先使用仓库 README 中的 Gradle Wrapper 示例；在当前 Windows 环境需要时可使用已验证可用的本地 Gradle 命令。
@@ -38,6 +39,7 @@
 ## 修改纪律
 
 - 保持改动聚焦于用户请求，不做无关重构、批量格式化或顺手清理。
+- 改动影响到与 `README.md` 文档中对应内容的一致性时，需要顺手修改 `README.md` 文档中的对应内容。
 - 不添加宽泛 `try/catch`、静默 fallback 或吞异常逻辑；错误应按项目既有方式显式暴露或传播。
 - 默认使用 ASCII 编辑代码；仅当现有文档或用户要求需要中文时使用 UTF-8 中文文本。
 - 修改 README、AGENTS 或中文文档时使用 UTF-8 读取和写入，避免 PowerShell 默认编码导致乱码。
