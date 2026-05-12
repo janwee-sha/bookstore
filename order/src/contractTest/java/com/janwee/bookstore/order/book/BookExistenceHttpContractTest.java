@@ -5,8 +5,8 @@ import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.model.Book;
 import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;
-import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
-import com.janwee.bookstore.book.core.domain.repository.BookRepository;
+import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.AuthorJpaRepository;
+import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.BookJpaRepository;
 import com.janwee.bookstore.order.core.southbound.adapter.BookFeignClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,10 +54,10 @@ class BookExistenceHttpContractTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private AuthorRepository authorRepo;
+    private AuthorJpaRepository authorRepo;
 
     @Autowired
-    private BookRepository bookRepo;
+    private BookJpaRepository bookRepo;
 
     @BeforeEach
     void cleanDatabase() {
