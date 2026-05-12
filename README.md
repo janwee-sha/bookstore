@@ -28,30 +28,41 @@ bookstore/
 
 ## 构建命令
 
-### 清理并构建整个项目（包含测试）
+### 构建并验证整个项目
 
 ```bash
-./gradlew clean build
+./gradlew clean build --info --stacktrace --console=plain
 ```
 
-### 仅构建项目（不运行测试）
-```bash
-./gradlew build -x test -x integrationTest
-```
-
-### 并行构建项目（不运行测试）
+### 构建并验证特定模块（以 book 模块为例）
 
 ```bash
-./gradlew build -x test -x integrationTest --parallel
+./gradlew :book:clean :book:build --info --stacktrace --console=plain
 ```
 
-### 运行所有测试
+### 仅构建项目（不运行验证）
 ```bash
-./gradlew test
+./gradlew build -x check --info --stacktrace --console=plain
 ```
-### 运行特定模块（如book）的测试
+
+### 并行构建项目（不运行验证）
+
 ```bash
-./gradlew :book:test
+./gradlew build -x check --parallel --info --stacktrace --console=plain
+```
+
+### 仅构建特定模块（以 book 模块为例，不运行验证）
+```bash
+./gradlew :book:build -x check --info --stacktrace --console=plain
+```
+
+### 运行验证
+```bash
+./gradlew check --info --stacktrace --console=plain
+```
+### 运行特定模块的验证
+```bash
+./gradlew :book:check --info --stacktrace --console=plain
 ```
 
 ### 查看项目依赖树
