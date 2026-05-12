@@ -1,5 +1,7 @@
 package com.janwee.bookstore.order.core.southbound.message;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.janwee.bookstore.foundation.event.DomainEvent;
 import com.janwee.bookstore.foundation.event.Event;
 
@@ -10,12 +12,20 @@ public class OrderCreated extends DomainEvent implements Event {
     @Serial
     private static final long serialVersionUID = -7501613599101584679L;
 
+    @JsonProperty
     private final Long orderId;
+    @JsonProperty
     private final Long bookId;
+    @JsonProperty
     private final int amount;
+    @JsonProperty
     private final LocalDateTime createdBy;
 
-    public OrderCreated(Long orderId, Long bookId, int amount, LocalDateTime createdBy) {
+    @JsonCreator
+    public OrderCreated(@JsonProperty("orderId") Long orderId,
+                        @JsonProperty("bookId") Long bookId,
+                        @JsonProperty("amount") int amount,
+                        @JsonProperty("createdBy") LocalDateTime createdBy) {
         this.orderId = orderId;
         this.bookId = bookId;
         this.amount = amount;

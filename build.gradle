@@ -33,10 +33,19 @@ subprojects {
         runtimeClasspath += output + compileClasspath
     }
 
+    def contractTest = sourceSets.create("contractTest") {
+        java.srcDir("src/contractTest/java")
+        resources.srcDir("src/contractTest/resources")
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+
     configurations {
         compileOnly.extendsFrom(annotationProcessor)
         integrationTestImplementation.extendsFrom(testImplementation)
         integrationTestRuntimeOnly.extendsFrom(testRuntimeOnly)
+        contractTestImplementation.extendsFrom(testImplementation)
+        contractTestRuntimeOnly.extendsFrom(testRuntimeOnly)
     }
 
     tasks.register("integrationTest", Test) {
@@ -47,9 +56,24 @@ subprojects {
         mustRunAfter(tasks.named("test"))
     }
 
-    tasks.named("check").configure { dependsOn(tasks.named("integrationTest")) }
+    tasks.register("contractTest", Test) {
+        description = "Runs the contract tests."
+        group = "verification"
+        testClassesDirs = contractTest.output.classesDirs
+        classpath = contractTest.runtimeClasspath
+        mustRunAfter(tasks.named("test"), tasks.named("integrationTest"))
+    }
+
+    tasks.named("check").configure {
+        dependsOn(tasks.named("integrationTest"))
+        dependsOn(tasks.named("contractTest"))
+    }
 
     tasks.matching { it.name == "processIntegrationTestResources"}.configureEach {
+        it.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    tasks.matching { it.name == "processContractTestResources"}.configureEach {
         it.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
@@ -66,6 +90,10 @@ subprojects {
         integrationTestImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
         integrationTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
         integrationTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+        contractTestImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
+        contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
+        contractTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
     dependencyManagement {
