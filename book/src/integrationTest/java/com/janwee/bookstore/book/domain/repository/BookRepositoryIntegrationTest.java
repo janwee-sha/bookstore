@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.math.BigDecimal;
@@ -22,6 +23,9 @@ public class BookRepositoryIntegrationTest {
     @Autowired
     private BookRepository bookRepo;
 
+    @Autowired
+    private TestEntityManager entityManager;
+
     @Test
     void testSavingBook() {
         Book book1 = new Book.Builder()
@@ -33,7 +37,8 @@ public class BookRepositoryIntegrationTest {
                 .build();
 
         bookRepo.save(book1);
-        bookRepo.flush();
+        entityManager.flush();
+        entityManager.clear();
 
         Optional<Book> book2 = bookRepo.findById(book1.id());
         assertTrue(book2.isPresent());

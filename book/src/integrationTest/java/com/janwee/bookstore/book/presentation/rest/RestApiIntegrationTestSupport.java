@@ -5,8 +5,8 @@ import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.model.Book;
 import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;
-import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
-import com.janwee.bookstore.book.core.domain.repository.BookRepository;
+import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.AuthorJpaRepository;
+import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.BookJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,10 +26,10 @@ abstract class RestApiIntegrationTestSupport {
     protected MockMvc mockMvc;
 
     @Autowired
-    protected AuthorRepository authorRepo;
+    protected AuthorJpaRepository authorRepo;
 
     @Autowired
-    protected BookRepository bookRepo;
+    protected BookJpaRepository bookRepo;
 
     @BeforeEach
     void cleanDatabase() {

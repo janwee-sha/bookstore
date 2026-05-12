@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
@@ -19,12 +20,16 @@ public class AuthorRepositoryIntegrationTest {
     @Autowired
     private AuthorRepository authorRepo;
 
+    @Autowired
+    private TestEntityManager entityManager;
+
     @Test
     void testSavingAuthor() {
         Author author1 = new Author.Builder().ofName("author_a").withProfile("profile_a").withPhoneNumber("123456789").build();
 
         authorRepo.save(author1);
-        authorRepo.flush();
+        entityManager.flush();
+        entityManager.clear();
 
         Optional<Author> author2 = authorRepo.findById(author1.id());
         assertTrue(author2.isPresent());
