@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.contract;
+package com.janwee.bookstore.book.order;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.janwee.bookstore.order.core.southbound.message.OrderCreated;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class BookOrderMessageContractTest {
+class MessageContractTest {
     private static final DateTimeFormatter DATE_TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final ObjectMapper objectMapper = JsonMapper.builder()
@@ -28,7 +27,8 @@ class BookOrderMessageContractTest {
 
     @Test
     void orderCreatedPublishedByOrderCanBeConsumedByBook() throws Exception {
-        OrderCreated published = new OrderCreated(1001L, 2002L, 3,
+        com.janwee.bookstore.order.core.southbound.message.OrderCreated published = new
+                com.janwee.bookstore.order.core.southbound.message.OrderCreated(1001L, 2002L, 3,
                 LocalDateTime.of(2026, 5, 12, 10, 30));
 
         String payload = objectMapper.writeValueAsString(published);
@@ -38,43 +38,11 @@ class BookOrderMessageContractTest {
         assertNumberField(payload, "amount", 3);
         assertTextField(payload, "createdBy", "2026-05-12 10:30:00");
 
-        com.janwee.bookstore.book.core.domain.event.OrderCreated consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.book.core.domain.event.OrderCreated.class);
+        com.janwee.bookstore.book.core.domain.event.OrderCreated consumed = objectMapper.readValue(
+                payload, com.janwee.bookstore.book.core.domain.event.OrderCreated.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
         assertEquals(3, consumed.amount());
-    }
-
-    @Test
-    void bookOrderedPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.core.domain.event.BookOrdered published =
-                new com.janwee.bookstore.book.core.domain.event.BookOrdered(1001L, 2002L);
-
-        String payload = objectMapper.writeValueAsString(published);
-
-        assertNumberField(payload, "orderId", 1001L);
-        assertNumberField(payload, "bookId", 2002L);
-
-        com.janwee.bookstore.order.core.northbound.message.BookOrdered consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.core.northbound.message.BookOrdered.class);
-        assertEquals(1001L, consumed.orderId());
-        assertEquals(2002L, consumed.bookId());
-    }
-
-    @Test
-    void bookSoldOutPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.core.domain.event.BookSoldOut published =
-                new com.janwee.bookstore.book.core.domain.event.BookSoldOut(1001L, 2002L);
-
-        String payload = objectMapper.writeValueAsString(published);
-
-        assertNumberField(payload, "orderId", 1001L);
-        assertNumberField(payload, "bookId", 2002L);
-
-        com.janwee.bookstore.order.core.northbound.message.BookSoldOut consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.core.northbound.message.BookSoldOut.class);
-        assertEquals(1001L, consumed.orderId());
-        assertEquals(2002L, consumed.bookId());
     }
 
     private static JavaTimeModule javaTimeModule() {

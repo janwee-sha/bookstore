@@ -24,4 +24,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     integrationTestRuntimeOnly 'com.h2database:h2'
+
+    contractTestImplementation project(':order')
 }

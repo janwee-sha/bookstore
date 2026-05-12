@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.contract;
+package com.janwee.bookstore.order.book;
 
 import com.janwee.bookstore.book.BookApplication;
 import com.janwee.bookstore.book.core.domain.model.Author;
