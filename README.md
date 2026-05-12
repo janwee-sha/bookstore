@@ -36,13 +36,13 @@ bookstore/
 
 ### 仅构建项目（不运行测试）
 ```bash
-./gradlew build -x test
+./gradlew build -x test -x integrationTest
 ```
 
 ### 并行构建项目（不运行测试）
 
 ```bash
-./gradlew build -x test --parallel
+./gradlew build -x test -x integrationTest --parallel
 ```
 
 ### 运行所有测试
