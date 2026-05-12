@@ -28,41 +28,76 @@ bookstore/
 
 ## 构建命令
 
-### 构建并验证整个项目
+### 修改代码后验证特定模块（以 authorization 模块为例）
+
+```bash
+./gradlew :authorization:check --info --stacktrace --console=plain
+```
+
+### 修改代码后验证整个项目
+
+```bash
+./gradlew check --info --stacktrace --console=plain
+```
+
+### 清理、构建并验证整个项目
 
 ```bash
 ./gradlew clean build --info --stacktrace --console=plain
 ```
 
-### 构建并验证特定模块（以 book 模块为例）
+### 清理、构建并验证特定模块（以 authorization 模块为例）
 
 ```bash
-./gradlew :book:clean :book:build --info --stacktrace --console=plain
+./gradlew :authorization:clean :authorization:build --info --stacktrace --console=plain
 ```
 
-### 仅构建项目（不运行验证）
+### 仅运行特定模块的单元测试
+
+```bash
+./gradlew :authorization:test --info --stacktrace --console=plain
+```
+
+### 仅运行特定模块的集成测试
+
+```bash
+./gradlew :authorization:integrationTest --info --stacktrace --console=plain
+```
+
+### 仅编译项目（不运行测试）
+
+```bash
+./gradlew compileJava --info --stacktrace --console=plain
+```
+
+### 仅编译特定模块（以 authorization 模块为例）
+
+```bash
+./gradlew :authorization:compileJava --info --stacktrace --console=plain
+```
+
+### 仅生成构建产物（不运行验证）
+
+```bash
+./gradlew assemble --info --stacktrace --console=plain
+```
+
+### 仅生成特定模块的构建产物（以 authorization 模块为例，不运行验证）
+
+```bash
+./gradlew :authorization:assemble --info --stacktrace --console=plain
+```
+
+### 并行生成构建产物（不运行验证）
+
+```bash
+./gradlew assemble --parallel --info --stacktrace --console=plain
+```
+
+### 跳过所有验证执行 build
+
 ```bash
 ./gradlew build -x check --info --stacktrace --console=plain
-```
-
-### 并行构建项目（不运行验证）
-
-```bash
-./gradlew build -x check --parallel --info --stacktrace --console=plain
-```
-
-### 仅构建特定模块（以 book 模块为例，不运行验证）
-```bash
-./gradlew :book:build -x check --info --stacktrace --console=plain
-```
-
-### 运行验证
-```bash
-./gradlew check --info --stacktrace --console=plain
-```
-### 运行特定模块的验证
-```bash
-./gradlew :book:check --info --stacktrace --console=plain
 ```
 
 ### 查看项目依赖树
