@@ -20,6 +20,7 @@ bookstore/
 - `src/main` 目录：存放实际业务代码。
 - `src/test` 目录：存放单元测试代码。
 - `src/integrationTest` 目录：存放集成测试代码。
+- `src/contractTest` 目录：存放跨服务 HTTP、消息等边界契约测试代码。
 
 ## 环境要求
 
@@ -62,6 +63,12 @@ bookstore/
 
 ```bash
 ./gradlew :authorization:integrationTest --info --stacktrace --console=plain
+```
+
+### 仅运行特定模块的契约测试
+
+```bash
+./gradlew :order:contractTest --info --stacktrace --console=plain
 ```
 
 ### 仅编译项目（不运行测试）
