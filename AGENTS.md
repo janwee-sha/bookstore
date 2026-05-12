@@ -34,6 +34,7 @@
 - 补充测试时应优先考虑单元测试；补充持久化、REST API、启动配置或跨模块行为相关的测试时优先考虑覆盖集成测试；跨服务 HTTP、消息等边界契约行为相关的测试应优先考虑契约测试。
 - 本仓库根 `build.gradle` 已定义 `integrationTest` source set；集成测试应放在对应模块的 `src/integrationTest/java` 和 `src/integrationTest/resources`。
 - 本仓库根 `build.gradle` 已定义 `contractTest` source set；契约测试应放在对应模块的 `src/contractTest/java` 和 `src/contractTest/resources`。
+- 修改可能被其他模块契约测试引用的接口、DTO、消息模型、仓储端口、REST 行为或测试夹具依赖时，不要只验证本模块；应先用 `rg` 搜索跨模块 `src/contractTest` 引用，并运行受影响的上下游模块契约测试，例如 `book` provider 变化可能需要验证 `:order:contractTest`。
 - 运行验证命令前先说明验证范围；若用户明确要求不要编译或不要测试，则只做静态检查并在结果中说明未验证项。
 - 测试命令优先使用仓库 README 中的 Gradle Wrapper 示例；在当前 Windows 环境需要时可使用已验证可用的本地 Gradle 命令。
 
