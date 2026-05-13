@@ -1,12 +1,13 @@
 package com.janwee.bookstore.book.core.application;
 
+import com.janwee.bookstore.book.core.application.message.BookResponseAssembler;
 import com.janwee.bookstore.book.core.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.core.domain.model.Book;
 import com.janwee.bookstore.book.core.domain.repository.BookRepository;
 import com.janwee.bookstore.book.core.domain.service.BookValidator;
-import com.janwee.bookstore.book.core.presentation.response.BookResponse;
-import com.janwee.bookstore.book.core.presentation.request.PublishingBookRequest;
-import com.janwee.bookstore.book.core.presentation.request.UpdatingBookRequest;
+import com.janwee.bookstore.book.core.application.message.BookResponse;
+import com.janwee.bookstore.book.core.application.message.PublishingBookRequest;
+import com.janwee.bookstore.book.core.application.message.UpdatingBookRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

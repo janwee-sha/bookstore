@@ -1,9 +1,8 @@
-package com.janwee.bookstore.book.core.application;
+package com.janwee.bookstore.book.core.application.message;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.model.Book;
 import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
-import com.janwee.bookstore.book.core.presentation.response.BookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

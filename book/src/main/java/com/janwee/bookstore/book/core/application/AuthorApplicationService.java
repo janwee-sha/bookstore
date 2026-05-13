@@ -3,7 +3,7 @@ package com.janwee.bookstore.book.core.application;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
-import com.janwee.bookstore.book.core.presentation.request.RegisteringAuthorRequest;
+import com.janwee.bookstore.book.core.application.message.RegisteringAuthorRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
