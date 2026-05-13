@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.security;
+package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
