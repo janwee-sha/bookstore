@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.maximumSessions(1)
-                        .expiredSessionStrategy(new CustomizedSessionExpiredStrategy(objectMapper)));
+                        .expiredSessionStrategy(new UnauthorizedSessionExpiredStrategy(objectMapper)));
 
         return http.build();
     }
