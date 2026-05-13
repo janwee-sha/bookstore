@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -32,11 +33,17 @@ public class BookRepositoryJpaImpl implements BookRepository {
 
     @Override
     public void add(Book book) {
+        Assert.notNull(book, "Book is required");
+        Assert.isNull(book.id(), "New book must not already have an ID");
         jpaRepo.save(book);
     }
 
     @Override
     public void update(Book book) {
+        Assert.notNull(book, "Book is required");
+        Long id = book.id();
+        Assert.notNull(id, "Existing book ID is required for update");
+        Assert.isTrue(jpaRepo.existsById(id), "Existing book must be present before update");
         jpaRepo.save(book);
     }
 
@@ -45,4 +52,3 @@ public class BookRepositoryJpaImpl implements BookRepository {
         jpaRepo.deleteById(id);
     }
 }
-

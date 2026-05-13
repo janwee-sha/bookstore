@@ -5,6 +5,7 @@ import com.janwee.bookstore.book.core.domain.repository.AuthorRepository;
 import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.AuthorJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,12 +33,17 @@ public class AuthorRepositoryJpaImpl implements AuthorRepository {
 
     @Override
     public void add(Author author) {
+        Assert.notNull(author, "Author is required");
+        Assert.isNull(author.id(), "New author must not already have an ID");
         jpaRepo.save(author);
     }
 
     @Override
     public void update(Author author) {
+        Assert.notNull(author, "Author is required");
+        Long id = author.id();
+        Assert.notNull(id, "Existing author ID is required for update");
+        Assert.isTrue(jpaRepo.existsById(id), "Existing author must be present before update");
         jpaRepo.save(author);
     }
 }
-
