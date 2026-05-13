@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @AutoConfigureMockMvc
-class PublicSigningUpResourceIntegrationTest {
+class SigningUpResourceIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
