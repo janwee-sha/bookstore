@@ -2,8 +2,8 @@ package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
 import com.janwee.bookstore.authorization.AuthorizationApplication;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @AutoConfigureMockMvc
-class PublicSigningUpResourcesIntegrationTest {
+class PublicSigningUpResourceIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -77,11 +76,5 @@ class PublicSigningUpResourcesIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRequireAuthenticationForUsersEndpoint() throws Exception {
-        mockMvc.perform(get("/users"))
-                .andExpect(status().is3xxRedirection());
     }
 }

@@ -45,7 +45,7 @@ class SpringSecurityUserServiceUnitTest {
         when(userRepo.userOfEmail("missing@bookstore.com")).thenReturn(Optional.empty());
 
         UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class,
-                () -> userDetailsManager.userOfUsername("missing@bookstore.com"));
+                () -> userDetailsManager.userOf("missing@bookstore.com"));
 
         assertEquals("Username missing@bookstore.com is not found", exception.getMessage());
     }

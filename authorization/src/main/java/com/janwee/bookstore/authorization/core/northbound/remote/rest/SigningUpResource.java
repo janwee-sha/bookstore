@@ -1,7 +1,7 @@
 package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
 import com.janwee.bookstore.authorization.core.domain.UserService;
-import com.janwee.bookstore.authorization.core.northbound.remote.message.SigningUpRequest;
+import com.janwee.bookstore.authorization.core.northbound.message.SigningUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class SigningUpResources {
+public class SigningUpResource {
 
     private final UserService userService;
 

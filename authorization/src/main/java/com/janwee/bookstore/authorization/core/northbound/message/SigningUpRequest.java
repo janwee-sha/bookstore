@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.core.northbound.remote.message;
+package com.janwee.bookstore.authorization.core.northbound.message;
 
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;

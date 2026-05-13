@@ -16,7 +16,7 @@ import java.util.List;
 @Tag(name = "User Resources")
 @RestController
 @RequiredArgsConstructor
-public class UserResources {
+public class UserResource {
     private final UserService userAcctService;
 
     private final UserRepository userRepo;
@@ -33,7 +33,7 @@ public class UserResources {
     @Operation(description = "Retrieve user of given username")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('user:read')")
-    public User userWithUsername(@PathVariable String username) {
-        return userAcctService.userOfUsername(username);
+    public User userOf(@PathVariable String username) {
+        return userAcctService.userOf(username);
     }
 }

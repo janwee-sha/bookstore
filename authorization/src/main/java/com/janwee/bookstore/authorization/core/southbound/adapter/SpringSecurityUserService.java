@@ -23,11 +23,11 @@ public class SpringSecurityUserService implements UserService, UserDetailsServic
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userOfUsername(username);
+        return (UserDetails) userOf(username);
     }
 
     @Override
-    public User userOfUsername(String username) {
+    public User userOf(String username) {
         return userRepo.userOfEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " is not found"));
     }
