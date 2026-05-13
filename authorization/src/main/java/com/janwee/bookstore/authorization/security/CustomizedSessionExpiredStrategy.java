@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomizedExpiredSessionStrategy implements SessionInformationExpiredStrategy {
+public class CustomizedSessionExpiredStrategy implements SessionInformationExpiredStrategy {
     private final ObjectMapper objectMapper;
 
-    public CustomizedExpiredSessionStrategy(ObjectMapper objectMapper) {
+    public CustomizedSessionExpiredStrategy(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
