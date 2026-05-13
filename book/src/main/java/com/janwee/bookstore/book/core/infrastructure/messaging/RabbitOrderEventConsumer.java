@@ -36,7 +36,7 @@ public class RabbitOrderEventConsumer implements OrderEventConsumer {
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
     public void onOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
-        Optional<Book> optBook = bookRepo.findById(event.bookId());
+        Optional<Book> optBook = bookRepo.bookOf(event.bookId());
 
         if (optBook.isEmpty() || optBook.get().amount() - event.amount() < 0) {
             log.info("Book is not found or out of stock.");
@@ -47,7 +47,7 @@ public class RabbitOrderEventConsumer implements OrderEventConsumer {
 
         Book book = optBook.get();
         book.sell(event.amount());
-        bookRepo.save(book);
+        bookRepo.update(book);
         Event bookOrdered = new BookOrdered(event.orderId(), event.bookId());
         eventPublisher.publish(bookOrdered);
     }

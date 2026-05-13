@@ -16,23 +16,28 @@ public class AuthorRepositoryJpaImpl implements AuthorRepository {
     private final AuthorJpaRepository jpaRepo;
 
     @Override
-    public Optional<Author> findById(Long id) {
+    public Optional<Author> authorOf(Long id) {
         return jpaRepo.findById(id);
     }
 
     @Override
-    public List<Author> findAllById(Collection<Long> ids) {
+    public List<Author> authorsOf(Collection<Long> ids) {
         return jpaRepo.findAllById(ids);
     }
 
     @Override
-    public boolean existsById(Long id) {
+    public boolean hasAuthorOf(Long id) {
         return jpaRepo.existsById(id);
     }
 
     @Override
-    public Author save(Author author) {
-        return jpaRepo.save(author);
+    public void add(Author author) {
+        jpaRepo.save(author);
+    }
+
+    @Override
+    public void update(Author author) {
+        jpaRepo.save(author);
     }
 }
 

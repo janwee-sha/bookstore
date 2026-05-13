@@ -23,12 +23,12 @@ public class BookResponseAssembler {
 
     public BookResponse assemble(Book book) {
         BookResponse response = BookResponse.from(book);
-        response.setAuthor(authorRepo.findById(book.authorId()).orElse(null));
+        response.setAuthor(authorRepo.authorOf(book.authorId()).orElse(null));
         return response;
     }
 
     public List<BookResponse> assemble(List<Book> books) {
-        Map<Long, Author> authors = authorRepo.findAllById(
+        Map<Long, Author> authors = authorRepo.authorsOf(
                         books.stream().map(Book::authorId).collect(Collectors.toSet()))
                 .stream().collect(Collectors.toMap(Author::id, Function.identity()));
         return books.stream().map(book -> {

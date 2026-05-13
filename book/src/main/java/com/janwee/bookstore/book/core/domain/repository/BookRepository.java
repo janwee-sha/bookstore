@@ -7,13 +7,15 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface BookRepository {
-    Page<Book> findAll(Pageable pageable);
+    Page<Book> booksOf(Pageable pageable);
 
-    Optional<Book> findById(Long id);
+    Optional<Book> bookOf(Long id);
 
-    boolean existsById(Long id);
+    boolean hasBookOf(Long id);
 
-    Book save(Book book);
+    void add(Book book);
 
-    void deleteById(Long id);
+    void update(Book book);
+
+    void delete(Long id);
 }

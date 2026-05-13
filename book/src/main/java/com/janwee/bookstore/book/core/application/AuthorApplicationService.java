@@ -24,13 +24,13 @@ public class AuthorApplicationService {
     @Transactional(readOnly = true)
     public Optional<Author> authorOfId(Long id) {
         log.info("Loading optional author of ID: {}", id);
-        return authorRepo.findById(id);
+        return authorRepo.authorOf(id);
     }
 
     @Transactional
     public void register(RegisteringAuthorRequest request) {
         log.info("Registering author");
         Author author = request.toAuthor();
-        authorRepo.save(author);
+        authorRepo.add(author);
     }
 }

@@ -27,11 +27,11 @@ public class AuthorRepositoryIntegrationTest {
     void testSavingAuthor() {
         Author author1 = new Author.Builder().ofName("author_a").withProfile("profile_a").withPhoneNumber("123456789").build();
 
-        authorRepo.save(author1);
+        authorRepo.add(author1);
         entityManager.flush();
         entityManager.clear();
 
-        Optional<Author> author2 = authorRepo.findById(author1.id());
+        Optional<Author> author2 = authorRepo.authorOf(author1.id());
         assertTrue(author2.isPresent());
         assertAll(
                 () -> assertNotNull(author1.id()),

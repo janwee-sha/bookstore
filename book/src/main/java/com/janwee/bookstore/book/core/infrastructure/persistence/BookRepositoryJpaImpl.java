@@ -16,27 +16,32 @@ public class BookRepositoryJpaImpl implements BookRepository {
     private final BookJpaRepository jpaRepo;
 
     @Override
-    public Page<Book> findAll(Pageable pageable) {
+    public Page<Book> booksOf(Pageable pageable) {
         return jpaRepo.findAll(pageable);
     }
 
     @Override
-    public Optional<Book> findById(Long id) {
+    public Optional<Book> bookOf(Long id) {
         return jpaRepo.findById(id);
     }
 
     @Override
-    public boolean existsById(Long id) {
+    public boolean hasBookOf(Long id) {
         return jpaRepo.existsById(id);
     }
 
     @Override
-    public Book save(Book book) {
-        return jpaRepo.save(book);
+    public void add(Book book) {
+        jpaRepo.save(book);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void update(Book book) {
+        jpaRepo.save(book);
+    }
+
+    @Override
+    public void delete(Long id) {
         jpaRepo.deleteById(id);
     }
 }

@@ -20,11 +20,11 @@ public class BookValidator {
     }
 
     public void validate(Book book) {
-        if (book.id() != null && !bookRepo.existsById(book.id())) {
+        if (book.id() != null && !bookRepo.hasBookOf(book.id())) {
             throw new BookNotFoundException(book.id());
         }
         if (book.authorId() != null
-                && !authorRepo.existsById(book.authorId())) {
+                && !authorRepo.hasAuthorOf(book.authorId())) {
             throw InvalidBookException.unavailableAuthor();
         }
     }

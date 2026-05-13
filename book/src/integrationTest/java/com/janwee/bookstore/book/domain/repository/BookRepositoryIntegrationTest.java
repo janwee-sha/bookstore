@@ -36,11 +36,11 @@ public class BookRepositoryIntegrationTest {
                 .byAuthor(1L)
                 .build();
 
-        bookRepo.save(book1);
+        bookRepo.add(book1);
         entityManager.flush();
         entityManager.clear();
 
-        Optional<Book> book2 = bookRepo.findById(book1.id());
+        Optional<Book> book2 = bookRepo.bookOf(book1.id());
         assertTrue(book2.isPresent());
         assertAll(
                 () -> assertNotNull(book1.id()),

@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthorRepository {
-    Optional<Author> findById(Long id);
+    Optional<Author> authorOf(Long id);
 
-    List<Author> findAllById(Collection<Long> ids);
+    List<Author> authorsOf(Collection<Long> ids);
 
-    boolean existsById(Long id);
+    boolean hasAuthorOf(Long id);
 
-    Author save(Author author);
+    void add(Author author);
+
+    void update(Author author);
 }
