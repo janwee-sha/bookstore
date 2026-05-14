@@ -14,7 +14,9 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(login ->
-                        login.defaultSuccessUrl("/", true));
+                        login.redirectionEndpoint(redirection ->
+                                        redirection.baseUri("/authorized"))
+                                .defaultSuccessUrl("/", true));
         return http.build();
     }
 }
