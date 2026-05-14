@@ -30,7 +30,7 @@ public class UserResource {
     }
 
     @GetMapping("/{username}")
-    @Operation(description = "Retrieve user of given username")
+    @Operation(description = "Retrieve user of the given username")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('user:read')")
     public User userOf(@PathVariable String username) {

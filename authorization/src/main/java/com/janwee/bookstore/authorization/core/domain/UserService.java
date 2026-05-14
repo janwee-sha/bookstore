@@ -3,5 +3,5 @@ package com.janwee.bookstore.authorization.core.domain;
 public interface UserService {
     User userOf(String username);
 
-    void signup(User user);
+    void add(User user);
 }

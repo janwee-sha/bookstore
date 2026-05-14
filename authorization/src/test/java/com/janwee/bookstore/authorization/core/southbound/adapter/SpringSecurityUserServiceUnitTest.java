@@ -27,7 +27,7 @@ class SpringSecurityUserServiceUnitTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private SpringSecurityUserService userDetailsManager;
+    private SpringSecurityUserService userService;
 
     @Test
     void shouldLoadUserByUsername() {
@@ -37,7 +37,7 @@ class SpringSecurityUserServiceUnitTest {
                 .ofRole(Role.USER);
         when(userRepo.userOfEmail("user@bookstore.com")).thenReturn(Optional.of(user));
 
-        assertSame(user, userDetailsManager.loadUserByUsername("user@bookstore.com"));
+        assertSame(user, userService.loadUserByUsername("user@bookstore.com"));
     }
 
     @Test
@@ -45,7 +45,7 @@ class SpringSecurityUserServiceUnitTest {
         when(userRepo.userOfEmail("missing@bookstore.com")).thenReturn(Optional.empty());
 
         UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class,
-                () -> userDetailsManager.userOf("missing@bookstore.com"));
+                () -> userService.userOf("missing@bookstore.com"));
 
         assertEquals("Username missing@bookstore.com is not found", exception.getMessage());
     }
@@ -58,7 +58,7 @@ class SpringSecurityUserServiceUnitTest {
                 .ofRole(Role.USER);
         when(passwordEncoder.encode("raw-password")).thenReturn("encoded-password");
 
-        userDetailsManager.signup(user);
+        userService.add(user);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepo).save(userCaptor.capture());
