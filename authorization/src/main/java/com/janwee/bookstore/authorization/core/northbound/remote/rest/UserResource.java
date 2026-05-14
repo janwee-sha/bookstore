@@ -1,8 +1,7 @@
 package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserService;
-import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
+import com.janwee.bookstore.authorization.core.northbound.local.UserAppService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +16,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserResource {
-    private final UserService userAcctService;
-
-    private final UserRepository userRepo;
+    private final UserAppService userAppService;
 
     @GetMapping
     @Operation(description = "Retrieve all users")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('user:read')")
     public List<User> users() {
-        return userRepo.users();
+        return userAppService.users();
     }
 
     @GetMapping("/{username}")
@@ -34,6 +31,6 @@ public class UserResource {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('user:read')")
     public User userOf(@PathVariable String username) {
-        return userAcctService.userOf(username);
+        return userAppService.userOf(username);
     }
 }
