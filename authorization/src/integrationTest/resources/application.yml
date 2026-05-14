@@ -55,6 +55,12 @@ spring:
                 - "user:write"
             require-authorization-consent: true
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 # 关掉服务发现/注册
 eureka:
   client:
