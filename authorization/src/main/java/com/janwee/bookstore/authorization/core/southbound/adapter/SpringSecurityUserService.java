@@ -23,7 +23,7 @@ public class SpringSecurityUserService implements UserService, UserDetailsServic
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userOf(username);
+        return SpringSecurityUserRepositoryJpaAdapter.toSpringSecurityUser(userOf(username));
     }
 
     @Override

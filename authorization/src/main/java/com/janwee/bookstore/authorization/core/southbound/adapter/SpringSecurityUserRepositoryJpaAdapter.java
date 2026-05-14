@@ -1,12 +1,11 @@
 package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
+import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,18 +16,26 @@ public class SpringSecurityUserRepositoryJpaAdapter implements UserRepository {
 
     @Override
     public Optional<User> userOfEmail(String email) {
-        return Optional.ofNullable(userJpaRepo.findByEmail(email).orElse(null));
+        return userJpaRepo.findByEmail(email)
+                .map(SpringSecurityUserRepositoryJpaAdapter::toDomainUser);
     }
 
     @Override
     public List<User> users() {
-        return new ArrayList<>(userJpaRepo.findAll());
+        return userJpaRepo.findAll().stream()
+                .map(SpringSecurityUserRepositoryJpaAdapter::toDomainUser)
+                .toList();
     }
 
     public User save(User user) {
-        if (user instanceof SpringSecurityUser securityBasedUser) {
-            return userJpaRepo.save(securityBasedUser);
-        }
-        throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getName());
+        return toDomainUser(userJpaRepo.save(toSpringSecurityUser(user)));
+    }
+
+    static User toDomainUser(SpringSecurityUser user) {
+        return new User(user.getId(), user.getEmail(), user.getPassword(), user.getRole());
+    }
+
+    static SpringSecurityUser toSpringSecurityUser(User user) {
+        return new SpringSecurityUser(user.id(), user.email(), user.password(), user.role());
     }
 }

@@ -15,7 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SpringSecurityUserServiceUnitTest {
@@ -31,13 +32,14 @@ class SpringSecurityUserServiceUnitTest {
 
     @Test
     void shouldLoadUserByUsername() {
-        User user = new SpringSecurityUser()
-                .withEmail("user@bookstore.com")
-                .identifiedBy("encoded-password")
-                .ofRole(Role.USER);
+        User user = new User.Builder()
+                .email("user@bookstore.com")
+                .password("encoded-password")
+                .role(Role.USER)
+                .build();
         when(userRepo.userOfEmail("user@bookstore.com")).thenReturn(Optional.of(user));
 
-        assertSame(user, userService.loadUserByUsername("user@bookstore.com"));
+        assertEquals("user@bookstore.com", userService.loadUserByUsername("user@bookstore.com").getUsername());
     }
 
     @Test
@@ -52,10 +54,11 @@ class SpringSecurityUserServiceUnitTest {
 
     @Test
     void shouldEncodePasswordBeforeCreatingUser() {
-        User user = new SpringSecurityUser()
-                .withEmail("new@bookstore.com")
-                .identifiedBy("raw-password")
-                .ofRole(Role.USER);
+        User user = new User.Builder()
+                .email("new@bookstore.com")
+                .password("raw-password")
+                .role(Role.USER)
+                .build();
         when(passwordEncoder.encode("raw-password")).thenReturn("encoded-password");
 
         userService.add(user);

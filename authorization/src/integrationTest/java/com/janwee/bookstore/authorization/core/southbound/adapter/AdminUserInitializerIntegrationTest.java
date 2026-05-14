@@ -12,7 +12,6 @@ import org.springframework.boot.DefaultApplicationArguments;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
@@ -49,38 +48,33 @@ class AdminUserInitializerIntegrationTest {
     void shouldCreateAdminUserWhenMissing() {
         adminUserInitializer.run(new DefaultApplicationArguments());
 
-        SpringSecurityUser admin = (SpringSecurityUser) userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
-        List<String> authorities = admin.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
+        User admin = userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
 
         assertAll(
                 () -> assertTrue(admin.id() > 0),
                 () -> assertEquals("admin@bookstore.com", admin.email()),
                 () -> assertEquals("{noop}password_1", admin.password()),
-                () -> assertEquals(List.of(Authority.USER_READ.value(), Authority.USER_WRITE.value()), authorities)
+                () -> assertEquals(List.of(Authority.USER_READ, Authority.USER_WRITE), admin.authorities())
         );
     }
 
     @Test
     void shouldLeaveExistingAdminUserUntouched() {
-        userRepo.save(new SpringSecurityUser()
-                .withEmail("admin@bookstore.com")
-                .identifiedBy("password_2")
-                .ofRole(Role.USER));
+        userRepo.save(new User.Builder()
+                .email("admin@bookstore.com")
+                .password("password_2")
+                .role(Role.USER)
+                .build());
 
         adminUserInitializer.run(new DefaultApplicationArguments());
 
         List<User> users = userRepo.users();
-        SpringSecurityUser admin = (SpringSecurityUser) userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
-        List<String> authorities = admin.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
+        User admin = userRepo.userOfEmail("admin@bookstore.com").orElseThrow();
 
         assertAll(
                 () -> assertEquals(1, users.size()),
                 () -> assertEquals("password_2", admin.password()),
-                () -> assertEquals(List.of(Authority.USER_READ.value()), authorities)
+                () -> assertEquals(List.of(Authority.USER_READ), admin.authorities())
         );
     }
 }

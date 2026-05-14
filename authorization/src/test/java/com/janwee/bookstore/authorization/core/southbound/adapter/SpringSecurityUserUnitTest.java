@@ -2,6 +2,7 @@ package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.Authority;
 import com.janwee.bookstore.authorization.core.domain.Role;
+import com.janwee.bookstore.authorization.core.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,23 +13,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class SpringSecurityUserUnitTest {
 
     @Test
-    void shouldBuildUserDetailsFromDomainMutators() {
-        SpringSecurityUser user = new SpringSecurityUser()
-                .ofId(42L)
-                .withEmail("user@bookstore.com")
-                .identifiedBy("secret")
-                .ofRole(Role.ADMIN);
+    void shouldAdaptDomainUserToUserDetails() {
+        User domainUser = new User.Builder()
+                .id(42L)
+                .email("user@bookstore.com")
+                .password("secret")
+                .role(Role.ADMIN)
+                .build();
 
+        SpringSecurityUser user = SpringSecurityUserRepositoryJpaAdapter.toSpringSecurityUser(domainUser);
         List<String> authorities = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
 
         assertAll(
-                () -> assertEquals(42L, user.id()),
-                () -> assertEquals("user@bookstore.com", user.email()),
-                () -> assertEquals("user@bookstore.com", user.username()),
+                () -> assertEquals(42L, user.getId()),
+                () -> assertEquals("user@bookstore.com", user.getEmail()),
                 () -> assertEquals("user@bookstore.com", user.getUsername()),
-                () -> assertEquals("secret", user.password()),
+                () -> assertEquals("secret", user.getPassword()),
                 () -> assertEquals(List.of(Authority.USER_READ.value(), Authority.USER_WRITE.value()), authorities),
                 () -> assertTrue(user.isAccountNonExpired()),
                 () -> assertTrue(user.isAccountNonLocked()),
@@ -39,9 +41,11 @@ class SpringSecurityUserUnitTest {
 
     @Test
     void newUserShouldDefaultToUserRole() {
-        SpringSecurityUser user = new SpringSecurityUser()
-                .withEmail("user@bookstore.com")
-                .identifiedBy("secret");
+        SpringSecurityUser user = SpringSecurityUserRepositoryJpaAdapter.toSpringSecurityUser(
+                new User.Builder()
+                        .email("user@bookstore.com")
+                        .password("secret")
+                        .build());
 
         List<String> authorities = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

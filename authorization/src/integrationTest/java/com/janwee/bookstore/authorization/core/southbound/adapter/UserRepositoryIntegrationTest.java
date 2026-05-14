@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
@@ -28,14 +27,14 @@ class UserRepositoryIntegrationTest {
 
     @Test
     void shouldSaveAndFindUserByEmail() {
-        User user = new SpringSecurityUser()
-                .withEmail("user@bookstore.com")
-                .identifiedBy("encoded-password")
-                .ofRole(Role.ADMIN);
+        User user = new User.Builder()
+                .email("user@bookstore.com")
+                .password("encoded-password")
+                .role(Role.ADMIN)
+                .build();
 
         User saved = userRepo.save(user);
-        Optional<SpringSecurityUser> found = Optional.ofNullable(
-                (SpringSecurityUser) userRepo.userOfEmail("user@bookstore.com").orElse(null));
+        Optional<User> found = userRepo.userOfEmail("user@bookstore.com");
 
         assertAll(
                 () -> assertTrue(saved.id() > 0),
@@ -44,22 +43,24 @@ class UserRepositoryIntegrationTest {
                 () -> assertEquals("user@bookstore.com", found.orElseThrow().email()),
                 () -> assertEquals("encoded-password", found.orElseThrow().password()),
                 () -> assertEquals(List.of(Authority.USER_READ.value(), Authority.USER_WRITE.value()),
-                        found.orElseThrow().getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
+                        found.orElseThrow().authorities().stream()
+                                .map(Authority::value)
                                 .toList())
         );
     }
 
     @Test
     void shouldReturnAllPersistedUsers() {
-        userRepo.save(new SpringSecurityUser()
-                .withEmail("first@bookstore.com")
-                .identifiedBy("first-password")
-                .ofRole(Role.USER));
-        userRepo.save(new SpringSecurityUser()
-                .withEmail("second@bookstore.com")
-                .identifiedBy("second-password")
-                .ofRole(Role.USER));
+        userRepo.save(new User.Builder()
+                .email("first@bookstore.com")
+                .password("first-password")
+                .role(Role.USER)
+                .build());
+        userRepo.save(new User.Builder()
+                .email("second@bookstore.com")
+                .password("second-password")
+                .role(Role.USER)
+                .build());
 
         List<String> emails = userRepo.users().stream()
                 .map(User::email)

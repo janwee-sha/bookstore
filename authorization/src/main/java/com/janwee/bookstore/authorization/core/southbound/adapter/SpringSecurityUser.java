@@ -2,7 +2,6 @@ package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.authorization.core.domain.Role;
-import com.janwee.bookstore.authorization.core.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +14,7 @@ import java.util.Collection;
 @Getter
 @Entity
 @Table(name = "user_accounts", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
-public class SpringSecurityUser implements User, UserDetails {
+public class SpringSecurityUser implements UserDetails {
     @Serial
     private static final long serialVersionUID = 7990143688548707092L;
 
@@ -38,44 +37,11 @@ public class SpringSecurityUser implements User, UserDetails {
         this.role = Role.USER;
     }
 
-    @Override
-    public long id() {
-        return id;
-    }
-
-    @Override
-    public String email() {
-        return email;
-    }
-
-    @Override
-    public String username() {
-        return email;
-    }
-
-    @Override
-    public String password() {
-        return password;
-    }
-
-    @Override
-    public void changePasswordTo(String newPassword) {
-        this.password = newPassword;
-    }
-
-    public SpringSecurityUser ofId(long id) {
+    SpringSecurityUser(long id, String email, String password, Role role) {
         this.id = id;
-        return this;
-    }
-
-    public SpringSecurityUser withEmail(String email) {
         this.email = email;
-        return this;
-    }
-
-    public SpringSecurityUser identifiedBy(String password) {
         this.password = password;
-        return this;
+        this.role = role;
     }
 
     @Override
@@ -85,14 +51,9 @@ public class SpringSecurityUser implements User, UserDetails {
                 .toList();
     }
 
-    public SpringSecurityUser ofRole(Role role) {
-        this.role = role;
-        return this;
-    }
-
     @Override
     public String getUsername() {
-        return email();
+        return email;
     }
 
     @Override

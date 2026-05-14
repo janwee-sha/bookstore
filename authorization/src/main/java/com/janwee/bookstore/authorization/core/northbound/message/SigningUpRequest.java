@@ -2,7 +2,6 @@ package com.janwee.bookstore.authorization.core.northbound.message;
 
 import com.janwee.bookstore.authorization.core.domain.Role;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.southbound.adapter.SpringSecurityUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -28,8 +27,9 @@ public class SigningUpRequest implements Serializable {
     private String password;
 
     public User toUser() {
-        return new SpringSecurityUser().withEmail(email)
-                .ofRole(Role.USER)
-                .identifiedBy(password);
+        return new User.Builder().email(email)
+                .role(Role.USER)
+                .password(password)
+                .build();
     }
 }
