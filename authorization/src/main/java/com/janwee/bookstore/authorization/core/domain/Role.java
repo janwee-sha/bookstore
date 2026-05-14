@@ -1,24 +1,18 @@
 package com.janwee.bookstore.authorization.core.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-
-import java.util.Collections;
 import java.util.List;
 
 public enum Role {
-    ADMIN(Collections
-            .unmodifiableList(AuthorityUtils.createAuthorityList(Authority.USER_READ.value(),
-                    Authority.USER_WRITE.value()))),
-    USER(Collections
-            .unmodifiableList(AuthorityUtils.createAuthorityList(Authority.USER_READ.value())));
-    private final List<GrantedAuthority> authorities;
+    ADMIN(List.of(Authority.USER_READ, Authority.USER_WRITE)),
+    USER(List.of(Authority.USER_READ));
 
-    public List<GrantedAuthority> authorities() {
+    private final List<Authority> authorities;
+
+    public List<Authority> authorities() {
         return authorities;
     }
 
-    Role(List<GrantedAuthority> authorities) {
+    Role(List<Authority> authorities) {
         this.authorities = authorities;
     }
 }

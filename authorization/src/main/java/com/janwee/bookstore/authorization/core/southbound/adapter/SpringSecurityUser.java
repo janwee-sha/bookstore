@@ -6,6 +6,7 @@ import com.janwee.bookstore.authorization.core.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
@@ -79,7 +80,9 @@ public class SpringSecurityUser implements User, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.authorities();
+        return role.authorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.value()))
+                .toList();
     }
 
     public SpringSecurityUser ofRole(Role role) {
