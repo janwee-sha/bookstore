@@ -31,8 +31,8 @@ class UserResourceIntegrationTest {
     }
 
     @Test
-    void shouldRequireAuthenticationForUsersEndpoint() throws Exception {
+    void shouldReturnUnauthorizedForUnauthenticatedUsersEndpoint() throws Exception {
         mockMvc.perform(get("/users"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isUnauthorized());
     }
 }
