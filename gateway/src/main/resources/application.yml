@@ -9,14 +9,27 @@ spring:
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:7000}
   cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+      mvc:
+        routes:
+          - id: authorization
+            uri: lb://authorization
+            predicates:
+              - Path=/authorization/**
+            filters:
+              - StripPrefix=1
+          - id: book
+            uri: lb://book
+            predicates:
+              - Path=/book/**
+            filters:
+              - StripPrefix=1
+          - id: order
+            uri: lb://order
+            predicates:
+              - Path=/order/**
+            filters:
+              - StripPrefix=1
   security:
     oauth2:
       client:

@@ -1,6 +1,9 @@
 spring:
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://authorization:7030/oauth2/jwks
       client:
         registration:
           github:
