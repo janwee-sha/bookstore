@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -27,7 +28,8 @@ public class ApplicationWebSecurityConfiguration {
     @Order(2)
     public SecurityFilterChain applicationSecurityFilterChain(
             HttpSecurity http,
-            JwtAuthenticationConverter jwtAuthenticationConverter
+            JwtAuthenticationConverter jwtAuthenticationConverter,
+            RequestCache oauth2AuthorizationRequestCache
     ) throws Exception {
         http.authorizeHttpRequests((authorize) ->
                         authorize
@@ -46,6 +48,7 @@ public class ApplicationWebSecurityConfiguration {
                                 new AntPathRequestMatcher("/users/**")
                         ))
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+                .requestCache(cache -> cache.requestCache(oauth2AuthorizationRequestCache))
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(resourceServer -> resourceServer
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)))
