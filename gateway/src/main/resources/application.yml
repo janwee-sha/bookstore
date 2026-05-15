@@ -37,16 +37,3 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-  show-actuator: true
