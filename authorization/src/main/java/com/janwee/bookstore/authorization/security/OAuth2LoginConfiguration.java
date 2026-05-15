@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 @Configuration
-public class AuthorizationServerSecurityConfiguration {
+public class OAuth2LoginConfiguration {
 
     @Bean
     @Order(1)
