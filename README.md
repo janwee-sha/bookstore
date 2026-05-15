@@ -10,6 +10,7 @@ bookstore/
 ├── book/             # 图书服务
 ├── config/           # 配置中心
 ├── eureka/           # 服务注册与发现中心
+├── frontend/         # React 前端应用
 ├── foundation/       # 基础库模块（共享组件）
 ├── gateway/          # API 网关
 └── order/            # 订单服务
@@ -25,6 +26,7 @@ bookstore/
 ## 环境要求
 
 - JDK 17 或更高版本
+- Node.js 20 或更高版本（运行 `frontend`）
 - RabbitMQ
 
 ## 构建命令
@@ -123,6 +125,9 @@ bookstore/
 2. **服务注册中心**: `./gradlew :eureka:bootRun`
 3. **业务服务** : 任意顺序执行`./gradlew :book:bootRun`, `./gradlew :order:bootRun`和 `./gradlew :authorization:bootRun`
 4. **API网关**: `./gradlew :gateway:bootRun`
+5. **React 前端**: 在 `frontend` 目录执行 `npm install` 后运行 `npm run dev`
+
+前端默认运行在 `http://127.0.0.1:8088`，通过 OAuth 2.0 Authorization Code + PKCE 登录 `authorization` 服务，并以 Bearer Token 调用 `gateway`。
 
 ### 构建可执行的JAR文件
 ```bash

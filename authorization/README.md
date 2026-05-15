@@ -14,6 +14,22 @@
 
 # OAuth 2 知识
 
+## 0. React 前端使用的 Authorization Code + PKCE
+
+`frontend` 目录中的 React 应用使用 `bookstore-frontend` public client。该客户端没有 `client_secret`，必须携带 PKCE 的 `code_challenge` 和 `code_verifier`，登录成功后回调到：
+
+```
+http://127.0.0.1:8088/authorized
+```
+
+前端用授权码通过 gateway 代理调用：
+
+```
+POST http://localhost:7001/authorization/oauth2/token
+```
+
+gateway 不再作为 OAuth 2 Client，不保存登录会话，只校验前端请求携带的 Bearer Token 并转发到后端服务。
+
 ## 1. Authorization Code(授权码)模式：
 
     a. 用户代理向授权服务器发起获取授权码并在成功后重定向到客户端应用的请求：

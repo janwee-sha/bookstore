@@ -30,19 +30,6 @@ spring:
               - Path=/order/**
             filters:
               - StripPrefix=1
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            scope: user:read, user:write
-          bookstore:
-            provider: spring
-            client-id: bookstore
-            client-authentication-method: client_secret_basic
-            authorization-grant-type: authorization_code
-            scope: openid, user:read, user:write
-            client-name: Spring
 
 eureka:
   instance:

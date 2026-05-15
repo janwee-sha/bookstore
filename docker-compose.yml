@@ -93,7 +93,5 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
       CONFIG_SERVER_URL: "http://config:7000"
-      GITHUB_CLIENT_ID: replace-me
-      GITHUB_CLIENT_SECRET: replace-me
     ports:
       - "7001:7001"

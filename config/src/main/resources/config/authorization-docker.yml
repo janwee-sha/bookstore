@@ -23,6 +23,12 @@ spring:
                 - "http://127.0.0.1:7001/authorized"
               post-logout-redirect-uris:
                 - "http://127.0.0.1:7001/"
+          bookstore-frontend:
+            registration:
+              redirect-uris:
+                - "http://127.0.0.1:8088/authorized"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8088/"
 
 eureka:
   client:

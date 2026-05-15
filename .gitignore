@@ -41,3 +41,7 @@ out/
 
 ### OpenAI Codex
 .codex
+
+### Frontend
+frontend/node_modules/
+frontend/dist/

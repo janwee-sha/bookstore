@@ -54,6 +54,24 @@ spring:
                 - "user:read"
                 - "user:write"
             require-authorization-consent: true
+          bookstore-frontend:
+            registration:
+              client-id: "bookstore-frontend"
+              client-authentication-methods:
+                - "none"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://127.0.0.1:8088/authorized"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8088/"
+              scopes:
+                - "openid"
+                - "user:read"
+                - "user:write"
+            require-authorization-consent: true
+            require-proof-key: true
 
 springdoc:
   api-docs:
