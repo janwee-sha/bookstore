@@ -32,7 +32,7 @@ class FrontendClientRegistrationIntegrationTest {
                 () -> assertTrue(client.getAuthorizationGrantTypes().contains(AuthorizationGrantType.AUTHORIZATION_CODE)),
                 () -> assertTrue(client.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN)),
                 () -> assertTrue(client.getRedirectUris().contains("http://127.0.0.1:8088/authorized")),
-                () -> assertEquals(true, client.getClientSettings().isRequireProofKey())
+                () -> assertTrue(client.getClientSettings().isRequireProofKey())
         );
     }
 }
