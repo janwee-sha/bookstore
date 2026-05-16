@@ -3,12 +3,14 @@ package com.janwee.bookstore.book.presentation.rest;
 import com.janwee.bookstore.book.core.domain.model.Author;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WithMockUser
 class AuthorResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test

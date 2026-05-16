@@ -1,6 +1,11 @@
 spring:
   application:
     name: book
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:7030/oauth2/jwks
   config:
     # 覆盖主配置中的远程导入，避免连 Config Server
     import: ""
@@ -32,3 +37,9 @@ management:
   health:
     rabbit:
       enabled: false
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
