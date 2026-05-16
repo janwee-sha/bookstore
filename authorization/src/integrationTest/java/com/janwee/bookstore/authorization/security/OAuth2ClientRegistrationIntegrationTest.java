@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         classes = AuthorizationApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
-class FrontendClientRegistrationIntegrationTest {
+class OAuth2ClientRegistrationIntegrationTest {
     @Autowired
-    private RegisteredClientRepository registeredClientRepository;
+    private RegisteredClientRepository registeredClientRepo;
 
     @Test
-    void shouldRegisterPublicPkceClientForReactFrontend() {
-        RegisteredClient client = registeredClientRepository.findByClientId("bookstore-frontend");
+    void shouldRegisterBookstoreFrontendClient() {
+        RegisteredClient client = registeredClientRepo.findByClientId("bookstore-frontend");
 
         assertNotNull(client);
         assertAll(
