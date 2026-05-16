@@ -40,7 +40,8 @@
 
 ## 修改纪律
 
-- 保持改动聚焦于用户请求，不做无关重构、批量格式化或顺手清理。
+- 保持改动聚焦于用户请求。
+- 考虑代码改动结果的可复用性、整洁性、是否引入了不必要的耦合等设计风格问题，如在 `authorization` 模块添加一个验证 OAuth2 客户端注册功能的集成测试，考虑到该测试不属于契约测试的范围，更推荐将该集成测试类命名为不与外部 `frontend` 应用强关联的 `OAuth2ClientRegistrationIntegrationTest` 而不是 `FrontendClientRegistrationIntegrationTest`。
 - 改动已有功能时，若其影响到与 `AGENTS.md` 文档或 `README.md` 文档中对应内容的一致性，需要顺手修改文档中的对应内容。
 - 新增功能时，若其描述有必要添加到 `AGENTS.md` 文档或 `README.md` 文档中时，需要顺手追加到文档中。
 - 不添加宽泛 `try/catch`、静默 fallback 或吞异常逻辑；错误应按项目既有方式显式暴露或传播。
