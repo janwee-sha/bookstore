@@ -9,48 +9,23 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class SpringSecurityUserServiceUnitTest {
+public class SpringSecurityUserRegistrationServiceUnitTest {
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Mock
     private UserRepository userRepo;
 
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
     @InjectMocks
-    private SpringSecurityUserService userService;
-
-    @Test
-    void shouldLoadUserByUsername() {
-        User user = new User.Builder()
-                .email("user@bookstore.com")
-                .password("encoded-password")
-                .role(Role.USER)
-                .build();
-        when(userRepo.userOfEmail("user@bookstore.com")).thenReturn(Optional.of(user));
-
-        assertEquals("user@bookstore.com", userService.loadUserByUsername("user@bookstore.com").getUsername());
-    }
-
-    @Test
-    void shouldThrowWhenUsernameDoesNotExist() {
-        when(userRepo.userOfEmail("missing@bookstore.com")).thenReturn(Optional.empty());
-
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class,
-                () -> userService.loadUserByUsername("missing@bookstore.com"));
-
-        assertEquals("Username missing@bookstore.com is not found", exception.getMessage());
-    }
+    private SpringSecurityUserRegistrationService userRegService;
 
     @Test
     void shouldEncodePasswordBeforeCreatingUser() {
@@ -61,7 +36,7 @@ class SpringSecurityUserServiceUnitTest {
                 .build();
         when(passwordEncoder.encode("raw-password")).thenReturn("encoded-password");
 
-        userService.add(user);
+        userRegService.add(user);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepo).save(userCaptor.capture());

@@ -1,24 +1,20 @@
 package com.janwee.bookstore.authorization.core.southbound.adapter;
 
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.domain.UserService;
 import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SpringSecurityUserService implements UserService, UserDetailsService {
+public class DatasourceUserDetailsService implements UserDetailsService {
     private final UserRepository userRepo;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SpringSecurityUserService(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+    public DatasourceUserDetailsService(UserRepository userRepo) {
         this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -26,12 +22,5 @@ public class SpringSecurityUserService implements UserService, UserDetailsServic
         User user = userRepo.userOfEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " is not found"));
         return SpringSecurityUserRepositoryJpaAdapter.toSpringSecurityUser(user);
-    }
-
-    @Override
-    public void add(User user) {
-        String encryptedPass = passwordEncoder.encode(user.password());
-        user.changePasswordTo(encryptedPass);
-        userRepo.save(user);
     }
 }
