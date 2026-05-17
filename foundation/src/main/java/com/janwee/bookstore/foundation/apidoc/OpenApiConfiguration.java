@@ -13,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.method.HandlerMethod;
 
 @AutoConfiguration
-@ConditionalOnClass({OpenAPI.class, OperationCustomizer.class})
+@ConditionalOnClass({OpenAPI.class, OperationCustomizer.class, PreAuthorize.class})
 public class OpenApiConfiguration {
     private static final String BEARER_AUTH_SCHEME = "bearerAuth";
 
