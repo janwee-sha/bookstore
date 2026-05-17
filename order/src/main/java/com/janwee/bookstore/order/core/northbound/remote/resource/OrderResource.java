@@ -16,6 +16,7 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class OrderResource {
     @Operation(description = "Retrieve all orders")
     @PageableAsQueryParam
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('order:read','order:write')")
     public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT,
             direction = Sort.Direction.DESC)}) Pageable page) {
         return orderAppService.orders(page);
@@ -47,12 +49,14 @@ public class OrderResource {
     @Operation(description = "Retrieve details for order of given ID")
     @PageableAsQueryParam
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('order:read','order:write')")
     public Order order(@PathVariable long id) {
         return orderAppService.nonNullOrderOfId(id);
     }
 
     @PostMapping
     @Operation(description = "Order a book")
+    @PreAuthorize("hasAnyAuthority('order:write')")
     public ResponseEntity<Void> orderBook(@RequestBody OrderingBookRequest request) {
         long newOrderId = orderAppService.orderBook(request);
         String newOrderLocation = "/orders/" + newOrderId;

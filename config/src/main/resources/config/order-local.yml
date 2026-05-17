@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:7030/oauth2/jwks
   datasource:
     url: "jdbc:h2:mem:bookstore-order;MODE=PostgreSQL;NON_KEYWORDS=ORDER;INIT=CREATE SCHEMA IF NOT EXISTS order;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
     driver-class-name: org.h2.Driver
