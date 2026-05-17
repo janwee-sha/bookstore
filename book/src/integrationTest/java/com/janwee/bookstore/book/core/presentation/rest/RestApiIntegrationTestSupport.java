@@ -47,6 +47,10 @@ abstract class RestApiIntegrationTestSupport {
         return tokenWithScope("book:write");
     }
 
+    protected RequestPostProcessor orderWriter() {
+        return tokenWithScope("order:write");
+    }
+
     protected RequestPostProcessor tokenWithScope(String scope) {
         return jwt()
                 .jwt(token -> token.claim("scope", List.of(scope)))

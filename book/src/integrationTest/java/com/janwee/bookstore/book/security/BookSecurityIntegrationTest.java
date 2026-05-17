@@ -5,14 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-import java.util.List;
-
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -28,11 +22,8 @@ class BookSecurityIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private JwtAuthenticationConverter jwtAuthenticationConverter;
-
     @Test
-    void shouldAllowAnonymousAccessToOpenApiDocs() throws Exception {
+    void shouldAllowOpenApiDocsAccessWhenUnauthorized() throws Exception {
         mockMvc.perform(get("/api-docs"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.components.securitySchemes.bearerAuth.type").value("http"))
@@ -45,43 +36,11 @@ class BookSecurityIntegrationTest {
     }
 
     @Test
-    void shouldRejectBusinessResourcesWithoutBearerToken() throws Exception {
+    void shouldRejectProtectedResourceAccessWhenUnauthorized() throws Exception {
         mockMvc.perform(get("/books"))
                 .andExpect(status().isUnauthorized());
 
         mockMvc.perform(post("/authors"))
                 .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void shouldRejectBusinessResourcesWhenBearerTokenLacksRequiredAuthority() throws Exception {
-        mockMvc.perform(get("/books").with(tokenWithScope("book:write")))
-                .andExpect(status().isForbidden());
-
-        String requestBody = """
-                {
-                  "name": "Kent Beck",
-                  "profile": "TDD",
-                  "phoneNumber": "13800000001"
-                }
-                """;
-
-        mockMvc.perform(post("/authors")
-                        .with(tokenWithScope("book:read"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void shouldAllowBusinessResourcesWithRequiredBearerAuthority() throws Exception {
-        mockMvc.perform(get("/books").with(tokenWithScope("book:read")))
-                .andExpect(status().isOk());
-    }
-
-    private RequestPostProcessor tokenWithScope(String scope) {
-        return jwt()
-                .jwt(token -> token.claim("scope", List.of(scope)))
-                .authorities(token -> jwtAuthenticationConverter.convert(token).getAuthorities());
     }
 }
