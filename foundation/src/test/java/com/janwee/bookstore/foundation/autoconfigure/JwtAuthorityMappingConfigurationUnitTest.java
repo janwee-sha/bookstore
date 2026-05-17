@@ -1,5 +1,6 @@
-package com.janwee.bookstore.authorization.security;
+package com.janwee.bookstore.foundation.autoconfigure;
 
+import com.janwee.bookstore.foundation.security.JwtAuthorityMappingConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;

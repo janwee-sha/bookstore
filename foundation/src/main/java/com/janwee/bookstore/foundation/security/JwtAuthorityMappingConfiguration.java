@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.security;
+package com.janwee.bookstore.foundation.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
