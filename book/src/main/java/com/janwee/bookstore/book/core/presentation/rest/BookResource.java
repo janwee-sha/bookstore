@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class BookResource {
     @Operation(summary = "Retrieve all books", description = "Retrieve all books")
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
+    @PreAuthorize("hasAnyAuthority('book:read')")
     public Page<BookResponse> books(@SortDefault.SortDefaults({
             @SortDefault(sort = Book_.PUBLISHED_AT, direction = Sort.Direction.DESC)}) Pageable page) {
         return bookAppService.books(page);
@@ -45,6 +47,7 @@ public class BookResource {
     @GetMapping("/{id}")
     @Operation(summary = "Retrieve book details", description = "Retrieve the details for the book of given ID")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('book:read')")
     public BookResponse book(@PathVariable final Long id) {
         return bookAppService.bookOfId(id);
     }
@@ -52,6 +55,7 @@ public class BookResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
     @Operation(summary = "Check existence of a book", description = "Check if is there any book of given ID")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('book:read')")
     public void hasBookOfId(@PathVariable final Long id) {
         bookAppService.hasBookOfId(id);
     }
@@ -59,6 +63,7 @@ public class BookResource {
     @PostMapping
     @Operation(summary = "Publish a new book", description = "Publish new book")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('book:write')")
     public void publish(@Validated @RequestBody PublishingBookRequest request) {
         bookAppService.publish(request);
     }
@@ -66,6 +71,7 @@ public class BookResource {
     @PatchMapping("/{id}")
     @Operation(summary = "Change a book",description = "Change book information")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('book:write')")
     public void change(@PathVariable long id,
                        @Validated(value = ValidationGroup.Modification.class)
                        @RequestBody UpdatingBookRequest request)
@@ -76,6 +82,7 @@ public class BookResource {
     @DeleteMapping("/{id}")
     @Operation(summary = "Withdraw a book",description = "Withdraw book of given ID")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyAuthority('book:write')")
     public void withdraw(@PathVariable Long id) {
         bookAppService.withdraw(id);
     }

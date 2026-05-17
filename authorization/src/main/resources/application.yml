@@ -32,6 +32,8 @@ spring:
                 - "openid"
                 - "user:read"
                 - "user:write"
+                - "book:read"
+                - "book:write"
             require-authorization-consent: true
           bookstore-frontend:
             registration:
@@ -49,6 +51,8 @@ spring:
                 - "openid"
                 - "user:read"
                 - "user:write"
+                - "book:read"
+                - "book:write"
             require-authorization-consent: true
             require-proof-key: true
 

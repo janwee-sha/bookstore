@@ -1,23 +1,21 @@
-package com.janwee.bookstore.book.presentation.rest;
+package com.janwee.bookstore.book.core.presentation.rest;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WithMockUser
 class AuthorResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test
     void shouldReturnAuthorDetails() throws Exception {
         Author author = saveAuthor("Martin Fowler", "Refactoring", "13800000010");
 
-        mockMvc.perform(get("/authors/{id}", author.id()))
+        mockMvc.perform(get("/authors/{id}", author.id()).with(bookReader()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(author.id()))
                 .andExpect(jsonPath("$.name").value("Martin Fowler"))
@@ -27,7 +25,7 @@ class AuthorResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test
     void shouldReturnNullBodyForMissingAuthor() throws Exception {
-        mockMvc.perform(get("/authors/{id}", 9999L))
+        mockMvc.perform(get("/authors/{id}", 9999L).with(bookReader()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
     }
@@ -43,6 +41,7 @@ class AuthorResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """;
 
         mockMvc.perform(post("/authors")
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isOk());
@@ -65,6 +64,7 @@ class AuthorResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """;
 
         mockMvc.perform(post("/authors")
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isBadRequest())

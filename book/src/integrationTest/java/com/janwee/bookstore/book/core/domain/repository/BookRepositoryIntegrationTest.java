@@ -1,9 +1,8 @@
-package com.janwee.bookstore.book.domain.repository;
+package com.janwee.bookstore.book.core.domain.repository;
 
 import com.janwee.bookstore.book.core.domain.model.Book;
 import com.janwee.bookstore.book.core.domain.model.Currency;
 import com.janwee.bookstore.book.core.domain.model.Price;
-import com.janwee.bookstore.book.core.domain.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.domain.repository;
+package com.janwee.bookstore.book.core.domain.repository;
 
 import com.janwee.bookstore.book.core.infrastructure.persistence.AuthorRepositoryJpaImpl;
 import com.janwee.bookstore.book.core.infrastructure.persistence.BookRepositoryJpaImpl;

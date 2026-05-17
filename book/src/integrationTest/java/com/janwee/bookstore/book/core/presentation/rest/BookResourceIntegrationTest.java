@@ -1,10 +1,9 @@
-package com.janwee.bookstore.book.presentation.rest;
+package com.janwee.bookstore.book.core.presentation.rest;
 
 import com.janwee.bookstore.book.core.domain.model.Author;
 import com.janwee.bookstore.book.core.domain.model.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WithMockUser
 class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test
@@ -27,7 +25,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
         saveBook("Refactoring", 8, new BigDecimal("56.00"),
                 LocalDate.of(2024, 5, 1), "Addison-Wesley", secondAuthor.id());
 
-        mockMvc.perform(get("/books").param("page", "0").param("size", "10"))
+        mockMvc.perform(get("/books").with(bookReader()).param("page", "0").param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(2)))
                 .andExpect(jsonPath("$.content[0].name").value("Refactoring"))
@@ -45,7 +43,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
         Book book = saveBook("Domain-Driven Design", 9, new BigDecimal("88.80"),
                 LocalDate.of(2018, 9, 1), "Pearson", author.id());
 
-        mockMvc.perform(get("/books/{id}", book.id()))
+        mockMvc.perform(get("/books/{id}", book.id()).with(bookReader()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(book.id()))
                 .andExpect(jsonPath("$.name").value("Domain-Driven Design"))
@@ -58,7 +56,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test
     void shouldReturnNotFoundForMissingBookDetails() throws Exception {
-        mockMvc.perform(get("/books/{id}", 9999L))
+        mockMvc.perform(get("/books/{id}", 9999L).with(bookReader()))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.error").value("No such book of ID: 9999"));
@@ -70,11 +68,11 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
         Book book = saveBook("Clean Code", 7, new BigDecimal("49.90"),
                 LocalDate.of(2019, 4, 1), "Prentice Hall", author.id());
 
-        mockMvc.perform(head("/books/{id}", book.id()))
+        mockMvc.perform(head("/books/{id}", book.id()).with(bookReader()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
 
-        mockMvc.perform(head("/books/{id}", 9999L))
+        mockMvc.perform(head("/books/{id}", 9999L).with(bookReader()))
                 .andExpect(status().isNotFound());
     }
 
@@ -95,6 +93,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """.formatted(author.id());
 
         mockMvc.perform(post("/books")
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isCreated());
@@ -124,6 +123,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """.formatted(author.id());
 
         mockMvc.perform(post("/books")
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
@@ -150,6 +150,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """;
 
         mockMvc.perform(post("/books")
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
@@ -174,6 +175,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """.formatted(newAuthor.id());
 
         mockMvc.perform(patch("/books/{id}", book.id())
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isOk());
@@ -193,6 +195,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
                 """;
 
         mockMvc.perform(patch("/books/{id}", 9999L)
+                        .with(bookWriter())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isNotFound())
@@ -206,7 +209,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
         Book book = saveBook("Spring in Action", 15, new BigDecimal("62.30"),
                 LocalDate.of(2021, 1, 1), "Manning", author.id());
 
-        mockMvc.perform(delete("/books/{id}", book.id()))
+        mockMvc.perform(delete("/books/{id}", book.id()).with(bookWriter()))
                 .andExpect(status().isOk());
 
         assertFalse(bookRepo.existsById(book.id()));
@@ -214,7 +217,7 @@ class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test
     void shouldIgnoreDeletingMissingBook() throws Exception {
-        mockMvc.perform(delete("/books/{id}", 9999L))
+        mockMvc.perform(delete("/books/{id}", 9999L).with(bookWriter()))
                 .andExpect(status().isOk());
     }
 }
