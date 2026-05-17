@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
+
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,6 +27,9 @@ class BookSecurityIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private JwtAuthenticationConverter jwtAuthenticationConverter;
 
     @Test
     void shouldAllowAnonymousAccessToOpenApiDocs() throws Exception {
@@ -50,7 +55,7 @@ class BookSecurityIntegrationTest {
 
     @Test
     void shouldRejectBusinessResourcesWhenBearerTokenLacksRequiredAuthority() throws Exception {
-        mockMvc.perform(get("/books").with(tokenWithAuthority("book:write")))
+        mockMvc.perform(get("/books").with(tokenWithScope("book:write")))
                 .andExpect(status().isForbidden());
 
         String requestBody = """
@@ -62,7 +67,7 @@ class BookSecurityIntegrationTest {
                 """;
 
         mockMvc.perform(post("/authors")
-                        .with(tokenWithAuthority("book:read"))
+                        .with(tokenWithScope("book:read"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isForbidden());
@@ -70,11 +75,13 @@ class BookSecurityIntegrationTest {
 
     @Test
     void shouldAllowBusinessResourcesWithRequiredBearerAuthority() throws Exception {
-        mockMvc.perform(get("/books").with(tokenWithAuthority("book:read")))
+        mockMvc.perform(get("/books").with(tokenWithScope("book:read")))
                 .andExpect(status().isOk());
     }
 
-    private RequestPostProcessor tokenWithAuthority(String authority) {
-        return jwt().authorities(new SimpleGrantedAuthority(authority));
+    private RequestPostProcessor tokenWithScope(String scope) {
+        return jwt()
+                .jwt(token -> token.claim("scope", List.of(scope)))
+                .authorities(token -> jwtAuthenticationConverter.convert(token).getAuthorities());
     }
 }

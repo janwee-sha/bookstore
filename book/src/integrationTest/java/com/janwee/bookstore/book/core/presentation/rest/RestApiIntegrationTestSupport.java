@@ -11,12 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
@@ -35,12 +36,21 @@ abstract class RestApiIntegrationTestSupport {
     @Autowired
     protected BookJpaRepository bookRepo;
 
+    @Autowired
+    private JwtAuthenticationConverter jwtAuthenticationConverter;
+
     protected RequestPostProcessor bookReader() {
-        return jwt().authorities(new SimpleGrantedAuthority("book:read"));
+        return tokenWithScope("book:read");
     }
 
     protected RequestPostProcessor bookWriter() {
-        return jwt().authorities(new SimpleGrantedAuthority("book:write"));
+        return tokenWithScope("book:write");
+    }
+
+    protected RequestPostProcessor tokenWithScope(String scope) {
+        return jwt()
+                .jwt(token -> token.claim("scope", List.of(scope)))
+                .authorities(token -> jwtAuthenticationConverter.convert(token).getAuthorities());
     }
 
     @BeforeEach
