@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class BookResourceIntegrationTest extends RestApiIntegrationTestSupport {
+class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Test
     void shouldReturnBooksPageWithEmbeddedAuthors() throws Exception {
