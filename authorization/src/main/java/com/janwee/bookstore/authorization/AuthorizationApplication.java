@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"com.janwee.bookstore.foundation", "com.janwee.bookstore.authorization"})
+@SpringBootApplication
 @RefreshScope
 public class AuthorizationApplication {
 

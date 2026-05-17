@@ -9,4 +9,7 @@ dependencies {
 
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
     compileOnly 'jakarta.servlet:jakarta.servlet-api'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'jakarta.servlet:jakarta.servlet-api'
 }
