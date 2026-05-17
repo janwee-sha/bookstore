@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
+
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,6 +37,9 @@ class UserResourceIntegrationTest {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private JwtAuthenticationConverter jwtAuthenticationConverter;
+
     @BeforeEach
     void cleanDatabase() {
         userJpaRepo.deleteAll();
@@ -54,7 +60,7 @@ class UserResourceIntegrationTest {
                 .build());
 
         mockMvc.perform(get("/users")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("user:read"))))
+                        .with(tokenWithScope("user:read")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].email").value("reader@bookstore.com"));
     }
@@ -62,7 +68,7 @@ class UserResourceIntegrationTest {
     @Test
     void shouldReturnNotFoundForMissingUser() throws Exception {
         mockMvc.perform(get("/users/missing@bookstore.com")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("user:read"))))
+                        .with(tokenWithScope("user:read")))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("No such user of username: missing@bookstore.com"))
                 .andExpect(jsonPath("$.path").value("/users/missing@bookstore.com"));
@@ -71,7 +77,13 @@ class UserResourceIntegrationTest {
     @Test
     void shouldReturnForbiddenForJwtWithoutUserReadScope() throws Exception {
         mockMvc.perform(get("/users")
-                        .with(jwt().jwt(token -> token.claim("scope", "user:write"))))
+                        .with(tokenWithScope("user:write")))
                 .andExpect(status().isForbidden());
+    }
+
+    private RequestPostProcessor tokenWithScope(String scope) {
+        return jwt()
+                .jwt(token -> token.claim("scope", List.of(scope)))
+                .authorities(token -> jwtAuthenticationConverter.convert(token).getAuthorities());
     }
 }
