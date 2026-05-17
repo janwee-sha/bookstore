@@ -1,2 +1,3 @@
 com.janwee.bookstore.foundation.autoconfigure.FoundationAutoConfiguration
 com.janwee.bookstore.foundation.apidoc.OpenApiConfiguration
+com.janwee.bookstore.foundation.security.JwtAuthorityMappingConfiguration

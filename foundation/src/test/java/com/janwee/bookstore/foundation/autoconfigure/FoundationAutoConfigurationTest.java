@@ -2,7 +2,6 @@ package com.janwee.bookstore.foundation.autoconfigure;
 
 import com.janwee.bookstore.foundation.exception.GlobalExceptionHandler;
 import com.janwee.bookstore.foundation.logging.LoggingAspect;
-import com.janwee.bookstore.foundation.security.JwtAuthorityMappingConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
@@ -19,7 +18,6 @@ class FoundationAutoConfigurationTest {
         contextRunner.run(context -> assertThat(context)
                 .hasSingleBean(GlobalExceptionHandler.class)
                 .hasSingleBean(LocaleResolver.class)
-                .hasSingleBean(LoggingAspect.class)
-                .hasSingleBean(JwtAuthorityMappingConfiguration.class));
+                .hasSingleBean(LoggingAspect.class));
     }
 }

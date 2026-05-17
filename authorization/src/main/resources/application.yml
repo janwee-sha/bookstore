@@ -34,6 +34,8 @@ spring:
                 - "user:write"
                 - "book:read"
                 - "book:write"
+                - "order:read"
+                - "order:write"
             require-authorization-consent: true
           bookstore-frontend:
             registration:
@@ -53,6 +55,8 @@ spring:
                 - "user:write"
                 - "book:read"
                 - "book:write"
+                - "order:read"
+                - "order:write"
             require-authorization-consent: true
             require-proof-key: true
 
