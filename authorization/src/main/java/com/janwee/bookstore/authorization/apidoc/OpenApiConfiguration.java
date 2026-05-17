@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.security;
+package com.janwee.bookstore.authorization.apidoc;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

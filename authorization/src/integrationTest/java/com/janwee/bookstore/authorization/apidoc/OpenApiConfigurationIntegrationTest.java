@@ -1,4 +1,4 @@
-package com.janwee.bookstore.authorization.security;
+package com.janwee.bookstore.authorization.apidoc;
 
 import com.janwee.bookstore.authorization.AuthorizationApplication;
 import org.junit.jupiter.api.Test;
