@@ -35,4 +35,17 @@ class OAuth2ClientRegistrationIntegrationTest {
                 () -> assertTrue(client.getClientSettings().isRequireProofKey())
         );
     }
+
+    @Test
+    void shouldRegisterOrderServiceClient() {
+        RegisteredClient client = registeredClientRepo.findByClientId("order-service");
+
+        assertNotNull(client);
+        assertAll(
+                () -> assertEquals("order-service", client.getClientId()),
+                () -> assertTrue(client.getClientAuthenticationMethods().contains(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)),
+                () -> assertTrue(client.getAuthorizationGrantTypes().contains(AuthorizationGrantType.CLIENT_CREDENTIALS)),
+                () -> assertTrue(client.getScopes().contains("book:read"))
+        );
+    }
 }

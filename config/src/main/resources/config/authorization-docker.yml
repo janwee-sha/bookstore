@@ -29,6 +29,9 @@ spring:
                 - "http://127.0.0.1:8088/authorized"
               post-logout-redirect-uris:
                 - "http://127.0.0.1:8088/"
+          order-service:
+            registration:
+              client-secret: "{bcrypt}$2a$10$RSfYVxaBOmgO9RyXATFthuCXEEoD3FrsJVdYut0PbjhH.dMKagvRm"
 
 eureka:
   client:

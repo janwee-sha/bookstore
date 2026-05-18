@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,10 +24,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "spring.cloud.config.enabled=false",
                 "spring.cloud.discovery.enabled=false",
                 "spring.cloud.stream.enabled=false",
+                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:7030/oauth2/jwks",
                 "spring.datasource.url=jdbc:h2:mem:book-contract;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS book;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
                 "spring.datasource.driver-class-name=org.h2.Driver",
                 "spring.jpa.hibernate.ddl-auto=create-drop",
@@ -58,6 +63,9 @@ class BookExistenceHttpContractTest {
 
     @Autowired
     private BookJpaRepository bookRepo;
+
+    @Autowired
+    private JwtAuthenticationConverter jwtAuthenticationConverter;
 
     @BeforeEach
     void cleanDatabase() {
@@ -89,11 +97,20 @@ class BookExistenceHttpContractTest {
         Book book = saveBook(author.id());
 
         mockMvc.perform(head("/books/{id}", book.id()))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(head("/books/{id}", book.id()).with(bookReader()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
 
-        mockMvc.perform(head("/books/{id}", 9999L))
+        mockMvc.perform(head("/books/{id}", 9999L).with(bookReader()))
                 .andExpect(status().isNotFound());
+    }
+
+    private RequestPostProcessor bookReader() {
+        return jwt()
+                .jwt(token -> token.claim("scope", List.of("book:read")))
+                .authorities(token -> jwtAuthenticationConverter.convert(token).getAuthorities());
     }
 
     private Author saveAuthor() {

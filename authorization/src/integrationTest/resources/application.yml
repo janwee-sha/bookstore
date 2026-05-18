@@ -72,6 +72,16 @@ spring:
                 - "user:write"
             require-authorization-consent: true
             require-proof-key: true
+          order-service:
+            registration:
+              client-id: "order-service"
+              client-secret: "{bcrypt}$2a$10$RSfYVxaBOmgO9RyXATFthuCXEEoD3FrsJVdYut0PbjhH.dMKagvRm"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "client_credentials"
+              scopes:
+                - "book:read"
 
 springdoc:
   api-docs:

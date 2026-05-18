@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient("book")
+@FeignClient(value = "book", configuration = BookFeignClientOAuth2Configuration.class)
 public interface BookFeignClient {
     @RequestMapping(method = RequestMethod.HEAD, value = "books/{id}")
     ResponseEntity<Void> checkBook(@PathVariable("id") final Long id);
