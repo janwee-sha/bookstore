@@ -21,7 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class ApplicationWebSecurityConfiguration {
+public class ResourceServerSecurityConfiguration {
     private final ObjectMapper objectMapper;
 
     @Bean
