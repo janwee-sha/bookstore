@@ -1,7 +1,5 @@
-package com.janwee.bookstore.order;
+package com.janwee.bookstore.order.core.domain;
 
-import com.janwee.bookstore.order.core.domain.InvalidOrderException;
-import com.janwee.bookstore.order.core.domain.Order;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
