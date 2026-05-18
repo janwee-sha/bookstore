@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 @Configuration
-public class OAuth2LoginConfiguration {
+public class AuthorizationServerSecurityConfiguration {
     @Bean
     public RequestCache oauth2AuthorizationRequestCache() {
         HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
