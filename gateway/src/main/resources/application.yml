@@ -12,12 +12,6 @@ spring:
     gateway:
       mvc:
         routes:
-          - id: authorization
-            uri: lb://authorization
-            predicates:
-              - Path=/authorization/**
-            filters:
-              - StripPrefix=1
           - id: book
             uri: lb://book
             predicates:

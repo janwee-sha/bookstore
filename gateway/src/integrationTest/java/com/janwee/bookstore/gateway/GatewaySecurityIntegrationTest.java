@@ -54,13 +54,4 @@ class GatewaySecurityIntegrationTest {
 
         assertTrue(exception.getMessage().contains("Unable to find instance for book"));
     }
-
-    @Test
-    void shouldPermitAuthorizationTokenProxyEndpoint() throws Exception {
-        ServletException exception = assertThrows(ServletException.class,
-                () -> mockMvc.perform(post("/authorization/oauth2/token")
-                        .header("Origin", "http://127.0.0.1:8088")));
-
-        assertTrue(exception.getMessage().contains("Unable to find instance for authorization"));
-    }
 }
