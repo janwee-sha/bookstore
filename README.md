@@ -31,6 +31,14 @@ bookstore/
 
 ## 构建命令
 
+### macOS/Linux 首次使用 Gradle Wrapper
+
+如果执行 `./gradlew` 时出现 `permission denied`，说明 `gradlew` 可能缺少执行权限。先在仓库根目录授予执行权限：
+
+```bash
+chmod +x gradlew
+```
+
 ### 修改代码后验证特定模块（以 authorization 模块为例）
 
 ```bash
