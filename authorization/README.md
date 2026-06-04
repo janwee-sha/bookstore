@@ -25,7 +25,7 @@ http://127.0.0.1:8088/authorized
 前端用授权码通过 gateway 代理调用：
 
 ```
-POST http://localhost:7001/authorization/oauth2/token
+POST http://localhost:18082/authorization/oauth2/token
 ```
 
 gateway 不再作为 OAuth 2 Client，不保存登录会话，只校验前端请求携带的 Bearer Token 并转发到后端服务。
@@ -34,32 +34,32 @@ gateway 不再作为 OAuth 2 Client，不保存登录会话，只校验前端请
 
     a. 用户代理向授权服务器发起获取授权码并在成功后重定向到客户端应用的请求：
     ```
-    http://localhost:7030/oauth2/authorize?response_type=code&client_id=bookstore&redirect_uri=http://127.0.0.1:7001/authorized&scope=user:read user:write
+    http://localhost:18083/oauth2/authorize?response_type=code&client_id=bookstore&redirect_uri=http://127.0.0.1:18082/authorized&scope=user:read user:write
     ```
     
     b. 用户在授权服务器通过用户名/密码登录并确认授权范围提交许可
     
     c. 用户代理收到授权码并被重定向到客户端应用，如下所示：
     ```
-    http://127.0.0.1:7001/authorized?code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU
+    http://127.0.0.1:18082/authorized?code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU
     ```
     
     d. 使用授权码获取访问令牌
     
     ```
     curl -X POST \
-    http://localhost:7030/oauth2/token \
+    http://localhost:18083/oauth2/token \
       -H "Content-Type: application/x-www-form-urlencoded" \
       -H "Authorization: Basic $(echo -n 'bookstore:secret' | base64)" \
       -d "grant_type=authorization_code" \
       -d "code=vo4XemaDO_4piA7Zkc3NDJQwJXweczmV0Mxt7547cj_xAhUVMApd6VREhfs0zm6voaEuMIIgHQbCxSA9r3oxTMkUmsPstsRNjngEQWNvR7FEllOTCs7tzpoKhr4vQRiU" \
-      -d "redirect_uri=http://127.0.0.1:7001/authorized"
+      -d "redirect_uri=http://127.0.0.1:18082/authorized"
     ```
 ## 3. Client Credential（客户端授权）模式
 
     客户端发起如下请求：
     ```
-    curl -X POST bookstore:secret@localhost:7030/oauth2/token -d "grant_type=client_credentials" -d "scope=user:read"
+    curl -X POST bookstore:secret@localhost:18083/oauth2/token -d "grant_type=client_credentials" -d "scope=user:read"
     ```
     
     返回类似下面的输出：
@@ -77,7 +77,7 @@ gateway 不再作为 OAuth 2 Client，不保存登录会话，只校验前端请
     客户端发起如下请求：
     ```
     curl -X POST \
-    http://localhost:7030/oauth2/token \
+    http://localhost:18083/oauth2/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -H "Authorization: Basic Ym9va3N0b3JlOnNlY3JldA== \
     -d "grant_type=password" \

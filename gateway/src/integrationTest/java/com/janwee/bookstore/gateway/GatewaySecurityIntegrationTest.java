@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "spring.cloud.config.enabled=false",
                 "spring.cloud.discovery.enabled=false",
                 "eureka.client.enabled=false",
-                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:7030/oauth2/jwks"
+                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:18083/oauth2/jwks"
         }
 )
 @AutoConfigureMockMvc

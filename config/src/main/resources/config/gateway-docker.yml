@@ -3,11 +3,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://authorization:7030/oauth2/jwks
+          jwk-set-uri: http://authorization:18083/oauth2/jwks
 
 eureka:
   instance:
     hostname: gateway
   client:
     service-url:
-      defaultZone: http://eureka:7010/eureka/
+      defaultZone: http://eureka:18081/eureka/

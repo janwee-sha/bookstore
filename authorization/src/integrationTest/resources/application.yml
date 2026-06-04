@@ -33,7 +33,7 @@ spring:
         - "ADMIN"
     oauth2:
       authorizationserver:
-        issuer: http://localhost:7030
+        issuer: http://localhost:18083
         client:
           bookstore:
             registration:
@@ -46,9 +46,9 @@ spring:
                 - "refresh_token"
                 - "client_credentials"
               redirect-uris:
-                - "http://127.0.0.1:7001/authorized"
+                - "http://127.0.0.1:18082/authorized"
               post-logout-redirect-uris:
-                - "http://127.0.0.1:7001/"
+                - "http://127.0.0.1:18082/"
               scopes:
                 - "openid"
                 - "user:read"

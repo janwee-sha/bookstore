@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:7030/oauth2/jwks
+          jwk-set-uri: http://localhost:18083/oauth2/jwks
       client:
         registration:
           order-service:
@@ -16,7 +16,7 @@ spring:
             scope: book:read
         provider:
           authorization-server:
-            token-uri: http://localhost:7030/oauth2/token
+            token-uri: http://localhost:18083/oauth2/token
   config:
     import: ""
   cloud:

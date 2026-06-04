@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "spring.cloud.config.enabled=false",
                 "spring.cloud.discovery.enabled=false",
                 "spring.cloud.stream.enabled=false",
-                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:7030/oauth2/jwks",
+                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:18083/oauth2/jwks",
                 "spring.datasource.url=jdbc:h2:mem:book-contract;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS book;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
                 "spring.datasource.driver-class-name=org.h2.Driver",
                 "spring.jpa.hibernate.ddl-auto=create-drop",

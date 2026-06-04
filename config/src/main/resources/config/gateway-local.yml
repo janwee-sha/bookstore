@@ -3,9 +3,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:7030/oauth2/jwks
+          jwk-set-uri: http://localhost:18083/oauth2/jwks
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7010/eureka/
+      defaultZone: http://localhost:18081/eureka/

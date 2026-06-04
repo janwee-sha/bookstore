@@ -15,7 +15,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: native
     ports:
-      - "7000:7000"
+      - "18080:18080"
 
   eureka:
     image: bookstore/eureka:local
@@ -27,9 +27,9 @@ services:
       - config
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:7000"
+      CONFIG_SERVER_URL: "http://config:18080"
     ports:
-      - "7010:7010"
+      - "18081:18081"
 
   authorization:
     image: bookstore/authorization:local
@@ -42,9 +42,9 @@ services:
       - eureka
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:7000"
+      CONFIG_SERVER_URL: "http://config:18080"
     ports:
-      - "7030:7030"
+      - "18083:18083"
 
   book:
     image: bookstore/book:local
@@ -58,9 +58,9 @@ services:
       - rabbitmq
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:7000"
+      CONFIG_SERVER_URL: "http://config:18080"
     ports:
-      - "7100:7100"
+      - "18084:18084"
 
   order:
     image: bookstore/order:local
@@ -74,9 +74,9 @@ services:
       - rabbitmq
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:7000"
+      CONFIG_SERVER_URL: "http://config:18080"
     ports:
-      - "7120:7120"
+      - "18085:18085"
 
   gateway:
     image: bookstore/gateway:local
@@ -92,6 +92,6 @@ services:
       - order
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:7000"
+      CONFIG_SERVER_URL: "http://config:18080"
     ports:
-      - "7001:7001"
+      - "18082:18082"

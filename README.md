@@ -137,6 +137,17 @@ chmod +x gradlew
 
 前端默认运行在 `http://127.0.0.1:8088`，通过 OAuth 2.0 Authorization Code + PKCE 登录 `authorization` 服务，并以 Bearer Token 调用 `gateway`。
 
+服务端默认端口如下，使用 `18080` 段以避开 macOS 上常见的系统服务和开发工具端口占用：
+
+| 服务 | 默认端口 |
+| --- | --- |
+| config | `18080` |
+| eureka | `18081` |
+| gateway | `18082` |
+| authorization | `18083` |
+| book | `18084` |
+| order | `18085` |
+
 ### 构建可执行的JAR文件
 ```bash
 ./gradlew :config:bootJar

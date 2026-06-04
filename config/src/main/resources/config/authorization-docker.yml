@@ -14,15 +14,15 @@ spring:
       password: "{bcrypt}$2a$10$BdYWnKbH7Kk5.JyJ5I4OGe.EoUjiTeU2hDY4y4SA62.nZ3maeIv5K"
     oauth2:
       authorizationserver:
-        issuer: http://localhost:7030
+        issuer: http://localhost:18083
         client:
           bookstore:
             registration:
               client-secret: "{bcrypt}$2a$10$N0ull8s2QSOUG/BLO7l99uVkMx6Ofls3Knhfxm.56MTn5YU2uvIvy"
               redirect-uris:
-                - "http://127.0.0.1:7001/authorized"
+                - "http://127.0.0.1:18082/authorized"
               post-logout-redirect-uris:
-                - "http://127.0.0.1:7001/"
+                - "http://127.0.0.1:18082/"
           bookstore-frontend:
             registration:
               redirect-uris:
@@ -36,7 +36,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka:7010/eureka/
+      defaultZone: http://eureka:18081/eureka/
 
 logging:
   level:

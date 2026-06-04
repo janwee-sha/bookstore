@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:7030/oauth2/jwks
+          jwk-set-uri: http://localhost:18083/oauth2/jwks
   config:
     # 覆盖主配置中的远程导入，避免连 Config Server
     import: ""

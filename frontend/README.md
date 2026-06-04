@@ -10,7 +10,7 @@ frontend 只与作为对外开放的服务端网关的 gateway 服务交互，ga
 
 - React 负责登录页、OAuth2 回调页和主页。
 - OAuth2 登录使用 Authorization Code + PKCE，客户端 ID 为 `bookstore-frontend`。
-- token 交换请求走 gateway：`POST http://localhost:7001/authorization/oauth2/token`。
+- token 交换请求走 gateway：`POST http://localhost:18082/authorization/oauth2/token`。
 - 业务接口请求走 gateway，并在请求头携带 `Authorization: Bearer <access_token>`。
 
 ## 本地运行
