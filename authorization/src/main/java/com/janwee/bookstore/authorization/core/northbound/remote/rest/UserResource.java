@@ -21,7 +21,7 @@ public class UserResource {
     @GetMapping
     @Operation(description = "Retrieve all users")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyAuthority('user:read')")
+    @PreAuthorize("hasAnyAuthority('user:read','user:write')")
     public List<User> users() {
         return userAppService.users();
     }
@@ -29,7 +29,7 @@ public class UserResource {
     @GetMapping("/{username}")
     @Operation(description = "Retrieve user of the given username")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyAuthority('user:read')")
+    @PreAuthorize("hasAnyAuthority('user:read','user:write')")
     public User userOf(@PathVariable String username) {
         return userAppService.userOf(username);
     }
