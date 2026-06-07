@@ -1,45 +1,19 @@
 package com.janwee.bookstore.authorization.core.northbound.remote.rest;
 
-import com.janwee.bookstore.authorization.AuthorizationApplication;
 import com.janwee.bookstore.authorization.core.domain.User;
-import com.janwee.bookstore.authorization.core.southbound.adapter.jpa.SpringSecurityUserJpaRepository;
-import com.janwee.bookstore.authorization.core.southbound.port.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(
-        classes = AuthorizationApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.MOCK
-)
-@AutoConfigureMockMvc
-class SigningUpResourceIntegrationTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private SpringSecurityUserJpaRepository userJpaRepo;
+class SigningUpResourceIntegrationTest extends RestApiIntegrationTestSupport {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @BeforeEach
-    void cleanDatabase() {
-        userJpaRepo.deleteAll();
-    }
 
     @Test
     void shouldCreateUserFromPublicSignUp() throws Exception {
