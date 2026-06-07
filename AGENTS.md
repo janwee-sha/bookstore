@@ -1,4 +1,4 @@
-# Bookstore Codex 工作协议
+# Bookstore AI Agent 工作协议
 
 本文件是 `bookstore` 仓库的 AI Agent 会话级协作约束。每次在本仓库开启会话或切换到本仓库工作时，先按本文件建立上下文，再开始分析、设计或修改。
 
