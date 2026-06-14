@@ -1,11 +1,11 @@
 # Bookstore 开发任务目录
 
-`.prd` 是 bookstore 项目的产品需求文档目录，用于描述业务功能变更、技术改进等需求。
+`.tasks` 是 bookstore 项目的产品需求文档目录，用于描述业务功能变更、技术改进等需求。
 
 ## 目录结构
 
 ```text
-.prd/
+.tasks/
 ├── README.md
 ├── backlog/          # 待实施的需求
 │   └── <scope>/
