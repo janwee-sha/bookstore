@@ -1,12 +1,12 @@
 package com.janwee.bookstore.order.book;
 
 import com.janwee.bookstore.book.BookApplication;
-import com.janwee.bookstore.book.core.domain.model.Author;
-import com.janwee.bookstore.book.core.domain.model.Book;
-import com.janwee.bookstore.book.core.domain.model.Currency;
-import com.janwee.bookstore.book.core.domain.model.Price;
-import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.AuthorJpaRepository;
-import com.janwee.bookstore.book.core.infrastructure.persistence.jpa.BookJpaRepository;
+import com.janwee.bookstore.book.domain.model.Author;
+import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.domain.model.Currency;
+import com.janwee.bookstore.book.domain.model.Price;
+import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
+import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookJpaRepository;
 import com.janwee.bookstore.order.core.southbound.adapter.BookFeignClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

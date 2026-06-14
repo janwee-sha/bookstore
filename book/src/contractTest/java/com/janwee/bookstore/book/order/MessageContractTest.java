@@ -38,8 +38,8 @@ class MessageContractTest {
         assertNumberField(payload, "amount", 3);
         assertTextField(payload, "createdBy", "2026-05-12 10:30:00");
 
-        com.janwee.bookstore.book.core.domain.event.OrderCreated consumed = objectMapper.readValue(
-                payload, com.janwee.bookstore.book.core.domain.event.OrderCreated.class);
+        com.janwee.bookstore.book.domain.event.OrderCreated consumed = objectMapper.readValue(
+                payload, com.janwee.bookstore.book.domain.event.OrderCreated.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
         assertEquals(3, consumed.amount());

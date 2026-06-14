@@ -27,8 +27,8 @@ class MessageContractTest {
 
     @Test
     void bookOrderedPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.core.domain.event.BookOrdered published =
-                new com.janwee.bookstore.book.core.domain.event.BookOrdered(1001L, 2002L);
+        com.janwee.bookstore.book.domain.event.BookOrdered published =
+                new com.janwee.bookstore.book.domain.event.BookOrdered(1001L, 2002L);
 
         String payload = objectMapper.writeValueAsString(published);
 
@@ -43,8 +43,8 @@ class MessageContractTest {
 
     @Test
     void bookSoldOutPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.core.domain.event.BookSoldOut published =
-                new com.janwee.bookstore.book.core.domain.event.BookSoldOut(1001L, 2002L);
+        com.janwee.bookstore.book.domain.event.BookSoldOut published =
+                new com.janwee.bookstore.book.domain.event.BookSoldOut(1001L, 2002L);
 
         String payload = objectMapper.writeValueAsString(published);
 

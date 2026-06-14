@@ -1,7 +1,7 @@
 package com.janwee.bookstore.book;
 
-import com.janwee.bookstore.book.core.domain.model.Currency;
-import com.janwee.bookstore.book.core.domain.model.Price;
+import com.janwee.bookstore.book.domain.model.Currency;
+import com.janwee.bookstore.book.domain.model.Price;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
