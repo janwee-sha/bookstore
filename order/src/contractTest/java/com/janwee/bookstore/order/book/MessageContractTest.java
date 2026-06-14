@@ -35,8 +35,8 @@ class MessageContractTest {
         assertNumberField(payload, "orderId", 1001L);
         assertNumberField(payload, "bookId", 2002L);
 
-        com.janwee.bookstore.order.core.northbound.message.BookOrdered consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.core.northbound.message.BookOrdered.class);
+        com.janwee.bookstore.order.northbound.message.BookOrdered consumed =
+                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.BookOrdered.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
     }
@@ -51,8 +51,8 @@ class MessageContractTest {
         assertNumberField(payload, "orderId", 1001L);
         assertNumberField(payload, "bookId", 2002L);
 
-        com.janwee.bookstore.order.core.northbound.message.BookSoldOut consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.core.northbound.message.BookSoldOut.class);
+        com.janwee.bookstore.order.northbound.message.BookSoldOut consumed =
+                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.BookSoldOut.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
     }

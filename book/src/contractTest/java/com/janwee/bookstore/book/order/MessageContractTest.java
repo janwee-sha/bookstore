@@ -27,8 +27,8 @@ class MessageContractTest {
 
     @Test
     void orderCreatedPublishedByOrderCanBeConsumedByBook() throws Exception {
-        com.janwee.bookstore.order.core.southbound.message.OrderCreated published = new
-                com.janwee.bookstore.order.core.southbound.message.OrderCreated(1001L, 2002L, 3,
+        com.janwee.bookstore.order.southbound.message.OrderCreated published = new
+                com.janwee.bookstore.order.southbound.message.OrderCreated(1001L, 2002L, 3,
                 LocalDateTime.of(2026, 5, 12, 10, 30));
 
         String payload = objectMapper.writeValueAsString(published);

@@ -7,7 +7,7 @@ import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookJpaRepository;
-import com.janwee.bookstore.order.core.southbound.adapter.BookFeignClient;
+import com.janwee.bookstore.order.southbound.adapter.BookFeignClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
