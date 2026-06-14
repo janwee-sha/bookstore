@@ -1,17 +1,17 @@
 # Bookstore 开发任务目录
 
-`.tasks` 是 bookstore 项目的开发任务目录，用于存放开发任务描述。
+`.prd` 是 bookstore 项目的产品需求文档目录，用于描述业务功能变更、技术改进等需求。
 
 ## 目录结构
 
 ```text
-.tasks/
+.prd/
 ├── README.md
-├── backlog/          # 待开始的任务
+├── backlog/          # 待实施的需求
 │   └── <scope>/
-├── active/           # 正在推进的任务
+├── active/           # 正在推进的需求
 │   └── <scope>/
-└── done/             # 已完成任务的归档记录
+└── done/             # 已完成需求的归档记录
     └── <scope>/
 ```
 
