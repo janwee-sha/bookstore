@@ -1,6 +1,6 @@
 # Bookstore Demo项目
 
-一个基于 Spring Cloud，使用 Gradle Wrapper 构建的多模块微服务书店 Demo 项目。
+一个基于 Spring Cloud、使用 Gradle Wrapper 构建的多模块微服务书店 Demo 项目。
 
 ## 项目结构
 
