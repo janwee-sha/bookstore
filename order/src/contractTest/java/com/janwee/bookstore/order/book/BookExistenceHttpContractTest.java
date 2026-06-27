@@ -16,20 +16,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -124,13 +122,13 @@ class BookExistenceHttpContractTest {
     }
 
     private Book saveBook(Long authorId) {
-        Book book = new Book.Builder()
-                .withName("Contract Book")
-                .withAmount(5)
-                .withPrice(Price.of(Currency.USD, new BigDecimal("12.30")))
-                .publishAt(LocalDate.of(2026, 5, 12))
-                .byPublisher("Contract Publisher")
-                .byAuthor(authorId)
+        Book book = Book.builder()
+                .name("Contract Book")
+                .amount(5)
+                .price(Price.of(Currency.USD, new BigDecimal("12.30")))
+                .publishedAt(LocalDate.of(2026, 5, 12))
+                .publisher("Contract Publisher")
+                .authorId(authorId)
                 .build();
         return BookPOAssembler.toDomain(bookRepo.saveAndFlush(BookPOAssembler.toPO(book)));
     }

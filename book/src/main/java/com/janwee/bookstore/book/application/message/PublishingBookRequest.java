@@ -49,12 +49,12 @@ public class PublishingBookRequest implements Serializable {
 
     @JsonIgnore
     public Book toNewBook() {
-        return new Book.Builder()
-                .withName(this.name)
-                .withAmount(this.amount)
-                .withPrice(this.price == null ? null : this.price.toPrice())
-                .byPublisher(this.publisher)
-                .byAuthor(this.authorId)
+        return Book.builder()
+                .name(this.name)
+                .amount(this.amount)
+                .price(this.price == null ? null : this.price.toPrice())
+                .publisher(this.publisher)
+                .authorId(this.authorId)
                 .build();
     }
 

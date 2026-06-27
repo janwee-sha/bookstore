@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class AuthorRepositoryJpaImpl implements AuthorRepository {
+public class AuthorRepositoryJpaAdapter implements AuthorRepository {
     private final AuthorJpaRepository jpaRepo;
 
     @Override

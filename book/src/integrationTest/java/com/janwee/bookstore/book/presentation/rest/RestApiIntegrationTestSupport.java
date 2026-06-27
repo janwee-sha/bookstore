@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -79,13 +79,13 @@ abstract class RestApiIntegrationTestSupport {
                             LocalDate publishedAt,
                             String publisher,
                             Long authorId) {
-        Book book = new Book.Builder()
-                .withName(name)
-                .withAmount(amount)
-                .withPrice(Price.of(Currency.USD, priceAmount))
-                .publishAt(publishedAt)
-                .byPublisher(publisher)
-                .byAuthor(authorId)
+        Book book = Book.builder()
+                .name(name)
+                .amount(amount)
+                .price(Price.of(Currency.USD, priceAmount))
+                .publishedAt(publishedAt)
+                .publisher(publisher)
+                .authorId(authorId)
                 .build();
         return BookPOAssembler.toDomain(bookRepo.saveAndFlush(BookPOAssembler.toPO(book)));
     }

@@ -1,12 +1,14 @@
 package com.janwee.bookstore.book.domain.model;
 
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
+import lombok.Builder;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Builder
 public class Book implements Serializable {
     @Serial
     private static final long serialVersionUID = 2266684333872541496L;
@@ -29,7 +31,9 @@ public class Book implements Serializable {
         this.publishedAt = LocalDate.now();
     }
 
-    public Book(Long id, String name, int amount, Price price, LocalDate publishedAt, String publisher, Long authorId) {
+    public Book(Long id, String name, int amount, Price price,
+                LocalDate publishedAt, String publisher, Long authorId) {
+        this();
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -106,47 +110,5 @@ public class Book implements Serializable {
             throw InvalidBookException.soldOut();
         }
         this.amount -= amount;
-    }
-
-    public static class Builder {
-        private final Book book;
-
-        public Builder() {
-            this.book = new Book();
-        }
-
-        public Builder withName(String name) {
-            book.changeNameTo(name);
-            return this;
-        }
-
-        public Builder withAmount(int amount) {
-            book.changeAmountTo(amount);
-            return this;
-        }
-
-        public Builder withPrice(Price price) {
-            book.changePriceTo(price);
-            return this;
-        }
-
-        public Builder publishAt(LocalDate publishedAt) {
-            book.changePublicationDate(publishedAt);
-            return this;
-        }
-
-        public Builder byPublisher(String publisher) {
-            book.changePublisherTo(publisher);
-            return this;
-        }
-
-        public Builder byAuthor(Long authorId) {
-            book.changeAuthorTo(authorId);
-            return this;
-        }
-
-        public Book build() {
-            return book;
-        }
     }
 }

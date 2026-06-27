@@ -28,7 +28,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void testSavingBook() {
-        Book book1 = bookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book1 = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
 
         bookRepo.add(book1);
@@ -50,7 +50,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void shouldRejectAddingBookWithExistingId() {
-        Book book = bookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
         bookRepo.add(book);
         entityManager.flush();
@@ -64,7 +64,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void shouldUpdateExistingBook() {
-        Book book = bookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
         bookRepo.add(book);
         entityManager.flush();
@@ -96,7 +96,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void shouldRejectUpdatingBookWithoutId() {
-        Book book = bookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
@@ -107,7 +107,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void shouldRejectUpdatingMissingBook() {
-        Book book = bookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
         bookRepo.add(book);
         entityManager.flush();
@@ -123,15 +123,15 @@ public class BookRepositoryIntegrationTest {
         assertEquals("Existing book must be present before update", ex.getMessage());
     }
 
-    private static Book bookOf(String name, int amount, Price price, LocalDate publishedAt,
-                               String publisher, Long authorId) {
-        return new Book.Builder()
-                .withName(name)
-                .withAmount(amount)
-                .withPrice(price)
-                .publishAt(publishedAt)
-                .byPublisher(publisher)
-                .byAuthor(authorId)
+    private static Book newBookOf(String name, int amount, Price price, LocalDate publishedAt,
+                                  String publisher, Long authorId) {
+        return Book.builder()
+                .name(name)
+                .amount(amount)
+                .price(price)
+                .publishedAt(publishedAt)
+                .publisher(publisher)
+                .authorId(authorId)
                 .build();
     }
 }
