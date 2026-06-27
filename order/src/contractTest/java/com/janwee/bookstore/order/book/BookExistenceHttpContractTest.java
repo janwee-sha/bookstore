@@ -7,7 +7,7 @@ import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
-import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
+import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorPOJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
 import com.janwee.bookstore.order.southbound.adapter.BookFeignClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +59,7 @@ class BookExistenceHttpContractTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private AuthorJpaRepository authorRepo;
+    private AuthorPOJpaRepository authorRepo;
 
     @Autowired
     private BookPOJpaRepository bookRepo;

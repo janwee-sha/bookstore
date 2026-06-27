@@ -4,7 +4,7 @@ import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.entity.AuthorPO;
-import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
+import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorPOJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class AuthorRepositoryJpaAdapter implements AuthorRepository {
-    private final AuthorJpaRepository jpaRepo;
+    private final AuthorPOJpaRepository jpaRepo;
 
     @Override
     public Optional<Author> authorOf(Long id) {

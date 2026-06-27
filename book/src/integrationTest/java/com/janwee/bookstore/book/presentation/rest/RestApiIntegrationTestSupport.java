@@ -7,7 +7,7 @@ import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
-import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
+import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorPOJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ abstract class RestApiIntegrationTestSupport {
     protected MockMvc mockMvc;
 
     @Autowired
-    protected AuthorJpaRepository authorRepo;
+    protected AuthorPOJpaRepository authorRepo;
 
     @Autowired
     protected BookPOJpaRepository bookRepo;
