@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootConfiguration
-@EntityScan("com.janwee.bookstore.book.domain.model")
+@EntityScan({
+        "com.janwee.bookstore.book.domain.model",
+        "com.janwee.bookstore.book.infrastructure.persistence"
+})
 @EnableJpaRepositories("com.janwee.bookstore.book.infrastructure.persistence")
 @Import({AuthorRepositoryJpaImpl.class, BookRepositoryJpaImpl.class})
 class BookJpaTestConfiguration {

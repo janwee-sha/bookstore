@@ -5,7 +5,6 @@ import com.janwee.bookstore.book.application.message.BookResponse;
 import com.janwee.bookstore.book.application.message.PublishingBookRequest;
 import com.janwee.bookstore.book.application.message.UpdatingBookRequest;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
-import com.janwee.bookstore.book.domain.model.Book_;
 import com.janwee.bookstore.foundation.logging.Logging;
 import com.janwee.bookstore.foundation.validation.ValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +39,7 @@ public class BookResource {
     @PageableAsQueryParam
     @PreAuthorize("hasAnyAuthority('book:read','book:write')")
     public Page<BookResponse> books(@SortDefault.SortDefaults({
-            @SortDefault(sort = Book_.PUBLISHED_AT, direction = Sort.Direction.DESC)}) Pageable page) {
+            @SortDefault(sort = "publishedAt", direction = Sort.Direction.DESC)}) Pageable page) {
         return bookAppService.books(page);
     }
 

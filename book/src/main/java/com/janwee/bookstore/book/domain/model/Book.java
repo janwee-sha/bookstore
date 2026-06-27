@@ -1,29 +1,22 @@
 package com.janwee.bookstore.book.domain.model;
 
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
-import com.janwee.bookstore.book.infrastructure.persistence.PriceConverter;
-import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "books")
 public class Book implements Serializable {
     @Serial
     private static final long serialVersionUID = 2266684333872541496L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_books")
-    @SequenceGenerator(name = "seq_books", sequenceName = "book.seq_books", allocationSize = 1)
+
     private Long id;
 
     private String name;
 
     private int amount;
 
-    @Convert(converter = PriceConverter.class)
     private Price price;
 
     private LocalDate publishedAt;
@@ -36,8 +29,22 @@ public class Book implements Serializable {
         this.publishedAt = LocalDate.now();
     }
 
+    public Book(Long id, String name, int amount, Price price, LocalDate publishedAt, String publisher, Long authorId) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.price = price;
+        this.publishedAt = publishedAt;
+        this.publisher = publisher;
+        this.authorId = authorId;
+    }
+
     public Long id() {
         return id;
+    }
+
+    public void assignId(Long id) {
+        this.id = id;
     }
 
     public String name() {

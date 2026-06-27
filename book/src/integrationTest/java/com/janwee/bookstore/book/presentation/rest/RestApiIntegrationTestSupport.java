@@ -5,8 +5,9 @@ import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
+import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
-import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookJpaRepository;
+import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,7 +35,7 @@ abstract class RestApiIntegrationTestSupport {
     protected AuthorJpaRepository authorRepo;
 
     @Autowired
-    protected BookJpaRepository bookRepo;
+    protected BookPOJpaRepository bookRepo;
 
     @Autowired
     private JwtAuthenticationConverter jwtAuthenticationConverter;
@@ -86,6 +87,6 @@ abstract class RestApiIntegrationTestSupport {
                 .byPublisher(publisher)
                 .byAuthor(authorId)
                 .build();
-        return bookRepo.saveAndFlush(book);
+        return BookPOAssembler.toDomain(bookRepo.saveAndFlush(BookPOAssembler.toPO(book)));
     }
 }

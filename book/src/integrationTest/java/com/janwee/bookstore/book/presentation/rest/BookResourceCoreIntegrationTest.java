@@ -2,6 +2,7 @@ package com.janwee.bookstore.book.presentation.rest;
 
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.model.Book;
+import com.janwee.bookstore.book.infrastructure.persistence.entity.BookPO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -99,11 +100,11 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                 .andExpect(status().isCreated());
 
         assertEquals(1, bookRepo.count());
-        Book saved = bookRepo.findAll().get(0);
-        assertEquals("Building Evolutionary Architectures", saved.name());
-        assertEquals(12, saved.amount());
-        assertEquals("O'Reilly", saved.publisher());
-        assertEquals(author.id(), saved.authorId());
+        BookPO saved = bookRepo.findAll().get(0);
+        assertEquals("Building Evolutionary Architectures", saved.getName());
+        assertEquals(12, saved.getAmount());
+        assertEquals("O'Reilly", saved.getPublisher());
+        assertEquals(author.id(), saved.getAuthorId());
     }
 
     @Test
@@ -180,10 +181,10 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                         .content(requestBody))
                 .andExpect(status().isOk());
 
-        Book changed = bookRepo.findById(book.id()).orElseThrow();
-        assertEquals(3, changed.amount());
-        assertEquals("Manning", changed.publisher());
-        assertEquals(newAuthor.id(), changed.authorId());
+        BookPO changed = bookRepo.findById(book.id()).orElseThrow();
+        assertEquals(3, changed.getAmount());
+        assertEquals("Manning", changed.getPublisher());
+        assertEquals(newAuthor.id(), changed.getAuthorId());
     }
 
     @Test
