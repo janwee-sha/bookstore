@@ -1,74 +1,62 @@
 package com.janwee.bookstore.book.domain.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "authors")
-@Getter
-@Setter
+@Builder
 public class Author implements Serializable {
     @Serial
     private static final long serialVersionUID = 1911240306150353773L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_authors")
-    @SequenceGenerator(name = "seq_authors", sequenceName = "book.seq_authors", allocationSize = 1)
+
     private Long id;
 
     private String name;
 
     private String profile;
 
-    @Column(name = "phone_no")
     private String phoneNumber;
 
     public Author() {
+    }
+
+    public Author(Long id, String name, String profile, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.profile = profile;
+        this.phoneNumber = phoneNumber;
     }
 
     public Long id() {
         return id;
     }
 
+    public void assignId(Long id) {
+        this.id = id;
+    }
+
     public String name() {
         return name;
+    }
+
+    public void changeNameTo(String name) {
+        this.name = name;
     }
 
     public String profile() {
         return profile;
     }
 
+    public void changeProfileTo(String profile) {
+        this.profile = profile;
+    }
+
     public String phoneNumber() {
         return phoneNumber;
     }
 
-    public static class Builder {
-        private final Author author;
-
-        public Builder() {
-            this.author = new Author();
-        }
-
-        public Builder ofName(String name) {
-            this.author.name = name;
-            return this;
-        }
-
-        public Builder withProfile(String profile) {
-            this.author.profile = profile;
-            return this;
-        }
-
-        public Builder withPhoneNumber(String phoneNumber) {
-            this.author.phoneNumber = phoneNumber;
-            return this;
-        }
-
-        public Author build() {
-            return this.author;
-        }
+    public void changePhoneNumberTo(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

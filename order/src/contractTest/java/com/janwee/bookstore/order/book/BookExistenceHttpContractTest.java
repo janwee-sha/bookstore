@@ -5,6 +5,7 @@ import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
+import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
@@ -113,12 +114,12 @@ class BookExistenceHttpContractTest {
     }
 
     private Author saveAuthor() {
-        Author author = new Author.Builder()
-                .ofName("Contract Author")
-                .withProfile("Contract")
-                .withPhoneNumber("13800000010")
+        Author author = Author.builder()
+                .name("Contract Author")
+                .profile("Contract")
+                .phoneNumber("13800000010")
                 .build();
-        return authorRepo.saveAndFlush(author);
+        return AuthorPOAssembler.toDomain(authorRepo.saveAndFlush(AuthorPOAssembler.toPO(author)));
     }
 
     private Book saveBook(Long authorId) {

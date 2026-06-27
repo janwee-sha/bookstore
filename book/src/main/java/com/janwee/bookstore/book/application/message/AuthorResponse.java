@@ -4,7 +4,6 @@ import com.janwee.bookstore.book.domain.model.Author;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -35,7 +34,10 @@ public class AuthorResponse implements Serializable {
             return null;
         }
         AuthorResponse response = new AuthorResponse();
-        BeanUtils.copyProperties(author, response);
+        response.id = author.id();
+        response.name = author.name();
+        response.profile = author.profile();
+        response.phoneNumber = author.phoneNumber();
         return response;
     }
 }

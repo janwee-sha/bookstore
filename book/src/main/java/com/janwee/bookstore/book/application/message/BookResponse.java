@@ -1,6 +1,5 @@
 package com.janwee.bookstore.book.application.message;
 
-import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
@@ -40,7 +39,7 @@ public class BookResponse implements Serializable {
     private String publisher;
 
     @Schema(name = "Author")
-    private Author author;
+    private AuthorResponse author;
 
     public BookResponse() {
     }

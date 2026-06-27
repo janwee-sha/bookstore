@@ -2,6 +2,8 @@ package com.janwee.bookstore.book.infrastructure.persistence;
 
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
+import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAssembler;
+import com.janwee.bookstore.book.infrastructure.persistence.entity.AuthorPO;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,12 +20,16 @@ public class AuthorRepositoryJpaAdapter implements AuthorRepository {
 
     @Override
     public Optional<Author> authorOf(Long id) {
-        return jpaRepo.findById(id);
+        return jpaRepo.findById(id)
+                .map(AuthorPOAssembler::toDomain);
     }
 
     @Override
     public List<Author> authorsOf(Collection<Long> ids) {
-        return jpaRepo.findAllById(ids);
+        return jpaRepo.findAllById(ids)
+                .stream()
+                .map(AuthorPOAssembler::toDomain)
+                .toList();
     }
 
     @Override
@@ -35,7 +41,8 @@ public class AuthorRepositoryJpaAdapter implements AuthorRepository {
     public void add(Author author) {
         Assert.notNull(author, "Author is required");
         Assert.isNull(author.id(), "New author must not already have an ID");
-        jpaRepo.save(author);
+        AuthorPO saved = jpaRepo.save(AuthorPOAssembler.toPO(author));
+        author.assignId(saved.getId());
     }
 
     @Override
@@ -44,6 +51,6 @@ public class AuthorRepositoryJpaAdapter implements AuthorRepository {
         Long id = author.id();
         Assert.notNull(id, "Existing author ID is required for update");
         Assert.isTrue(jpaRepo.existsById(id), "Existing author must be present before update");
-        jpaRepo.save(author);
+        jpaRepo.save(AuthorPOAssembler.toPO(author));
     }
 }

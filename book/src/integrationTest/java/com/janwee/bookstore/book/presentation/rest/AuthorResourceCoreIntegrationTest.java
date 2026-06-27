@@ -1,6 +1,7 @@
 package com.janwee.bookstore.book.presentation.rest;
 
 import com.janwee.bookstore.book.domain.model.Author;
+import com.janwee.bookstore.book.infrastructure.persistence.entity.AuthorPO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -47,10 +48,10 @@ class AuthorResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                 .andExpect(status().isOk());
 
         assertEquals(1, authorRepo.count());
-        Author saved = authorRepo.findAll().get(0);
-        assertEquals("Vaughn Vernon", saved.name());
-        assertEquals("Implementing Domain-Driven Design", saved.profile());
-        assertEquals("13800000011", saved.phoneNumber());
+        AuthorPO saved = authorRepo.findAll().get(0);
+        assertEquals("Vaughn Vernon", saved.getName());
+        assertEquals("Implementing Domain-Driven Design", saved.getProfile());
+        assertEquals("13800000011", saved.getPhoneNumber());
     }
 
     @Test

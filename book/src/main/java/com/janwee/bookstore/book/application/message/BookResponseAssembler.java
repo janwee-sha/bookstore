@@ -22,7 +22,7 @@ public class BookResponseAssembler {
 
     public BookResponse assemble(Book book) {
         BookResponse response = BookResponse.from(book);
-        response.setAuthor(authorRepo.authorOf(book.authorId()).orElse(null));
+        response.setAuthor(AuthorResponse.from(authorRepo.authorOf(book.authorId()).orElse(null)));
         return response;
     }
 
@@ -32,7 +32,7 @@ public class BookResponseAssembler {
                 .stream().collect(Collectors.toMap(Author::id, Function.identity()));
         return books.stream().map(book -> {
             BookResponse response = BookResponse.from(book);
-            response.setAuthor(authors.get(book.authorId()));
+            response.setAuthor(AuthorResponse.from(authors.get(book.authorId())));
             return response;
         }).collect(Collectors.toList());
     }

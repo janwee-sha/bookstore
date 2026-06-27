@@ -9,10 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootConfiguration
 @EntityScan({
-        "com.janwee.bookstore.book.domain.model",
-        "com.janwee.bookstore.book.infrastructure.persistence"
+        "com.janwee.bookstore.book.infrastructure.persistence.entity"
 })
-@EnableJpaRepositories("com.janwee.bookstore.book.infrastructure.persistence")
+@EnableJpaRepositories("com.janwee.bookstore.book.infrastructure.persistence.jpa")
 @Import({AuthorRepositoryJpaAdapter.class, BookRepositoryJpaAdapter.class})
 class BookJpaTestConfiguration {
 }

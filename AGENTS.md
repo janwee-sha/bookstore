@@ -65,8 +65,3 @@
 - 质疑应基于具体代码路径、配置文件或测试行为；避免泛泛而谈。
 - 如果发现更稳妥的方案与用户初始想法不同，先解释原因和取舍，再请求确认或在允许范围内实施。
 - 最终回复保持简洁，说明改了什么、为什么改、如何验证；若未运行验证，明确说明原因。
-
-<!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-<!-- SPECKIT END -->

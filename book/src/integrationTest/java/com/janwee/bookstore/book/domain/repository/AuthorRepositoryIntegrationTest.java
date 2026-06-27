@@ -24,7 +24,7 @@ public class AuthorRepositoryIntegrationTest {
 
     @Test
     void testSavingAuthor() {
-        Author author1 = authorOf("author_a", "profile_a", "123456789");
+        Author author1 = newAuthorOf("author_a", "profile_a", "123456789");
 
         authorRepo.add(author1);
         entityManager.flush();
@@ -42,7 +42,7 @@ public class AuthorRepositoryIntegrationTest {
 
     @Test
     void shouldRejectAddingAuthorWithExistingId() {
-        Author author = authorOf("author_a", "profile_a", "123456789");
+        Author author = newAuthorOf("author_a", "profile_a", "123456789");
         authorRepo.add(author);
         entityManager.flush();
         entityManager.clear();
@@ -55,15 +55,15 @@ public class AuthorRepositoryIntegrationTest {
 
     @Test
     void shouldUpdateExistingAuthor() {
-        Author author = authorOf("author_a", "profile_a", "123456789");
+        Author author = newAuthorOf("author_a", "profile_a", "123456789");
         authorRepo.add(author);
         entityManager.flush();
         entityManager.clear();
 
         Author changed = authorRepo.authorOf(author.id()).orElseThrow();
-        changed.setName("author_b");
-        changed.setProfile("profile_b");
-        changed.setPhoneNumber("987654321");
+        changed.changeNameTo("author_b");
+        changed.changeProfileTo("profile_b");
+        changed.changePhoneNumberTo("987654321");
 
         authorRepo.update(changed);
         entityManager.flush();
@@ -80,7 +80,7 @@ public class AuthorRepositoryIntegrationTest {
 
     @Test
     void shouldRejectUpdatingAuthorWithoutId() {
-        Author author = authorOf("author_a", "profile_a", "123456789");
+        Author author = newAuthorOf("author_a", "profile_a", "123456789");
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> authorRepo.update(author));
@@ -90,8 +90,8 @@ public class AuthorRepositoryIntegrationTest {
 
     @Test
     void shouldRejectUpdatingMissingAuthor() {
-        Author author = authorOf("author_a", "profile_a", "123456789");
-        author.setId(999999L);
+        Author author = newAuthorOf("author_a", "profile_a", "123456789");
+        author.assignId(999999L);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> authorRepo.update(author));
@@ -99,11 +99,11 @@ public class AuthorRepositoryIntegrationTest {
         assertEquals("Existing author must be present before update", ex.getMessage());
     }
 
-    private static Author authorOf(String name, String profile, String phoneNumber) {
-        return new Author.Builder()
-                .ofName(name)
-                .withProfile(profile)
-                .withPhoneNumber(phoneNumber)
+    private static Author newAuthorOf(String name, String profile, String phoneNumber) {
+        return Author.builder()
+                .name(name)
+                .profile(profile)
+                .phoneNumber(phoneNumber)
                 .build();
     }
 }

@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -31,8 +30,10 @@ public class RegisteringAuthorRequest implements Serializable {
     }
 
     public Author toAuthor() {
-        Author author = new Author();
-        BeanUtils.copyProperties(this, author);
-        return author;
+        return Author.builder()
+                .name(name)
+                .profile(profile)
+                .phoneNumber(phoneNumber)
+                .build();
     }
 }

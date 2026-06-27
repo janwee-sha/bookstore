@@ -5,6 +5,7 @@ import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.model.Price;
+import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
@@ -65,12 +66,12 @@ abstract class RestApiIntegrationTestSupport {
     }
 
     protected Author saveAuthor(String name, String profile, String phoneNumber) {
-        Author author = new Author.Builder()
-                .ofName(name)
-                .withProfile(profile)
-                .withPhoneNumber(phoneNumber)
+        Author author = Author.builder()
+                .name(name)
+                .profile(profile)
+                .phoneNumber(phoneNumber)
                 .build();
-        return authorRepo.saveAndFlush(author);
+        return AuthorPOAssembler.toDomain(authorRepo.saveAndFlush(AuthorPOAssembler.toPO(author)));
     }
 
     protected Book saveBook(String name,
