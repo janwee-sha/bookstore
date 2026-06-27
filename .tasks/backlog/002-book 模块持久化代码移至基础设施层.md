@@ -4,4 +4,5 @@
 以 Book 实体为例：
 - 在 com.janwee.bookstore.book.infrastructure.persistence.BookRepositoryJpaImpl 中调用 com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository
 - 在 com.janwee.bookstore.book.infrastructure.persistence.BookPOAssembler 装配器中完成 Book 与 BookPO 对象之间的转换
+- 删除原 Book 实体上与持久化技术相关的依赖和行为
 - 修改对应下游调用和测试用例
