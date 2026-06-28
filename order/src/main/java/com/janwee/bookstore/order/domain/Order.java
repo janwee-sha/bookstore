@@ -48,7 +48,7 @@ public class Order implements Serializable {
     }
 
     public void changeAmountTo(int newAmount) {
-        if (amount < 1) {
+        if (newAmount < 1) {
             throw InvalidOrderException.illegalAmount();
         }
         this.amount = newAmount;

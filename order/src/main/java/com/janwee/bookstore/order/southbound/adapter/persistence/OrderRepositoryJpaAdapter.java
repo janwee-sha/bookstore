@@ -28,19 +28,9 @@ public class OrderRepositoryJpaAdapter implements OrderRepository {
     }
 
     @Override
-    public void add(Order order) {
+    public void save(Order order) {
         Assert.notNull(order, "Order is required");
-        Assert.isNull(order.id(), "New order must not already have an ID");
         OrderPO saved = jpaRepo.save(OrderPOAssembler.toPO(order));
         order.assignId(saved.getId());
-    }
-
-    @Override
-    public void update(Order order) {
-        Assert.notNull(order, "Order is required");
-        Long id = order.id();
-        Assert.notNull(id, "Existing order ID is required for update");
-        Assert.isTrue(jpaRepo.existsById(id), "Existing order must be present before update");
-        jpaRepo.save(OrderPOAssembler.toPO(order));
     }
 }

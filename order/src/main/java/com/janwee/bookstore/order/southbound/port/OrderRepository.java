@@ -11,7 +11,5 @@ public interface OrderRepository {
 
     Optional<Order> orderOf(Long id);
 
-    void add(Order order);
-
-    void update(Order order);
+    void save(Order order);
 }

@@ -36,7 +36,7 @@ class OrderRepositoryIntegrationTest {
     void shouldSaveAndLoadOrder() {
         Order order = Order.create().ofBook(1L).ofAmount(2);
 
-        orderRepo.add(order);
+        orderRepo.save(order);
         entityManager.flush();
         entityManager.clear();
 
@@ -54,13 +54,13 @@ class OrderRepositoryIntegrationTest {
     @Test
     void shouldUpdateExistingOrderState() {
         Order order = Order.create().ofBook(1L).ofAmount(2);
-        orderRepo.add(order);
+        orderRepo.save(order);
         entityManager.flush();
         entityManager.clear();
 
         Order changed = orderRepo.orderOf(order.id()).orElseThrow();
         changed.approve();
-        orderRepo.update(changed);
+        orderRepo.save(changed);
         entityManager.flush();
         entityManager.clear();
 

@@ -34,7 +34,7 @@ public class BookEventSubscriber {
         Order order = orderRepo.orderOf(event.orderId())
                 .orElseThrow(() -> new OrderNotFoundException(event.orderId()));
         order.approve();
-        orderRepo.update(order);
+        orderRepo.save(order);
         Ticket ticket = new Ticket().ofOrder(event.orderId()).ofBook(event.bookId());
         ticketRepo.add(ticket);
     }
@@ -46,7 +46,7 @@ public class BookEventSubscriber {
         if (optOrder.isPresent()) {
             Order order = optOrder.get();
             order.reject();
-            orderRepo.update(order);
+            orderRepo.save(order);
         }
     }
 

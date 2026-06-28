@@ -55,7 +55,7 @@ public class OrderApplicationService {
         if (bookReview.isUnavailable()) {
             throw InvalidOrderException.unavailableBook();
         }
-        orderRepo.add(order);
+        orderRepo.save(order);
 
         OrderCreated orderCreated = new OrderCreated(order.id(), order.bookId(), order.amount(),
                 order.createdAt());

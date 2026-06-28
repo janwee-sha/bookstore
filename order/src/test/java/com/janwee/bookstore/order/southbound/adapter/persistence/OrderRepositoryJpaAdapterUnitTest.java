@@ -5,6 +5,7 @@ import com.janwee.bookstore.order.domain.State;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,13 +28,13 @@ class OrderRepositoryJpaAdapterUnitTest {
     private OrderRepositoryJpaAdapter adapter;
 
     @Test
-    void shouldAssignGeneratedIdWhenSavingOrder() {
+    void shouldAssignGeneratedIdWhenSavingNewOrder() {
         Order order = Order.create().ofBook(1L).ofAmount(2);
         LocalDateTime createdAt = order.createdAt();
         when(jpaRepo.save(any(OrderPO.class)))
                 .thenReturn(new OrderPO(100L, 1L, 2, createdAt, State.APPROVAL_PENDING));
 
-        adapter.add(order);
+        adapter.save(order);
 
         assertEquals(100L, order.id());
     }
@@ -41,43 +42,23 @@ class OrderRepositoryJpaAdapterUnitTest {
     @Test
     void shouldRejectNullOrder() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> adapter.add(null));
+                () -> adapter.save(null));
 
         assertEquals("Order is required", ex.getMessage());
         verify(jpaRepo, never()).save(any());
     }
 
     @Test
-    void shouldRejectAddingOrderWithExistingId() {
+    void shouldSaveExistingOrderAsUpsert() {
         Order order = new Order(1L, 2L, 3, LocalDateTime.now(), State.APPROVAL_PENDING);
+        when(jpaRepo.save(any(OrderPO.class)))
+                .thenReturn(new OrderPO(1L, 2L, 3, order.createdAt(), State.APPROVAL_PENDING));
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> adapter.add(order));
+        adapter.save(order);
 
-        assertEquals("New order must not already have an ID", ex.getMessage());
-        verify(jpaRepo, never()).save(any());
-    }
-
-    @Test
-    void shouldRejectUpdatingOrderWithoutId() {
-        Order order = Order.create().ofBook(1L).ofAmount(2);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> adapter.update(order));
-
-        assertEquals("Existing order ID is required for update", ex.getMessage());
-        verify(jpaRepo, never()).save(any());
-    }
-
-    @Test
-    void shouldRejectUpdatingMissingOrder() {
-        Order order = new Order(1L, 2L, 3, LocalDateTime.now(), State.APPROVAL_PENDING);
-        when(jpaRepo.existsById(1L)).thenReturn(false);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> adapter.update(order));
-
-        assertEquals("Existing order must be present before update", ex.getMessage());
-        verify(jpaRepo, never()).save(any());
+        ArgumentCaptor<OrderPO> captor = ArgumentCaptor.forClass(OrderPO.class);
+        verify(jpaRepo).save(captor.capture());
+        verify(jpaRepo, never()).existsById(any());
+        assertEquals(1L, captor.getValue().getId());
     }
 }
