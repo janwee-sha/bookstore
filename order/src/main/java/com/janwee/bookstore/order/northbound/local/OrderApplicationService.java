@@ -3,6 +3,7 @@ package com.janwee.bookstore.order.northbound.local;
 import com.janwee.bookstore.order.domain.InvalidOrderException;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
+import com.janwee.bookstore.order.domain.Ticket;
 import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import com.janwee.bookstore.order.southbound.message.BookReview;
@@ -10,28 +11,24 @@ import com.janwee.bookstore.order.southbound.message.OrderCreated;
 import com.janwee.bookstore.order.southbound.port.BookClient;
 import com.janwee.bookstore.order.southbound.port.EventPublisher;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
+import com.janwee.bookstore.order.southbound.port.TicketRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OrderApplicationService {
     private final OrderRepository orderRepo;
     private final EventPublisher eventPublisher;
-
+    private final TicketRepository ticketRepo;
     private final BookClient bookClient;
-
-    @Autowired
-    public OrderApplicationService(OrderRepository orderRepo, EventPublisher eventPublisher,
-                                   BookClient bookClient) {
-        this.orderRepo = orderRepo;
-        this.eventPublisher = eventPublisher;
-        this.bookClient = bookClient;
-    }
 
     @Transactional(readOnly = true)
     public Page<OrderResponse> orders(Pageable pageable) {
@@ -61,5 +58,27 @@ public class OrderApplicationService {
                 order.createdAt());
         eventPublisher.publish(orderCreated);
         return order.id();
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public void approveAfterBookOrdered(long orderId) {
+        log.info("Approving order {} after book ordered.", orderId);
+        Order order = orderRepo.orderOf(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+        order.approve();
+        orderRepo.save(order);
+        Ticket ticket = new Ticket().ofOrder(orderId).ofBook(order.bookId());
+        ticketRepo.save(ticket);
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public void rejectAfterBookSoldOut(long orderId) {
+        log.info("Rejecting order {} after book sold out.", orderId);
+        Optional<Order> optOrder = orderRepo.orderOf(orderId);
+        if (optOrder.isPresent()) {
+            Order order = optOrder.get();
+            order.reject();
+            orderRepo.save(order);
+        }
     }
 }
