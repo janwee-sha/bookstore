@@ -1,9 +1,9 @@
 package com.janwee.bookstore.book.interfaces.rest;
 
-import com.janwee.bookstore.book.application.BookApplicationService;
-import com.janwee.bookstore.book.application.message.BookResponse;
-import com.janwee.bookstore.book.application.message.PublishingBookRequest;
-import com.janwee.bookstore.book.application.message.UpdatingBookRequest;
+import com.janwee.bookstore.book.application.command.PublishingBookCommand;
+import com.janwee.bookstore.book.application.command.UpdatingBookCommand;
+import com.janwee.bookstore.book.application.service.BookApplicationService;
+import com.janwee.bookstore.book.application.view.BookView;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.foundation.logging.Logging;
 import com.janwee.bookstore.foundation.validation.ValidationGroup;
@@ -38,7 +38,7 @@ public class BookResource {
     @ResponseStatus(HttpStatus.OK)
     @PageableAsQueryParam
     @PreAuthorize("hasAnyAuthority('book:read','book:write')")
-    public Page<BookResponse> books(@SortDefault.SortDefaults({
+    public Page<BookView> books(@SortDefault.SortDefaults({
             @SortDefault(sort = "publishedAt", direction = Sort.Direction.DESC)}) Pageable page) {
         return bookAppService.books(page);
     }
@@ -47,7 +47,7 @@ public class BookResource {
     @Operation(summary = "Retrieve book details", description = "Retrieve the details for the book of given ID")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('book:read','book:write')")
-    public BookResponse book(@PathVariable final Long id) {
+    public BookView book(@PathVariable final Long id) {
         return bookAppService.bookOfId(id);
     }
 
@@ -63,7 +63,7 @@ public class BookResource {
     @Operation(summary = "Publish a new book", description = "Publish new book")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('book:write')")
-    public void publish(@Validated @RequestBody PublishingBookRequest request) {
+    public void publish(@Validated @RequestBody PublishingBookCommand request) {
         bookAppService.publish(request);
     }
 
@@ -73,7 +73,7 @@ public class BookResource {
     @PreAuthorize("hasAnyAuthority('book:write')")
     public void change(@PathVariable long id,
                        @Validated(value = ValidationGroup.Modification.class)
-                       @RequestBody UpdatingBookRequest request)
+                       @RequestBody UpdatingBookCommand request)
             throws BookNotFoundException {
         bookAppService.change(id, request);
     }

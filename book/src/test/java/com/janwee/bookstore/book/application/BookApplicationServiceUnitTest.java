@@ -1,9 +1,10 @@
 package com.janwee.bookstore.book.application;
 
-import com.janwee.bookstore.book.application.message.BookResponse;
-import com.janwee.bookstore.book.application.message.BookResponseAssembler;
-import com.janwee.bookstore.book.application.message.PublishingBookRequest;
-import com.janwee.bookstore.book.application.message.UpdatingBookRequest;
+import com.janwee.bookstore.book.application.view.BookView;
+import com.janwee.bookstore.book.application.assembler.BookViewAssembler;
+import com.janwee.bookstore.book.application.command.PublishingBookCommand;
+import com.janwee.bookstore.book.application.command.UpdatingBookCommand;
+import com.janwee.bookstore.book.application.service.BookApplicationService;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
@@ -38,7 +39,7 @@ class BookApplicationServiceUnitTest {
     private BookValidator bookValidator;
 
     @Mock
-    private BookResponseAssembler bookResponseAssembler;
+    private BookViewAssembler bookViewAssembler;
 
     @InjectMocks
     private BookApplicationService service;
@@ -63,9 +64,9 @@ class BookApplicationServiceUnitTest {
     @Test
     void shouldReturnBookResponseWhenBookExists() {
         Book book = newBook(1L);
-        BookResponse response = new BookResponse();
+        BookView response = new BookView();
         when(bookRepo.bookOf(1L)).thenReturn(Optional.of(book));
-        when(bookResponseAssembler.assemble(book)).thenReturn(response);
+        when(bookViewAssembler.assemble(book)).thenReturn(response);
 
         assertSame(response, service.bookOfId(1L));
     }
@@ -82,7 +83,7 @@ class BookApplicationServiceUnitTest {
 
     @Test
     void shouldValidateAndAddPublishedBook() {
-        PublishingBookRequest request = newPublishingBookRequest();
+        PublishingBookCommand request = newPublishingBookRequest();
 
         service.publish(request);
 
@@ -98,7 +99,7 @@ class BookApplicationServiceUnitTest {
         when(bookRepo.bookOf(1L)).thenReturn(Optional.empty());
 
         BookNotFoundException ex = assertThrows(BookNotFoundException.class,
-                () -> service.change(1L, new UpdatingBookRequest()));
+                () -> service.change(1L, new UpdatingBookCommand()));
 
         assertEquals("No such book of ID: 1", ex.getMessage());
         verify(bookValidator, never()).validate(any());
@@ -108,7 +109,7 @@ class BookApplicationServiceUnitTest {
     @Test
     void shouldValidateAndUpdateChangedBook() {
         Book book = newBook(1L);
-        UpdatingBookRequest request = new UpdatingBookRequest();
+        UpdatingBookCommand request = new UpdatingBookCommand();
         request.setAmount(3);
         when(bookRepo.bookOf(1L)).thenReturn(Optional.of(book));
 
@@ -147,12 +148,12 @@ class BookApplicationServiceUnitTest {
         return book;
     }
 
-    private static PublishingBookRequest newPublishingBookRequest() {
-        PublishingBookRequest.PriceRequest price = new PublishingBookRequest.PriceRequest();
+    private static PublishingBookCommand newPublishingBookRequest() {
+        PublishingBookCommand.PriceRequest price = new PublishingBookCommand.PriceRequest();
         price.setCurrency(Currency.USD);
         price.setAmount(BigDecimal.TEN);
 
-        PublishingBookRequest request = new PublishingBookRequest();
+        PublishingBookCommand request = new PublishingBookCommand();
         request.setName("book_a");
         request.setAmount(1);
         request.setPrice(price);

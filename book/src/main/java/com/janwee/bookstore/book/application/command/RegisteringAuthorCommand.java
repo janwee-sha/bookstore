@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.application.message;
+package com.janwee.bookstore.book.application.command;
 
 import com.janwee.bookstore.book.domain.model.Author;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Schema(title = "Registering Author Request", requiredProperties = {"name"})
-public class RegisteringAuthorRequest implements Serializable {
+public class RegisteringAuthorCommand implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 520082938370824138L;
@@ -26,7 +26,7 @@ public class RegisteringAuthorRequest implements Serializable {
     @Schema(title = "profile")
     private String phoneNumber;
 
-    public RegisteringAuthorRequest() {
+    public RegisteringAuthorCommand() {
     }
 
     public Author toAuthor() {

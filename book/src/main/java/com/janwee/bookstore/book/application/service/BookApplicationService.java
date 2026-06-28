@@ -1,6 +1,10 @@
-package com.janwee.bookstore.book.application;
+package com.janwee.bookstore.book.application.service;
 
-import com.janwee.bookstore.book.application.message.*;
+import com.janwee.bookstore.book.application.command.OrderingBookCommand;
+import com.janwee.bookstore.book.application.command.PublishingBookCommand;
+import com.janwee.bookstore.book.application.command.UpdatingBookCommand;
+import com.janwee.bookstore.book.application.view.BookView;
+import com.janwee.bookstore.book.application.assembler.BookViewAssembler;
 import com.janwee.bookstore.book.domain.event.BookOrdered;
 import com.janwee.bookstore.book.domain.event.BookSoldOut;
 import com.janwee.bookstore.book.domain.service.EventPublisher;
@@ -25,14 +29,14 @@ import java.util.Optional;
 public class BookApplicationService {
     private final BookRepository bookRepo;
     private final BookValidator bookValidator;
-    private final BookResponseAssembler bookResponseAssembler;
+    private final BookViewAssembler bookViewAssembler;
     private final EventPublisher eventPublisher;
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Page<BookResponse> books(Pageable pageable) {
+    public Page<BookView> books(Pageable pageable) {
         log.info("Loading books.");
         Page<Book> books = bookRepo.booksOf(pageable);
-        return new PageImpl<>(bookResponseAssembler.assemble(books.getContent()), pageable, books.getTotalElements());
+        return new PageImpl<>(bookViewAssembler.assemble(books.getContent()), pageable, books.getTotalElements());
     }
 
 
@@ -44,13 +48,13 @@ public class BookApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public BookResponse bookOfId(long id) {
-        return bookRepo.bookOf(id).map(bookResponseAssembler::assemble)
+    public BookView bookOfId(long id) {
+        return bookRepo.bookOf(id).map(bookViewAssembler::assemble)
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void publish(PublishingBookRequest request) {
+    public void publish(PublishingBookCommand request) {
         log.info("Publishing book.");
         Book book = request.toNewBook();
         bookValidator.validate(book);
@@ -58,7 +62,7 @@ public class BookApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void change(long id, UpdatingBookRequest request) {
+    public void change(long id, UpdatingBookCommand request) {
         log.info("Changing book information.");
         Optional<Book> existing = bookRepo.bookOf(id);
         if (existing.isEmpty()) {
@@ -79,7 +83,7 @@ public class BookApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void order(long id, OrderingBookRequest request) {
+    public void order(long id, OrderingBookCommand request) {
         log.info("Ordering book: {}.", id);
         Optional<Book> optBook = bookRepo.bookOf(id);
 

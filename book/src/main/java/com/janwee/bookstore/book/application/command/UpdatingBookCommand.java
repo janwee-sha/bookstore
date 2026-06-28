@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.application.message;
+package com.janwee.bookstore.book.application.command;
 
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Price;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Schema(title = "Updating Book Request")
-public class UpdatingBookRequest implements Serializable {
+public class UpdatingBookCommand implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
 
@@ -37,7 +37,7 @@ public class UpdatingBookRequest implements Serializable {
     @Schema(title = "Author ID")
     private Long authorId;
 
-    public UpdatingBookRequest() {
+    public UpdatingBookCommand() {
     }
 
     public Book changedInfoOf(Book existingBook) {

@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.application.message;
+package com.janwee.bookstore.book.application.view;
 
 import com.janwee.bookstore.book.domain.model.Author;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Schema(title = "Author")
-public class AuthorResponse implements Serializable {
+public class AuthorView implements Serializable {
     @Serial
     private static final long serialVersionUID = -5381508957577224951L;
     @Schema(title = "ID")
@@ -26,14 +26,14 @@ public class AuthorResponse implements Serializable {
     @Schema(title = "Phone Number")
     private String phoneNumber;
 
-    public AuthorResponse() {
+    public AuthorView() {
     }
 
-    public static AuthorResponse from(Author author) {
+    public static AuthorView from(Author author) {
         if (author == null) {
             return null;
         }
-        AuthorResponse response = new AuthorResponse();
+        AuthorView response = new AuthorView();
         response.id = author.id();
         response.name = author.name();
         response.profile = author.profile();

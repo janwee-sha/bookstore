@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.application.message;
+package com.janwee.bookstore.book.application.view;
 
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Schema(title = "Book")
 @Getter
 @Setter
-public class BookResponse implements Serializable {
+public class BookView implements Serializable {
     @Serial
     private static final long serialVersionUID = 4874660886108568257L;
     @Schema(title = "ID")
@@ -39,14 +39,14 @@ public class BookResponse implements Serializable {
     private String publisher;
 
     @Schema(name = "Author")
-    private AuthorResponse author;
+    private AuthorView author;
 
-    public BookResponse() {
+    public BookView() {
     }
 
-    public static BookResponse from(Book book) {
+    public static BookView from(Book book) {
         if (book != null) {
-            BookResponse response = new BookResponse();
+            BookView response = new BookView();
             response.id = book.id();
             response.name = book.name();
             response.price = PriceResponse.fromPrice(book.price());

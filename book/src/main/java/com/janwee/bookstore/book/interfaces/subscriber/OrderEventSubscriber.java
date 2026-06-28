@@ -1,8 +1,8 @@
 package com.janwee.bookstore.book.interfaces.subscriber;
 
 
-import com.janwee.bookstore.book.application.BookApplicationService;
-import com.janwee.bookstore.book.application.message.OrderingBookRequest;
+import com.janwee.bookstore.book.application.service.BookApplicationService;
+import com.janwee.bookstore.book.application.command.OrderingBookCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ public class OrderEventSubscriber {
 
     public void onOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
-        OrderingBookRequest request = new OrderingBookRequest();
+        OrderingBookCommand request = new OrderingBookCommand();
         request.setBookId(event.bookId());
         request.setOrderId(event.orderId());
         request.setAmount(event.amount());

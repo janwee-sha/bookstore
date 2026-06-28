@@ -1,8 +1,8 @@
 package com.janwee.bookstore.book.interfaces.rest;
 
-import com.janwee.bookstore.book.application.AuthorApplicationService;
-import com.janwee.bookstore.book.application.message.AuthorResponse;
-import com.janwee.bookstore.book.application.message.RegisteringAuthorRequest;
+import com.janwee.bookstore.book.application.command.RegisteringAuthorCommand;
+import com.janwee.bookstore.book.application.service.AuthorApplicationService;
+import com.janwee.bookstore.book.application.view.AuthorView;
 import com.janwee.bookstore.foundation.logging.Logging;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,14 +27,14 @@ public class AuthorResource {
     @GetMapping("/{id}")
     @Operation(description = "Retrieve author of given ID")
     @PreAuthorize("hasAnyAuthority('book:read','book:write')")
-    public AuthorResponse authorOfId(@PathVariable Long id) {
-        return authorAppService.authorOfId(id).map(AuthorResponse::from).orElse(null);
+    public AuthorView authorOfId(@PathVariable Long id) {
+        return authorAppService.authorOfId(id).map(AuthorView::from).orElse(null);
     }
 
     @PostMapping
     @Operation(description = "Register new author")
     @PreAuthorize("hasAnyAuthority('book:write')")
-    public void register(@Validated @RequestBody RegisteringAuthorRequest request) {
+    public void register(@Validated @RequestBody RegisteringAuthorCommand request) {
         authorAppService.register(request);
     }
 }

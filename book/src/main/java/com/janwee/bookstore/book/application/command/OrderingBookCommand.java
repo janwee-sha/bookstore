@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.application.message;
+package com.janwee.bookstore.book.application.command;
 
 
 import jakarta.validation.constraints.Positive;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderingBookRequest {
+public class OrderingBookCommand {
     private long bookId;
 
     private long orderId;

@@ -1,6 +1,7 @@
 package com.janwee.bookstore.book.application;
 
-import com.janwee.bookstore.book.application.message.RegisteringAuthorRequest;
+import com.janwee.bookstore.book.application.command.RegisteringAuthorCommand;
+import com.janwee.bookstore.book.application.service.AuthorApplicationService;
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class AuthorApplicationServiceUnitTest {
 
     @Test
     void shouldRegisterAuthor() {
-        RegisteringAuthorRequest request = new RegisteringAuthorRequest();
+        RegisteringAuthorCommand request = new RegisteringAuthorCommand();
         request.setName("author_a");
         request.setProfile("profile_a");
         request.setPhoneNumber("123456789");

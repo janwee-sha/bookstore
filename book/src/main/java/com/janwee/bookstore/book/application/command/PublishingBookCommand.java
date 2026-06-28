@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.application.message;
+package com.janwee.bookstore.book.application.command;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.janwee.bookstore.book.domain.model.Book;
@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 @Setter
 @Schema(title = "Publishing Book Request",
         requiredProperties = {"name", "price", "amount", "publishedAt", "publisher", "authorId"})
-public class PublishingBookRequest implements Serializable {
+public class PublishingBookCommand implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
 
@@ -44,7 +44,7 @@ public class PublishingBookRequest implements Serializable {
     @NotNull(message = "Author ID is required")
     private Long authorId;
 
-    public PublishingBookRequest() {
+    public PublishingBookCommand() {
     }
 
     @JsonIgnore

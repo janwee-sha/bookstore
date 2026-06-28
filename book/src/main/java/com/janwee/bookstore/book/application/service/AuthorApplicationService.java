@@ -1,9 +1,9 @@
-package com.janwee.bookstore.book.application;
+package com.janwee.bookstore.book.application.service;
 
 
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
-import com.janwee.bookstore.book.application.message.RegisteringAuthorRequest;
+import com.janwee.bookstore.book.application.command.RegisteringAuthorCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class AuthorApplicationService {
     }
 
     @Transactional
-    public void register(RegisteringAuthorRequest request) {
+    public void register(RegisteringAuthorCommand request) {
         log.info("Registering author");
         Author author = request.toAuthor();
         authorRepo.add(author);
