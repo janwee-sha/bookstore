@@ -3,6 +3,7 @@ package com.janwee.bookstore.order.northbound.remote.subscriber;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.domain.Ticket;
+import com.janwee.bookstore.order.northbound.local.EventSubscriber;
 import com.janwee.bookstore.order.northbound.message.BookOrdered;
 import com.janwee.bookstore.order.northbound.message.BookSoldOut;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
@@ -18,17 +19,18 @@ import java.util.function.Consumer;
 
 @Component
 @Slf4j
-public class BookEventSubscriber {
+public class RabbitEventSubscriber implements EventSubscriber {
     private final OrderRepository orderRepo;
     private final TicketRepository ticketRepo;
 
     @Autowired
-    public BookEventSubscriber(OrderRepository orderRepo, TicketRepository ticketRepo) {
+    public RabbitEventSubscriber(OrderRepository orderRepo, TicketRepository ticketRepo) {
         this.orderRepo = orderRepo;
         this.ticketRepo = ticketRepo;
     }
 
     @Transactional(rollbackFor = Throwable.class)
+    @Override
     public void onBookOrdered(BookOrdered event) {
         log.info("Received BookOrdered event: {}", event);
         Order order = orderRepo.orderOf(event.orderId())
@@ -40,6 +42,7 @@ public class BookEventSubscriber {
     }
 
     @Transactional(rollbackFor = Throwable.class)
+    @Override
     public void onBookSoldOut(BookSoldOut event) {
         log.info("Received BookSoldOut event: {}", event);
         Optional<Order> optOrder = orderRepo.orderOf(event.orderId());

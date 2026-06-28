@@ -17,13 +17,13 @@ import java.util.function.Consumer;
 
 @Component
 @Slf4j
-public class RabbitEventConsumer implements EventConsumer {
+public class RabbitEventSubscriber implements EventSubscriber {
     private final BookRepository bookRepo;
     private final EventPublisher eventPublisher;
 
     @Autowired
-    public RabbitEventConsumer(BookRepository bookRepo,
-                               EventPublisher eventPublisher) {
+    public RabbitEventSubscriber(BookRepository bookRepo,
+                                 EventPublisher eventPublisher) {
         this.bookRepo = bookRepo;
         this.eventPublisher = eventPublisher;
     }
