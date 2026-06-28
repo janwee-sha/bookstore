@@ -95,14 +95,14 @@ class OrderApplicationServiceUnitTest {
     }
 
     @Nested
-    class ApproveAfterBookOrdered {
+    class Approve {
         @Test
         void shouldApproveOrderAndCreateTicketForExistingOrder() {
             LocalDateTime createdAt = LocalDateTime.now();
             Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
             when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
 
-            service.approveAfterBookOrdered(1L);
+            service.approve(1L);
 
             ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
             verify(orderRepo).save(order);
@@ -120,21 +120,21 @@ class OrderApplicationServiceUnitTest {
         void shouldThrowWhenOrderDoesNotExist() {
             when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
-            assertThrows(OrderNotFoundException.class, () -> service.approveAfterBookOrdered(1L));
+            assertThrows(OrderNotFoundException.class, () -> service.approve(1L));
             verify(orderRepo, never()).save(any());
             verify(ticketRepo, never()).save(any());
         }
     }
 
     @Nested
-    class RejectAfterBookSoldOut {
+    class Reject {
         @Test
         void shouldRejectExistingOrder() {
             LocalDateTime createdAt = LocalDateTime.now();
             Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
             when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
 
-            service.rejectAfterBookSoldOut(1L);
+            service.reject(1L);
 
             verify(orderRepo).save(order);
             verify(ticketRepo, never()).save(any());
@@ -145,7 +145,7 @@ class OrderApplicationServiceUnitTest {
         void shouldIgnoreMissingOrder() {
             when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
-            service.rejectAfterBookSoldOut(1L);
+            service.reject(1L);
 
             verify(orderRepo, never()).save(any());
             verify(ticketRepo, never()).save(any());
