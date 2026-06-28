@@ -3,12 +3,16 @@ package com.janwee.bookstore.order.northbound.local;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.domain.State;
+import com.janwee.bookstore.order.domain.Ticket;
 import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.southbound.port.BookClient;
 import com.janwee.bookstore.order.southbound.port.EventPublisher;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
+import com.janwee.bookstore.order.southbound.port.TicketRepository;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,7 +27,11 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +44,9 @@ class OrderApplicationServiceUnitTest {
 
     @Mock
     private BookClient bookClient;
+
+    @Mock
+    private TicketRepository ticketRepo;
 
     @InjectMocks
     private OrderApplicationService service;
@@ -81,5 +92,63 @@ class OrderApplicationServiceUnitTest {
         when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
         assertThrows(OrderNotFoundException.class, () -> service.nonNullOrderOfId(1L));
+    }
+
+    @Nested
+    class ApproveAfterBookOrdered {
+        @Test
+        void shouldApproveOrderAndCreateTicketForExistingOrder() {
+            LocalDateTime createdAt = LocalDateTime.now();
+            Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
+            when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
+
+            service.approveAfterBookOrdered(1L);
+
+            ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
+            verify(orderRepo).save(order);
+            verify(ticketRepo).save(ticketCaptor.capture());
+            Ticket ticket = ticketCaptor.getValue();
+            assertAll(
+                    () -> assertEquals(State.APPROVED, order.state()),
+                    () -> assertEquals(1L, ticket.orderId()),
+                    () -> assertEquals(2L, ticket.bookId()),
+                    () -> assertNotNull(ticket.createdAt())
+            );
+        }
+
+        @Test
+        void shouldThrowWhenOrderDoesNotExist() {
+            when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
+
+            assertThrows(OrderNotFoundException.class, () -> service.approveAfterBookOrdered(1L));
+            verify(orderRepo, never()).save(any());
+            verify(ticketRepo, never()).save(any());
+        }
+    }
+
+    @Nested
+    class RejectAfterBookSoldOut {
+        @Test
+        void shouldRejectExistingOrder() {
+            LocalDateTime createdAt = LocalDateTime.now();
+            Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
+            when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
+
+            service.rejectAfterBookSoldOut(1L);
+
+            verify(orderRepo).save(order);
+            verify(ticketRepo, never()).save(any());
+            assertEquals(State.REJECTED, order.state());
+        }
+
+        @Test
+        void shouldIgnoreMissingOrder() {
+            when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
+
+            service.rejectAfterBookSoldOut(1L);
+
+            verify(orderRepo, never()).save(any());
+            verify(ticketRepo, never()).save(any());
+        }
     }
 }

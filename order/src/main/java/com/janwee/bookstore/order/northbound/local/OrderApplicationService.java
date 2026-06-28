@@ -61,8 +61,8 @@ public class OrderApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void approveAfterBookOrdered(long orderId) {
-        log.info("Approving order {} after book ordered.", orderId);
+    public void approve(long orderId) {
+        log.info("Approving order {}.", orderId);
         Order order = orderRepo.orderOf(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
         order.approve();
@@ -72,8 +72,8 @@ public class OrderApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void rejectAfterBookSoldOut(long orderId) {
-        log.info("Rejecting order {} after book sold out.", orderId);
+    public void reject(long orderId) {
+        log.info("Rejecting order {}.", orderId);
         Optional<Order> optOrder = orderRepo.orderOf(orderId);
         if (optOrder.isPresent()) {
             Order order = optOrder.get();

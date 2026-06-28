@@ -18,12 +18,12 @@ public class RabbitBookEventSubscriber {
 
     public void onBookOrdered(BookOrdered event) {
         log.info("Received BookOrdered event: {}", event);
-        orderAppService.approveAfterBookOrdered(event.orderId());
+        orderAppService.approve(event.orderId());
     }
 
     public void onBookSoldOut(BookSoldOut event) {
         log.info("Received BookSoldOut event: {}", event);
-        orderAppService.rejectAfterBookSoldOut(event.orderId());
+        orderAppService.reject(event.orderId());
     }
 
     @Bean
