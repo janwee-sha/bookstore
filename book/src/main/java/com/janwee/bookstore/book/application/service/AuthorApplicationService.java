@@ -1,6 +1,7 @@
 package com.janwee.bookstore.book.application.service;
 
 
+import com.janwee.bookstore.book.application.view.AuthorView;
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
 import com.janwee.bookstore.book.application.command.RegisteringAuthorCommand;
@@ -22,9 +23,9 @@ public class AuthorApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Author> authorOfId(Long id) {
+    public Optional<AuthorView> authorOfId(Long id) {
         log.info("Loading optional author of ID: {}", id);
-        return authorRepo.authorOf(id);
+        return authorRepo.authorOf(id).map(AuthorView::from);
     }
 
     @Transactional

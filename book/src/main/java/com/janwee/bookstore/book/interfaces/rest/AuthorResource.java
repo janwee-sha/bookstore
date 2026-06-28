@@ -28,7 +28,7 @@ public class AuthorResource {
     @Operation(description = "Retrieve author of given ID")
     @PreAuthorize("hasAnyAuthority('book:read','book:write')")
     public AuthorView authorOfId(@PathVariable Long id) {
-        return authorAppService.authorOfId(id).map(AuthorView::from).orElse(null);
+        return authorAppService.authorOfId(id).orElse(null);
     }
 
     @PostMapping

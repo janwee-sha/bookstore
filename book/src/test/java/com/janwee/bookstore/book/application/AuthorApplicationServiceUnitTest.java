@@ -2,6 +2,7 @@ package com.janwee.bookstore.book.application;
 
 import com.janwee.bookstore.book.application.command.RegisteringAuthorCommand;
 import com.janwee.bookstore.book.application.service.AuthorApplicationService;
+import com.janwee.bookstore.book.application.view.AuthorView;
 import com.janwee.bookstore.book.domain.model.Author;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,9 +33,12 @@ class AuthorApplicationServiceUnitTest {
         Author author = newAuthor();
         when(authorRepo.authorOf(1L)).thenReturn(Optional.of(author));
 
-        Optional<Author> result = service.authorOfId(1L);
+        Optional<AuthorView> result = service.authorOfId(1L);
 
-        assertSame(author, result.orElseThrow());
+        assertNotNull(result.orElse(null));
+        assertEquals(author.name(), result.map(AuthorView::getName).orElse(null));
+        assertEquals(author.phoneNumber(), result.map(AuthorView::getPhoneNumber).orElse(null));
+        assertEquals(author.profile(), result.map(AuthorView::getProfile).orElse(null));
     }
 
     @Test
