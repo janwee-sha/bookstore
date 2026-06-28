@@ -9,4 +9,5 @@
 - `northbound.message` 承载北向入口消息，例如 REST 资源的请求、响应对象、从上游服务订阅的消息模型等。
 - `southbound.port` 承载南向出口端口逻辑，例如领域模型的仓储接口。
 - `southbound.adapter` 承载南向出口的适配器逻辑，例如依赖 RabbitMQ 的领域事件发布器、依赖 OpenFeign 的下游客户端、OAuth2 客户端配置等。
-- `southbound.message` 承载南向出口消息，例如向下游服务发布的异步消息模型、依赖 JPA 的持久化模型实现等。
+- `southbound.adapter.persistence` 承载依赖 JPA 的持久化模型、Spring Data 仓储和领域仓储适配器实现。
+- `southbound.message` 承载南向出口消息，例如向下游服务发布的异步消息模型等。

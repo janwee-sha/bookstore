@@ -1,7 +1,17 @@
 package com.janwee.bookstore.order.southbound.port;
 
 import com.janwee.bookstore.order.domain.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+import java.util.Optional;
+
+public interface OrderRepository {
+    Page<Order> ordersOf(Pageable pageable);
+
+    Optional<Order> orderOf(Long id);
+
+    void add(Order order);
+
+    void update(Order order);
 }

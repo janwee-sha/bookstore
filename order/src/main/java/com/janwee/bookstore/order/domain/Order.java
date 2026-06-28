@@ -1,23 +1,16 @@
 package com.janwee.bookstore.order.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
-@Entity
-@Table(name = "orders")
 public class Order implements Serializable {
     @Serial
     private static final long serialVersionUID = -7785686752351423857L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_orders")
-    @SequenceGenerator(name = "seq_orders", sequenceName = "order.seq_orders", allocationSize = 1)
+
     private Long id;
 
     private Long bookId;
@@ -26,7 +19,6 @@ public class Order implements Serializable {
 
     private LocalDateTime createdAt;
 
-    @Enumerated(EnumType.STRING)
     private State state;
 
     public Order() {
@@ -34,8 +26,36 @@ public class Order implements Serializable {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Order(Long id, Long bookId, int amount, LocalDateTime createdAt, State state) {
+        this.id = id;
+        this.bookId = bookId;
+        this.amount = amount;
+        this.createdAt = createdAt;
+        this.state = state;
+    }
+
+    public void assignId(Long id) {
+        this.id = id;
+    }
+
+    public Long id() {
+        return id;
+    }
+
     public Long bookId() {
         return bookId;
+    }
+
+    public int amount() {
+        return amount;
+    }
+
+    public LocalDateTime createdAt() {
+        return createdAt;
+    }
+
+    public State state() {
+        return state;
     }
 
     public static Order create() {

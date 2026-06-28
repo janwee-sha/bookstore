@@ -31,22 +31,22 @@ public class BookEventSubscriber {
     @Transactional(rollbackFor = Throwable.class)
     public void onBookOrdered(BookOrdered event) {
         log.info("Received BookOrdered event: {}", event);
-        Order order = orderRepo.findById(event.orderId())
+        Order order = orderRepo.orderOf(event.orderId())
                 .orElseThrow(() -> new OrderNotFoundException(event.orderId()));
         order.approve();
-        orderRepo.save(order);
+        orderRepo.update(order);
         Ticket ticket = new Ticket().ofOrder(event.orderId()).ofBook(event.bookId());
-        ticketRepo.save(ticket);
+        ticketRepo.add(ticket);
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void onBookSoldOut(BookSoldOut event) {
         log.info("Received BookSoldOut event: {}", event);
-        Optional<Order> optOrder = orderRepo.findById(event.orderId());
+        Optional<Order> optOrder = orderRepo.orderOf(event.orderId());
         if (optOrder.isPresent()) {
             Order order = optOrder.get();
             order.reject();
-            orderRepo.save(order);
+            orderRepo.update(order);
         }
     }
 

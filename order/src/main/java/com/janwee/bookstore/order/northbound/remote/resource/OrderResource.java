@@ -1,7 +1,6 @@
 package com.janwee.bookstore.order.northbound.remote.resource;
 
 import com.janwee.bookstore.order.domain.Order;
-import com.janwee.bookstore.order.domain.Order_;
 import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
 import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +27,8 @@ import java.net.URI;
 @Validated
 @Slf4j
 public class OrderResource {
+    private static final String CREATED_AT = "createdAt";
+
     private final OrderApplicationService orderAppService;
 
     @Autowired
@@ -40,7 +41,7 @@ public class OrderResource {
     @PageableAsQueryParam
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('order:read','order:write')")
-    public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT,
+    public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = CREATED_AT,
             direction = Sort.Direction.DESC)}) Pageable page) {
         return orderAppService.orders(page);
     }

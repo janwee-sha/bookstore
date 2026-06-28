@@ -35,12 +35,12 @@ public class OrderApplicationService {
     @Transactional(readOnly = true)
     public Page<Order> orders(Pageable pageable) {
         log.info("Loading orders");
-        return orderRepo.findAll(pageable);
+        return orderRepo.ordersOf(pageable);
     }
 
     @Transactional(readOnly = true)
     public Order nonNullOrderOfId(long id) {
-        return orderRepo.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        return orderRepo.orderOf(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -51,7 +51,7 @@ public class OrderApplicationService {
         if (bookReview.isUnavailable()) {
             throw InvalidOrderException.unavailableBook();
         }
-        orderRepo.saveAndFlush(order);
+        orderRepo.add(order);
 
         OrderCreated orderCreated = new OrderCreated(order.getId(), order.getBookId(), order.getAmount(),
                 order.getCreatedAt());

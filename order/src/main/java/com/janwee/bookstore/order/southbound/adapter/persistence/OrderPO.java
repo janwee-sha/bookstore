@@ -1,17 +1,14 @@
 package com.janwee.bookstore.order.southbound.adapter.persistence;
 
-import com.janwee.bookstore.order.domain.InvalidOrderException;
 import com.janwee.bookstore.order.domain.State;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "orders")
 public class OrderPO implements Serializable {
@@ -36,32 +33,11 @@ public class OrderPO implements Serializable {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Long bookId() {
-        return bookId;
-    }
-
-    public static OrderPO create() {
-        return new OrderPO();
-    }
-
-    public OrderPO ofBook(Long bookId) {
+    public OrderPO(Long id, Long bookId, int amount, LocalDateTime createdAt, State state) {
+        this.id = id;
         this.bookId = bookId;
-        return this;
-    }
-
-    public OrderPO ofAmount(int amount) {
-        if (amount < 1) {
-            throw InvalidOrderException.illegalAmount();
-        }
         this.amount = amount;
-        return this;
-    }
-
-    public void reject() {
-        this.state = State.REJECTED;
-    }
-
-    public void approve() {
-        this.state = State.APPROVED;
+        this.createdAt = createdAt;
+        this.state = state;
     }
 }
