@@ -72,7 +72,7 @@ class OrderRepositoryIntegrationTest {
     void shouldSaveTicket() {
         Ticket ticket = new Ticket().ofOrder(10L).ofBook(20L);
 
-        ticketRepo.add(ticket);
+        ticketRepo.save(ticket);
         entityManager.flush();
         entityManager.clear();
 

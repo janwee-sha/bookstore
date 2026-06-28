@@ -36,7 +36,7 @@ public class BookEventSubscriber {
         order.approve();
         orderRepo.save(order);
         Ticket ticket = new Ticket().ofOrder(event.orderId()).ofBook(event.bookId());
-        ticketRepo.add(ticket);
+        ticketRepo.save(ticket);
     }
 
     @Transactional(rollbackFor = Throwable.class)

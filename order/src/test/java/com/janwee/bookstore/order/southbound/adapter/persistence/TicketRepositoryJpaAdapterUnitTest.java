@@ -3,6 +3,7 @@ package com.janwee.bookstore.order.southbound.adapter.persistence;
 import com.janwee.bookstore.order.domain.Ticket;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,13 +27,13 @@ class TicketRepositoryJpaAdapterUnitTest {
     private TicketRepositoryJpaAdapter adapter;
 
     @Test
-    void shouldAssignGeneratedIdWhenSavingTicket() {
+    void shouldAssignGeneratedIdWhenSavingNewTicket() {
         Ticket ticket = new Ticket().ofOrder(10L).ofBook(20L);
         LocalDateTime createdAt = ticket.createdAt();
         when(jpaRepo.save(any(TicketPO.class)))
                 .thenReturn(new TicketPO(100L, 10L, 20L, createdAt));
 
-        adapter.add(ticket);
+        adapter.save(ticket);
 
         assertEquals(100L, ticket.id());
     }
@@ -40,20 +41,22 @@ class TicketRepositoryJpaAdapterUnitTest {
     @Test
     void shouldRejectNullTicket() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> adapter.add(null));
+                () -> adapter.save(null));
 
         assertEquals("Ticket is required", ex.getMessage());
         verify(jpaRepo, never()).save(any());
     }
 
     @Test
-    void shouldRejectAddingTicketWithExistingId() {
+    void shouldSaveExistingTicketAsUpsert() {
         Ticket ticket = new Ticket(1L, 10L, 20L, LocalDateTime.now());
+        when(jpaRepo.save(any(TicketPO.class)))
+                .thenReturn(new TicketPO(1L, 10L, 20L, ticket.createdAt()));
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> adapter.add(ticket));
+        adapter.save(ticket);
 
-        assertEquals("New ticket must not already have an ID", ex.getMessage());
-        verify(jpaRepo, never()).save(any());
+        ArgumentCaptor<TicketPO> captor = ArgumentCaptor.forClass(TicketPO.class);
+        verify(jpaRepo).save(captor.capture());
+        assertEquals(1L, captor.getValue().getId());
     }
 }

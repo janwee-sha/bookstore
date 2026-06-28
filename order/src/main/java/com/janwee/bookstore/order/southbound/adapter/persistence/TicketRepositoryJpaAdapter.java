@@ -12,9 +12,8 @@ public class TicketRepositoryJpaAdapter implements TicketRepository {
     private final TicketPOJpaRepository jpaRepo;
 
     @Override
-    public void add(Ticket ticket) {
+    public void save(Ticket ticket) {
         Assert.notNull(ticket, "Ticket is required");
-        Assert.isNull(ticket.id(), "New ticket must not already have an ID");
         TicketPO saved = jpaRepo.save(TicketPOAssembler.toPO(ticket));
         ticket.assignId(saved.getId());
     }
