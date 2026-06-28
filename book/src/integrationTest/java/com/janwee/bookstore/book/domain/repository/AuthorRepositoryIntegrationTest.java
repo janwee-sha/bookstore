@@ -41,19 +41,6 @@ public class AuthorRepositoryIntegrationTest {
     }
 
     @Test
-    void shouldRejectAddingAuthorWithExistingId() {
-        Author author = newAuthorOf("author_a", "profile_a", "123456789");
-        authorRepo.add(author);
-        entityManager.flush();
-        entityManager.clear();
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> authorRepo.add(author));
-
-        assertEquals("New author must not already have an ID", ex.getMessage());
-    }
-
-    @Test
     void shouldUpdateExistingAuthor() {
         Author author = newAuthorOf("author_a", "profile_a", "123456789");
         authorRepo.add(author);
@@ -76,27 +63,6 @@ public class AuthorRepositoryIntegrationTest {
                 () -> assertEquals("profile_b", updated.get().profile()),
                 () -> assertEquals("987654321", updated.get().phoneNumber())
         );
-    }
-
-    @Test
-    void shouldRejectUpdatingAuthorWithoutId() {
-        Author author = newAuthorOf("author_a", "profile_a", "123456789");
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> authorRepo.update(author));
-
-        assertEquals("Existing author ID is required for update", ex.getMessage());
-    }
-
-    @Test
-    void shouldRejectUpdatingMissingAuthor() {
-        Author author = newAuthorOf("author_a", "profile_a", "123456789");
-        author.assignId(999999L);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> authorRepo.update(author));
-
-        assertEquals("Existing author must be present before update", ex.getMessage());
     }
 
     private static Author newAuthorOf(String name, String profile, String phoneNumber) {

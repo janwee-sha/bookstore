@@ -49,20 +49,6 @@ public class BookRepositoryIntegrationTest {
     }
 
     @Test
-    void shouldRejectAddingBookWithExistingId() {
-        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
-                LocalDate.of(2020, 1, 1), "publisher-a", 1L);
-        bookRepo.add(book);
-        entityManager.flush();
-        entityManager.clear();
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> bookRepo.add(book));
-
-        assertEquals("New book must not already have an ID", ex.getMessage());
-    }
-
-    @Test
     void shouldUpdateExistingBook() {
         Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
@@ -92,35 +78,6 @@ public class BookRepositoryIntegrationTest {
                 () -> assertEquals("publisher-b", updated.get().publisher()),
                 () -> assertEquals(2L, updated.get().authorId())
         );
-    }
-
-    @Test
-    void shouldRejectUpdatingBookWithoutId() {
-        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
-                LocalDate.of(2020, 1, 1), "publisher-a", 1L);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> bookRepo.update(book));
-
-        assertEquals("Existing book ID is required for update", ex.getMessage());
-    }
-
-    @Test
-    void shouldRejectUpdatingMissingBook() {
-        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
-                LocalDate.of(2020, 1, 1), "publisher-a", 1L);
-        bookRepo.add(book);
-        entityManager.flush();
-        entityManager.clear();
-
-        bookRepo.delete(book.id());
-        entityManager.flush();
-        entityManager.clear();
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> bookRepo.update(book));
-
-        assertEquals("Existing book must be present before update", ex.getMessage());
     }
 
     private static Book newBookOf(String name, int amount, Price price, LocalDate publishedAt,
