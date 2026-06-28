@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.southbound.adapter;
+package com.janwee.bookstore.order.southbound.adapter.service;
 
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.southbound.message.BookReview;

@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.southbound.adapter;
+package com.janwee.bookstore.order.southbound.adapter.oauth2;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

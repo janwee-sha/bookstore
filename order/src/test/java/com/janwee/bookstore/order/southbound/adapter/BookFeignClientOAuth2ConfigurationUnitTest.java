@@ -1,5 +1,6 @@
 package com.janwee.bookstore.order.southbound.adapter;
 
+import com.janwee.bookstore.order.southbound.adapter.service.BookFeignClientOAuth2Configuration;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.junit.jupiter.api.Test;

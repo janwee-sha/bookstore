@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.southbound.adapter;
+package com.janwee.bookstore.order.southbound.adapter.event;
 
 import com.janwee.bookstore.foundation.event.Event;
 import com.janwee.bookstore.foundation.event.EventPublisher;

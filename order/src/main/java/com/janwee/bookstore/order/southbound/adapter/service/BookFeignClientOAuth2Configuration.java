@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.southbound.adapter;
+package com.janwee.bookstore.order.southbound.adapter.service;
 
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;

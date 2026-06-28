@@ -9,7 +9,7 @@ import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAs
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorPOJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
-import com.janwee.bookstore.order.southbound.adapter.BookFeignClient;
+import com.janwee.bookstore.order.southbound.adapter.service.BookFeignClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

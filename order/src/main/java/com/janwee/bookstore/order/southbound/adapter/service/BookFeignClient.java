@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.southbound.adapter;
+package com.janwee.bookstore.order.southbound.adapter.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
