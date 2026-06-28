@@ -1,12 +1,9 @@
 package com.janwee.bookstore.order.domain;
 
-import lombok.Getter;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Getter
 public class Order implements Serializable {
     @Serial
     private static final long serialVersionUID = -7785686752351423857L;

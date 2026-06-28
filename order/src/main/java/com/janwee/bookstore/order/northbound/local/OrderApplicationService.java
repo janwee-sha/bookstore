@@ -4,6 +4,7 @@ import com.janwee.bookstore.foundation.event.EventPublisher;
 import com.janwee.bookstore.order.domain.InvalidOrderException;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
+import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import com.janwee.bookstore.order.southbound.message.BookReview;
 import com.janwee.bookstore.order.southbound.message.OrderCreated;
@@ -33,14 +34,17 @@ public class OrderApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Order> orders(Pageable pageable) {
+    public Page<OrderResponse> orders(Pageable pageable) {
         log.info("Loading orders");
-        return orderRepo.ordersOf(pageable);
+        return orderRepo.ordersOf(pageable)
+                .map(OrderResponseAssembler::from);
     }
 
     @Transactional(readOnly = true)
-    public Order nonNullOrderOfId(long id) {
-        return orderRepo.orderOf(id).orElseThrow(() -> new OrderNotFoundException(id));
+    public OrderResponse nonNullOrderOfId(long id) {
+        return orderRepo.orderOf(id)
+                .map(OrderResponseAssembler::from)
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -53,9 +57,9 @@ public class OrderApplicationService {
         }
         orderRepo.add(order);
 
-        OrderCreated orderCreated = new OrderCreated(order.getId(), order.getBookId(), order.getAmount(),
-                order.getCreatedAt());
+        OrderCreated orderCreated = new OrderCreated(order.id(), order.bookId(), order.amount(),
+                order.createdAt());
         eventPublisher.publish(orderCreated);
-        return order.getId();
+        return order.id();
     }
 }

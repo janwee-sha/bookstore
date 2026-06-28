@@ -1,0 +1,85 @@
+package com.janwee.bookstore.order.northbound.local;
+
+import com.janwee.bookstore.foundation.event.EventPublisher;
+import com.janwee.bookstore.order.domain.Order;
+import com.janwee.bookstore.order.domain.OrderNotFoundException;
+import com.janwee.bookstore.order.domain.State;
+import com.janwee.bookstore.order.northbound.message.OrderResponse;
+import com.janwee.bookstore.order.southbound.port.BookClient;
+import com.janwee.bookstore.order.southbound.port.OrderRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class OrderApplicationServiceUnitTest {
+    @Mock
+    private OrderRepository orderRepo;
+
+    @Mock
+    private EventPublisher eventPublisher;
+
+    @Mock
+    private BookClient bookClient;
+
+    @InjectMocks
+    private OrderApplicationService service;
+
+    @Test
+    void shouldReturnOrderResponsesForOrders() {
+        Pageable pageable = PageRequest.of(0, 10);
+        LocalDateTime createdAt = LocalDateTime.now();
+        Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
+        when(orderRepo.ordersOf(pageable)).thenReturn(new PageImpl<>(List.of(order), pageable, 1));
+
+        Page<OrderResponse> responses = service.orders(pageable);
+
+        OrderResponse response = responses.getContent().get(0);
+        assertAll(
+                () -> assertEquals(1L, response.getId()),
+                () -> assertEquals(2L, response.getBookId()),
+                () -> assertEquals(3, response.getAmount()),
+                () -> assertEquals(createdAt, response.getCreatedAt()),
+                () -> assertEquals(State.APPROVAL_PENDING, response.getState())
+        );
+    }
+
+    @Test
+    void shouldReturnOrderResponseForExistingOrder() {
+        LocalDateTime createdAt = LocalDateTime.now();
+        Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
+        when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
+
+        OrderResponse response = service.nonNullOrderOfId(1L);
+
+        assertAll(
+                () -> assertEquals(1L, response.getId()),
+                () -> assertEquals(2L, response.getBookId()),
+                () -> assertEquals(3, response.getAmount()),
+                () -> assertEquals(createdAt, response.getCreatedAt()),
+                () -> assertEquals(State.APPROVAL_PENDING, response.getState())
+        );
+    }
+
+    @Test
+    void shouldThrowWhenOrderDoesNotExist() {
+        when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
+
+        assertThrows(OrderNotFoundException.class, () -> service.nonNullOrderOfId(1L));
+    }
+}

@@ -1,7 +1,7 @@
 package com.janwee.bookstore.order.northbound.remote.resource;
 
-import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
+import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,7 +41,7 @@ public class OrderResource {
     @PageableAsQueryParam
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('order:read','order:write')")
-    public Page<Order> orders(@SortDefault.SortDefaults({@SortDefault(sort = CREATED_AT,
+    public Page<OrderResponse> orders(@SortDefault.SortDefaults({@SortDefault(sort = CREATED_AT,
             direction = Sort.Direction.DESC)}) Pageable page) {
         return orderAppService.orders(page);
     }
@@ -51,7 +51,7 @@ public class OrderResource {
     @PageableAsQueryParam
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('order:read','order:write')")
-    public Order order(@PathVariable long id) {
+    public OrderResponse order(@PathVariable long id) {
         return orderAppService.nonNullOrderOfId(id);
     }
 
