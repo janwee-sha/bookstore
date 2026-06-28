@@ -1,5 +1,5 @@
 package com.janwee.bookstore.book.domain.event;
 
-public interface OrderEventConsumer {
+public interface EventConsumer {
     void onOrderCreated(OrderCreated event);
 }

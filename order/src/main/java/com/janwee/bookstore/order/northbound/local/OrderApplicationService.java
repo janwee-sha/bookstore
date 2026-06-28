@@ -1,6 +1,5 @@
 package com.janwee.bookstore.order.northbound.local;
 
-import com.janwee.bookstore.foundation.event.EventPublisher;
 import com.janwee.bookstore.order.domain.InvalidOrderException;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
@@ -9,6 +8,7 @@ import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import com.janwee.bookstore.order.southbound.message.BookReview;
 import com.janwee.bookstore.order.southbound.message.OrderCreated;
 import com.janwee.bookstore.order.southbound.port.BookClient;
+import com.janwee.bookstore.order.southbound.port.EventPublisher;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

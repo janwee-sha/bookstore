@@ -1,11 +1,11 @@
 package com.janwee.bookstore.order.northbound.local;
 
-import com.janwee.bookstore.foundation.event.EventPublisher;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.domain.State;
 import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.southbound.port.BookClient;
+import com.janwee.bookstore.order.southbound.port.EventPublisher;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

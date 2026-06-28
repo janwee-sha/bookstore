@@ -14,7 +14,7 @@ public class Order implements Serializable {
 
     private int amount;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
     private State state;
 
@@ -26,7 +26,7 @@ public class Order implements Serializable {
     public Order(Long id, Long bookId, int amount, LocalDateTime createdAt, State state) {
         this.id = id;
         this.bookId = bookId;
-        this.amount = amount;
+        this.changeAmountTo(amount);
         this.createdAt = createdAt;
         this.state = state;
     }
@@ -47,6 +47,13 @@ public class Order implements Serializable {
         return amount;
     }
 
+    public void changeAmountTo(int newAmount) {
+        if (amount < 1) {
+            throw InvalidOrderException.illegalAmount();
+        }
+        this.amount = newAmount;
+    }
+
     public LocalDateTime createdAt() {
         return createdAt;
     }
@@ -65,10 +72,7 @@ public class Order implements Serializable {
     }
 
     public Order ofAmount(int amount) {
-        if (amount < 1) {
-            throw InvalidOrderException.illegalAmount();
-        }
-        this.amount = amount;
+        this.changeAmountTo(amount);
         return this;
     }
 

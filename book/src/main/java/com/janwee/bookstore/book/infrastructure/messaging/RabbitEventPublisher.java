@@ -2,8 +2,8 @@ package com.janwee.bookstore.book.infrastructure.messaging;
 
 import com.janwee.bookstore.book.domain.event.BookOrdered;
 import com.janwee.bookstore.book.domain.event.BookSoldOut;
+import com.janwee.bookstore.book.domain.event.EventPublisher;
 import com.janwee.bookstore.foundation.event.Event;
-import com.janwee.bookstore.foundation.event.EventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

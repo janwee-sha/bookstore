@@ -1,14 +1,10 @@
 package com.janwee.bookstore.book.infrastructure.messaging;
 
 
-import com.janwee.bookstore.book.domain.event.BookOrdered;
-import com.janwee.bookstore.book.domain.event.BookSoldOut;
-import com.janwee.bookstore.book.domain.event.OrderCreated;
-import com.janwee.bookstore.book.domain.event.OrderEventConsumer;
+import com.janwee.bookstore.book.domain.event.*;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
 import com.janwee.bookstore.foundation.event.Event;
-import com.janwee.bookstore.foundation.event.EventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +17,13 @@ import java.util.function.Consumer;
 
 @Component
 @Slf4j
-public class RabbitOrderEventConsumer implements OrderEventConsumer {
+public class RabbitEventConsumer implements EventConsumer {
     private final BookRepository bookRepo;
     private final EventPublisher eventPublisher;
 
     @Autowired
-    public RabbitOrderEventConsumer(BookRepository bookRepo,
-                                    EventPublisher eventPublisher) {
+    public RabbitEventConsumer(BookRepository bookRepo,
+                               EventPublisher eventPublisher) {
         this.bookRepo = bookRepo;
         this.eventPublisher = eventPublisher;
     }
