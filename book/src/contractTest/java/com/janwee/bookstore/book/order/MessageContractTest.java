@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.janwee.bookstore.book.interfaces.subscriber.OrderCreated;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -38,8 +39,8 @@ class MessageContractTest {
         assertNumberField(payload, "amount", 3);
         assertTextField(payload, "createdBy", "2026-05-12 10:30:00");
 
-        com.janwee.bookstore.book.domain.event.OrderCreated consumed = objectMapper.readValue(
-                payload, com.janwee.bookstore.book.domain.event.OrderCreated.class);
+        OrderCreated consumed = objectMapper.readValue(
+                payload, OrderCreated.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
         assertEquals(3, consumed.amount());

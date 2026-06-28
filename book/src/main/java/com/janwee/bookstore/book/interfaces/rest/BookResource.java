@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.presentation.rest;
+package com.janwee.bookstore.book.interfaces.rest;
 
 import com.janwee.bookstore.book.application.BookApplicationService;
 import com.janwee.bookstore.book.application.message.BookResponse;

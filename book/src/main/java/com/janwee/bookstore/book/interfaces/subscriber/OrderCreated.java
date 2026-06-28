@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.domain.event;
+package com.janwee.bookstore.book.interfaces.subscriber;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
