@@ -1,6 +1,7 @@
 package com.janwee.bookstore.order.southbound.adapter.persistence;
 
 import com.janwee.bookstore.order.domain.Order;
+import com.janwee.bookstore.order.domain.State;
 
 public class OrderPOAssembler {
     public static Order toDomain(OrderPO po) {
@@ -13,7 +14,7 @@ public class OrderPOAssembler {
                 po.getBookId(),
                 po.getAmount(),
                 po.getCreatedAt(),
-                po.getState()
+                State.valueOf(po.getState())
         );
     }
 
@@ -27,7 +28,7 @@ public class OrderPOAssembler {
                 order.bookId(),
                 order.amount(),
                 order.createdAt(),
-                order.state()
+                order.state().name()
         );
     }
 }

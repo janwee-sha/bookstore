@@ -25,15 +25,14 @@ public class OrderPO implements Serializable {
 
     private LocalDateTime createdAt;
 
-    @Enumerated(EnumType.STRING)
-    private State state;
+    private String state;
 
     public OrderPO() {
-        this.state = State.APPROVAL_PENDING;
+        this.state = State.APPROVAL_PENDING.name();
         this.createdAt = LocalDateTime.now();
     }
 
-    public OrderPO(Long id, Long bookId, int amount, LocalDateTime createdAt, State state) {
+    public OrderPO(Long id, Long bookId, int amount, LocalDateTime createdAt, String state) {
         this.id = id;
         this.bookId = bookId;
         this.amount = amount;
