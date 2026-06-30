@@ -1,7 +1,5 @@
 package com.janwee.bookstore.authorization.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +9,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = 7981489020709759951L;
     private long id;
     private String email;
-    @JsonIgnore
     private String password;
     private Role role;
 
