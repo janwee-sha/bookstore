@@ -1,13 +1,11 @@
 package com.janwee.bookstore.authorization.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
-@Getter
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 7981489020709759951L;
