@@ -39,9 +39,6 @@ out/
 .vscode/
 /config-server/.mvn/
 
-### OpenAI Codex
-.codex
-
 ### Frontend
 frontend/node_modules/
 frontend/dist/

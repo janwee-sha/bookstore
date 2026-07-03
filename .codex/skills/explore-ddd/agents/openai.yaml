@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explore DDD"
+  short_description: "Discuss DDD architecture tradeoffs"
+  default_prompt: "Use $explore-ddd to discuss this DDD design question from community practice first, treating the repository only as an optional learning case."
