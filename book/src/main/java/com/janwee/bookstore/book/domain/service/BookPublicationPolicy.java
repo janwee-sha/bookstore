@@ -1,28 +1,21 @@
 package com.janwee.bookstore.book.domain.service;
 
-import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.repository.AuthorRepository;
-import com.janwee.bookstore.book.domain.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookValidator {
-    private final BookRepository bookRepo;
+public class BookPublicationPolicy {
     private final AuthorRepository authorRepo;
 
     @Autowired
-    public BookValidator(BookRepository bookRepo, AuthorRepository authorRepo) {
-        this.bookRepo = bookRepo;
+    public BookPublicationPolicy(AuthorRepository authorRepo) {
         this.authorRepo = authorRepo;
     }
 
-    public void validate(Book book) {
-        if (book.id() != null && !bookRepo.hasBookOf(book.id())) {
-            throw new BookNotFoundException(book.id());
-        }
+    public void check(Book book) {
         if (book.authorId() != null
                 && !authorRepo.hasAuthorOf(book.authorId())) {
             throw InvalidBookException.unavailableAuthor();

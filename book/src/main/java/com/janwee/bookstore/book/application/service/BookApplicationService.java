@@ -1,17 +1,17 @@
 package com.janwee.bookstore.book.application.service;
 
+import com.janwee.bookstore.book.application.assembler.BookViewAssembler;
 import com.janwee.bookstore.book.application.command.OrderingBookCommand;
 import com.janwee.bookstore.book.application.command.PublishingBookCommand;
 import com.janwee.bookstore.book.application.command.UpdatingBookCommand;
 import com.janwee.bookstore.book.application.view.BookView;
-import com.janwee.bookstore.book.application.assembler.BookViewAssembler;
 import com.janwee.bookstore.book.domain.event.BookOrdered;
 import com.janwee.bookstore.book.domain.event.BookSoldOut;
-import com.janwee.bookstore.book.domain.service.EventPublisher;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
-import com.janwee.bookstore.book.domain.service.BookValidator;
+import com.janwee.bookstore.book.domain.service.BookPublicationPolicy;
+import com.janwee.bookstore.book.domain.service.EventPublisher;
 import com.janwee.bookstore.foundation.event.Event;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookApplicationService {
     private final BookRepository bookRepo;
-    private final BookValidator bookValidator;
+    private final BookPublicationPolicy bookPublicationPolicy;
     private final BookViewAssembler bookViewAssembler;
     private final EventPublisher eventPublisher;
 
@@ -57,20 +57,18 @@ public class BookApplicationService {
     public void publish(PublishingBookCommand request) {
         log.info("Publishing book.");
         Book book = request.toNewBook();
-        bookValidator.validate(book);
+        bookPublicationPolicy.check(book);
         bookRepo.add(book);
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void change(long id, UpdatingBookCommand request) {
         log.info("Changing book information.");
-        Optional<Book> existing = bookRepo.bookOf(id);
-        if (existing.isEmpty()) {
-            throw new BookNotFoundException(id);
-        }
+        Book existing = bookRepo.bookOf(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
 
-        Book changedBook = request.changedInfoOf(existing.get());
-        bookValidator.validate(changedBook);
+        Book changedBook = request.toChangedBook(existing);
+        bookPublicationPolicy.check(changedBook);
         bookRepo.update(changedBook);
     }
 

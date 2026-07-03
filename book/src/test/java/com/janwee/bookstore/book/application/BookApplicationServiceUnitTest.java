@@ -9,7 +9,7 @@ import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
-import com.janwee.bookstore.book.domain.service.BookValidator;
+import com.janwee.bookstore.book.domain.service.BookPublicationPolicy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -36,7 +36,7 @@ class BookApplicationServiceUnitTest {
     private BookRepository bookRepo;
 
     @Mock
-    private BookValidator bookValidator;
+    private BookPublicationPolicy bookPublicationPolicy;
 
     @Mock
     private BookViewAssembler bookViewAssembler;
@@ -88,7 +88,7 @@ class BookApplicationServiceUnitTest {
         service.publish(request);
 
         ArgumentCaptor<Book> captor = ArgumentCaptor.forClass(Book.class);
-        verify(bookValidator).validate(captor.capture());
+        verify(bookPublicationPolicy).check(captor.capture());
         verify(bookRepo).add(captor.getValue());
         assertEquals("book_a", captor.getValue().name());
         assertEquals(2L, captor.getValue().authorId());
@@ -102,7 +102,7 @@ class BookApplicationServiceUnitTest {
                 () -> service.change(1L, new UpdatingBookCommand()));
 
         assertEquals("No such book of ID: 1", ex.getMessage());
-        verify(bookValidator, never()).validate(any());
+        verify(bookPublicationPolicy, never()).check(any());
         verify(bookRepo, never()).update(any());
     }
 
@@ -115,7 +115,7 @@ class BookApplicationServiceUnitTest {
 
         service.change(1L, request);
 
-        verify(bookValidator).validate(book);
+        verify(bookPublicationPolicy).check(book);
         verify(bookRepo).update(book);
         assertEquals(3, book.amount());
     }

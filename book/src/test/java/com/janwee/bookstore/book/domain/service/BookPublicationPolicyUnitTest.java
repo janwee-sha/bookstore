@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class BookValidatorUnitTest {
+class BookPublicationPolicyUnitTest {
 
     @Mock
     private BookRepository bookRepo;
@@ -26,7 +26,7 @@ class BookValidatorUnitTest {
     private AuthorRepository authorRepo;
 
     @InjectMocks
-    private BookValidator validator;
+    private BookPublicationPolicy validator;
 
     @Test
     void shouldPassWhenExistingBookAndAuthorAreAvailable() {
@@ -34,7 +34,7 @@ class BookValidatorUnitTest {
         when(bookRepo.hasBookOf(1L)).thenReturn(true);
         when(authorRepo.hasAuthorOf(2L)).thenReturn(true);
 
-        assertDoesNotThrow(() -> validator.validate(book));
+        assertDoesNotThrow(() -> validator.check(book));
     }
 
     @Test
@@ -43,7 +43,7 @@ class BookValidatorUnitTest {
         when(bookRepo.hasBookOf(1L)).thenReturn(false);
 
         BookNotFoundException ex = assertThrows(BookNotFoundException.class,
-                () -> validator.validate(book));
+                () -> validator.check(book));
 
         assertEquals("No such book of ID: 1", ex.getMessage());
     }
@@ -54,7 +54,7 @@ class BookValidatorUnitTest {
         when(authorRepo.hasAuthorOf(2L)).thenReturn(false);
 
         InvalidBookException ex = assertThrows(InvalidBookException.class,
-                () -> validator.validate(book));
+                () -> validator.check(book));
 
         assertEquals("No such author", ex.getMessage());
     }
