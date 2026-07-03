@@ -40,6 +40,7 @@ public class BookApplicationService {
     }
 
 
+    @Transactional(readOnly = true)
     public void hasBookOfId(long id) {
         log.info("Checking existence of book: {}.", id);
         if (!bookRepo.hasBookOf(id)) {

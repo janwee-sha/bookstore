@@ -76,7 +76,7 @@ public class Book implements Serializable {
 
     public void changePriceTo(Price price) {
         if (price == null || price.amount().compareTo(BigDecimal.ZERO) < 0) {
-            throw InvalidBookException.validPriceRequired();
+            throw InvalidBookException.negativePrice();
         }
         this.price = price;
     }
