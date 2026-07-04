@@ -57,7 +57,7 @@ public class BookRepositoryIntegrationTest {
         entityManager.clear();
 
         Book changed = bookRepo.bookOf(book.id()).orElseThrow();
-        changed.changeNameTo("book_b");
+        changed.renameTo("book_b");
         changed.changeAmountTo(2);
         changed.changePriceTo(Price.of(Currency.CNY, BigDecimal.ONE));
         changed.changePublicationDate(LocalDate.of(2024, 2, 2));

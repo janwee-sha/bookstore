@@ -42,7 +42,7 @@ public class UpdatingBookCommand implements Serializable {
 
     public Book toChangedBook(Book existingBook) {
         if (this.getName() != null) {
-            existingBook.changeNameTo(this.getName());
+            existingBook.renameTo(this.getName());
         }
         if (this.getAmount() != null) {
             existingBook.changeAmountTo(this.getAmount());

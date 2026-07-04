@@ -10,6 +10,6 @@ public class UserNotFoundException extends NotFoundException {
     private static final long serialVersionUID = -6374099829525557702L;
 
     public UserNotFoundException(String username) {
-        super("No such user of username: " + username);
+        super(ErrorCodes.USER_NOT_FOUND, "No such user of username: " + username);
     }
 }

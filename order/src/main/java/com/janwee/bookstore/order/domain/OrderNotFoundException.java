@@ -9,7 +9,6 @@ public class OrderNotFoundException extends NotFoundException {
     private static final long serialVersionUID = -5668329758401669443L;
 
     public OrderNotFoundException(long id) {
-        super("No such order of ID: "+id);
+        super(ErrorCodes.ORDER_NOT_FOUND, "No such order of ID: " + id);
     }
-
 }

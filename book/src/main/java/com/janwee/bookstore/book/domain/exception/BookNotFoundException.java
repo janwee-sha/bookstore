@@ -9,7 +9,7 @@ public class BookNotFoundException extends NotFoundException {
     private static final long serialVersionUID = 6857310511213866473L;
 
     public BookNotFoundException(long id) {
-        super("No such book of ID: " + id);
+        super(ErrorCodes.BOOK_NOT_FOUND, "No such book of ID: " + id);
     }
 
 }

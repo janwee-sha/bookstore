@@ -1,14 +1,12 @@
 package com.janwee.bookstore.book.domain.model;
 
 import com.janwee.bookstore.book.domain.exception.InvalidBookException;
-import lombok.Builder;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Builder
 public class Book implements Serializable {
     @Serial
     private static final long serialVersionUID = 2266684333872541496L;
@@ -43,6 +41,10 @@ public class Book implements Serializable {
         this.authorId = authorId;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public Long id() {
         return id;
     }
@@ -55,7 +57,7 @@ public class Book implements Serializable {
         return name;
     }
 
-    public void changeNameTo(String name) {
+    public void renameTo(String name) {
         this.name = name;
     }
 
@@ -110,5 +112,52 @@ public class Book implements Serializable {
             throw InvalidBookException.soldOut();
         }
         this.amount -= amount;
+    }
+
+    public static class Builder {
+        private final Book book;
+
+        public Builder() {
+            this.book = new Book();
+        }
+
+        public Builder id(Long id) {
+            book.assignId(id);
+            return this;
+        }
+
+        public Builder name(String name) {
+            book.renameTo(name);
+            return this;
+        }
+
+        public Builder amount(int amount) {
+            book.changeAmountTo(amount);
+            return this;
+        }
+
+        public Builder price(Price price) {
+            book.changePriceTo(price);
+            return this;
+        }
+
+        public Builder publishedAt(LocalDate publishedAt) {
+            book.changePublicationDate(publishedAt);
+            return this;
+        }
+
+        public Builder publisher(String publisher) {
+            book.changePublisherTo(publisher);
+            return this;
+        }
+
+        public Builder authorId(Long authorId) {
+            book.changeAuthorTo(authorId);
+            return this;
+        }
+
+        public Book build() {
+            return book;
+        }
     }
 }
