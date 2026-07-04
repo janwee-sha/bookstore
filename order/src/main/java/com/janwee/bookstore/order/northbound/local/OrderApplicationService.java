@@ -1,6 +1,6 @@
 package com.janwee.bookstore.order.northbound.local;
 
-import com.janwee.bookstore.order.domain.InvalidOrderException;
+import com.janwee.bookstore.order.domain.InvalidOrderingException;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.domain.Ticket;
@@ -47,10 +47,13 @@ public class OrderApplicationService {
     @Transactional(rollbackFor = Throwable.class)
     public long orderBook(OrderingBookRequest request) {
         log.info("Order a book");
-        Order order = Order.create().ofBook(request.getBookId()).ofAmount(request.getAmount());
+        Order order = new Order.Builder()
+                .bookId(request.getBookId())
+                .amount(request.getAmount())
+                .build();
         BookReview bookReview = bookClient.check(order);
         if (bookReview.isUnavailable()) {
-            throw InvalidOrderException.unavailableBook();
+            throw InvalidOrderingException.unavailableBook();
         }
         orderRepo.save(order);
 

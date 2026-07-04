@@ -27,7 +27,10 @@ class OrderRepositoryJpaAdapterUnitTest {
 
     @Test
     void shouldAssignGeneratedIdWhenSavingNewOrder() {
-        Order order = Order.create().ofBook(1L).ofAmount(2);
+        Order order = new Order.Builder()
+                .bookId(1L)
+                .amount(2)
+                .build();
         LocalDateTime createdAt = order.createdAt();
         when(jpaRepo.save(any(OrderPO.class)))
                 .thenReturn(new OrderPO(100L, 1L, 2, createdAt, State.APPROVAL_PENDING.name()));

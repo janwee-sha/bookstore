@@ -1,12 +1,9 @@
 package com.janwee.bookstore.order.domain;
 
-import lombok.Getter;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Getter
 public class Ticket implements Serializable {
     @Serial
     private static final long serialVersionUID = -2738047778557352396L;
@@ -17,7 +14,7 @@ public class Ticket implements Serializable {
 
     private Long bookId;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
     public Ticket() {
         this.createdAt = LocalDateTime.now();

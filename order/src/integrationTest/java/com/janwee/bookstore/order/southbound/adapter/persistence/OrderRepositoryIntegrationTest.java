@@ -14,10 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -34,7 +31,10 @@ class OrderRepositoryIntegrationTest {
 
     @Test
     void shouldSaveAndLoadOrder() {
-        Order order = Order.create().ofBook(1L).ofAmount(2);
+        Order order = new Order.Builder()
+                .bookId(1L)
+                .amount(2)
+                .build();
 
         orderRepo.save(order);
         entityManager.flush();
@@ -53,7 +53,11 @@ class OrderRepositoryIntegrationTest {
 
     @Test
     void shouldUpdateExistingOrderState() {
-        Order order = Order.create().ofBook(1L).ofAmount(2);
+        Order order = new Order.Builder()
+                .bookId(1L)
+                .amount(2)
+                .build();
+
         orderRepo.save(order);
         entityManager.flush();
         entityManager.clear();
