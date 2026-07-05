@@ -18,6 +18,8 @@ public class Order implements Serializable {
 
     private State state;
 
+    private Ticket ticket;
+
     public Order() {
         this.state = State.APPROVAL_PENDING;
         this.createdAt = LocalDateTime.now();
@@ -62,6 +64,14 @@ public class Order implements Serializable {
         return state;
     }
 
+    public Ticket ticket() {
+        return ticket;
+    }
+
+    public void assignTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
     public void reject() {
         if (this.state != State.APPROVAL_PENDING) {
             throw InvalidOrderingException.illegalApprovalOperation();
@@ -76,6 +86,7 @@ public class Order implements Serializable {
         }
 
         this.state = State.APPROVED;
+        this.assignTicket(Ticket.newTicketOf(this));
     }
 
     public static class Builder {

@@ -3,7 +3,6 @@ package com.janwee.bookstore.order.northbound.local;
 import com.janwee.bookstore.order.domain.InvalidOrderingException;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
-import com.janwee.bookstore.order.domain.Ticket;
 import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.northbound.message.OrderingBookRequest;
 import com.janwee.bookstore.order.southbound.message.BookReview;
@@ -11,7 +10,6 @@ import com.janwee.bookstore.order.southbound.message.OrderCreated;
 import com.janwee.bookstore.order.southbound.port.BookClient;
 import com.janwee.bookstore.order.southbound.port.EventPublisher;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
-import com.janwee.bookstore.order.southbound.port.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,7 +25,6 @@ import java.util.Optional;
 public class OrderApplicationService {
     private final OrderRepository orderRepo;
     private final EventPublisher eventPublisher;
-    private final TicketRepository ticketRepo;
     private final BookClient bookClient;
 
     @Transactional(readOnly = true)
@@ -70,8 +67,6 @@ public class OrderApplicationService {
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
         order.approve();
         orderRepo.save(order);
-        Ticket ticket = new Ticket().ofOrder(orderId).ofBook(order.bookId());
-        ticketRepo.save(ticket);
     }
 
     @Transactional(rollbackFor = Throwable.class)

@@ -8,7 +8,6 @@ import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.southbound.port.BookClient;
 import com.janwee.bookstore.order.southbound.port.EventPublisher;
 import com.janwee.bookstore.order.southbound.port.OrderRepository;
-import com.janwee.bookstore.order.southbound.port.TicketRepository;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,14 +24,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderApplicationServiceUnitTest {
@@ -44,9 +37,6 @@ class OrderApplicationServiceUnitTest {
 
     @Mock
     private BookClient bookClient;
-
-    @Mock
-    private TicketRepository ticketRepo;
 
     @InjectMocks
     private OrderApplicationService service;
@@ -106,7 +96,6 @@ class OrderApplicationServiceUnitTest {
 
             ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
             verify(orderRepo).save(order);
-            verify(ticketRepo).save(ticketCaptor.capture());
             Ticket ticket = ticketCaptor.getValue();
             assertAll(
                     () -> assertEquals(State.APPROVED, order.state()),
@@ -122,7 +111,6 @@ class OrderApplicationServiceUnitTest {
 
             assertThrows(OrderNotFoundException.class, () -> service.approve(1L));
             verify(orderRepo, never()).save(any());
-            verify(ticketRepo, never()).save(any());
         }
     }
 
@@ -137,7 +125,6 @@ class OrderApplicationServiceUnitTest {
             service.reject(1L);
 
             verify(orderRepo).save(order);
-            verify(ticketRepo, never()).save(any());
             assertEquals(State.REJECTED, order.state());
         }
 
@@ -148,7 +135,6 @@ class OrderApplicationServiceUnitTest {
             service.reject(1L);
 
             verify(orderRepo, never()).save(any());
-            verify(ticketRepo, never()).save(any());
         }
     }
 }

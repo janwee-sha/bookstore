@@ -14,17 +14,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderRepositoryJpaAdapter implements OrderRepository {
     private final OrderPOJpaRepository jpaRepo;
+    private final TicketPOJpaRepository ticketJpaRepo;
 
     @Override
     public Page<Order> ordersOf(Pageable pageable) {
         return jpaRepo.findAll(pageable)
-                .map(OrderPOAssembler::toDomain);
+                .map(this::toDomain);
     }
 
     @Override
     public Optional<Order> orderOf(Long id) {
         return jpaRepo.findById(id)
-                .map(OrderPOAssembler::toDomain);
+                .map(this::toDomain);
     }
 
     @Override
@@ -32,5 +33,17 @@ public class OrderRepositoryJpaAdapter implements OrderRepository {
         Assert.notNull(order, "Order is required");
         OrderPO saved = jpaRepo.save(OrderPOAssembler.toPO(order));
         order.assignId(saved.getId());
+        if (order.ticket() != null) {
+            TicketPO ticketPO = ticketJpaRepo.save(TicketPOAssembler.toPO(order.ticket()));
+            order.ticket().assignId(ticketPO.getId());
+        }
+    }
+
+    private Order toDomain(OrderPO po) {
+        Order order = OrderPOAssembler.toDomain(po);
+        ticketJpaRepo.findByOrderId(order.id())
+                .map(TicketPOAssembler::toDomain)
+                .ifPresent(order::assignTicket);
+        return order;
     }
 }

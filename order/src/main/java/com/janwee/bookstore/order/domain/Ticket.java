@@ -27,6 +27,16 @@ public class Ticket implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public static Ticket newTicketOf(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order must not be null");
+        }
+        Ticket ticket = new Ticket();
+        ticket.orderId = order.id();
+        ticket.bookId = order.bookId();
+        return ticket;
+    }
+
     public void assignId(Long id) {
         this.id = id;
     }
@@ -45,15 +55,5 @@ public class Ticket implements Serializable {
 
     public LocalDateTime createdAt() {
         return createdAt;
-    }
-
-    public Ticket ofOrder(Long orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public Ticket ofBook(Long bookId) {
-        this.bookId = bookId;
-        return this;
     }
 }
