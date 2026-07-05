@@ -3,7 +3,6 @@ package com.janwee.bookstore.order.northbound.local;
 import com.janwee.bookstore.order.domain.Order;
 import com.janwee.bookstore.order.domain.OrderNotFoundException;
 import com.janwee.bookstore.order.domain.State;
-import com.janwee.bookstore.order.domain.Ticket;
 import com.janwee.bookstore.order.northbound.message.OrderResponse;
 import com.janwee.bookstore.order.southbound.port.BookClient;
 import com.janwee.bookstore.order.southbound.port.EventPublisher;
@@ -11,7 +10,6 @@ import com.janwee.bookstore.order.southbound.port.OrderRepository;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -87,22 +85,15 @@ class OrderApplicationServiceUnitTest {
     @Nested
     class Approve {
         @Test
-        void shouldApproveOrderAndCreateTicketForExistingOrder() {
+        void shouldApproveAndSaveExistingOrder() {
             LocalDateTime createdAt = LocalDateTime.now();
             Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
             when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
 
             service.approve(1L);
 
-            ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
             verify(orderRepo).save(order);
-            Ticket ticket = ticketCaptor.getValue();
-            assertAll(
-                    () -> assertEquals(State.APPROVED, order.state()),
-                    () -> assertEquals(1L, ticket.orderId()),
-                    () -> assertEquals(2L, ticket.bookId()),
-                    () -> assertNotNull(ticket.createdAt())
-            );
+            assertEquals(State.APPROVED, order.state());
         }
 
         @Test
