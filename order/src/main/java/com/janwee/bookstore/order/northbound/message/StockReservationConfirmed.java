@@ -7,10 +7,6 @@ import com.janwee.bookstore.foundation.event.Event;
 
 import java.io.Serial;
 
-/**
- * Integration event received from the book context indicating that
- * stock reservation for an order has been confirmed.
- */
 public class StockReservationConfirmed extends DefaultEvent implements Event {
     @Serial
     private static final long serialVersionUID = -215640306818366223L;

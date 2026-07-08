@@ -7,11 +7,6 @@ import com.janwee.bookstore.foundation.event.Event;
 
 import java.io.Serial;
 
-/**
- * Integration event published when stock reservation for an order is rejected
- * due to insufficient inventory or book not found.
- * This event is consumed by the order context to reject the order.
- */
 public class StockReservationRejected extends DefaultEvent implements Event {
     @Serial
     private static final long serialVersionUID = 3000442259093697821L;
