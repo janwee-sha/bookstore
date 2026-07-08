@@ -19,18 +19,18 @@ spring:
         boss:
           type: rabbit
       function:
-        definition: bookSoldOutSupplier;bookOrderedSupplier;orderCreatedConsumer
+        definition: stockReservationRejectedSupplier;stockReservationConfirmedSupplier;orderCreatedConsumer
       bindings:
         orderCreatedConsumer-in-0:
           destination: queue.order.created
-        bookSoldOutSupplier-out-0:
-          destination: queue.book.soldOut
+        stockReservationRejectedSupplier-out-0:
+          destination: queue.stock.reservation.rejected
           producer:
-            confirm-ack-channel: queue.book.soldOut.confirm
-        bookOrderedSupplier-out-0:
-          destination: queue.book.ordered
+            confirm-ack-channel: queue.stock.reservation.rejected.confirm
+        stockReservationConfirmedSupplier-out-0:
+          destination: queue.stock.reservation.confirmed
           producer:
-            confirm-ack-channel: queue.book.ordered.confirm
+            confirm-ack-channel: queue.stock.reservation.confirmed.confirm
 
 springdoc:
   api-docs:

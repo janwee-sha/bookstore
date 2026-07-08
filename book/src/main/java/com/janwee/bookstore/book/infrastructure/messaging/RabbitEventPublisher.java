@@ -1,7 +1,7 @@
 package com.janwee.bookstore.book.infrastructure.messaging;
 
-import com.janwee.bookstore.book.domain.event.BookOrdered;
-import com.janwee.bookstore.book.domain.event.BookSoldOut;
+import com.janwee.bookstore.book.application.message.StockReservationConfirmed;
+import com.janwee.bookstore.book.application.message.StockReservationRejected;
 import com.janwee.bookstore.book.domain.service.EventPublisher;
 import com.janwee.bookstore.foundation.event.Event;
 import lombok.extern.slf4j.Slf4j;
@@ -16,29 +16,29 @@ import java.util.stream.Stream;
 @Component
 @Slf4j
 public class RabbitEventPublisher implements EventPublisher {
-    private final BlockingQueue<BookSoldOut> queueBookSoldOut = new LinkedBlockingQueue<>();
-    private final BlockingQueue<BookOrdered> queueBookOrdered = new LinkedBlockingQueue<>();
+    private final BlockingQueue<StockReservationRejected> queueStockReservationRejected = new LinkedBlockingQueue<>();
+    private final BlockingQueue<StockReservationConfirmed> queueStockReservationConfirmed = new LinkedBlockingQueue<>();
 
     @Override
     public void publish(Event... events) {
 
         Stream.of(events).parallel().forEach(event -> {
-            if (event instanceof BookSoldOut) {
-                queueBookSoldOut.offer((BookSoldOut) event);
-            } else if (event instanceof BookOrdered) {
-                queueBookOrdered.offer((BookOrdered) event);
+            if (event instanceof StockReservationRejected) {
+                queueStockReservationRejected.offer((StockReservationRejected) event);
+            } else if (event instanceof StockReservationConfirmed) {
+                queueStockReservationConfirmed.offer((StockReservationConfirmed) event);
             }
             log.info("Published event: {}", event);
         });
     }
 
     @Bean
-    public Supplier<BookSoldOut> bookSoldOutSupplier() {
-        return queueBookSoldOut::poll;
+    public Supplier<StockReservationRejected> stockReservationRejectedSupplier() {
+        return queueStockReservationRejected::poll;
     }
 
     @Bean
-    public Supplier<BookOrdered> bookOrderedSupplier() {
-        return queueBookOrdered::poll;
+    public Supplier<StockReservationConfirmed> stockReservationConfirmedSupplier() {
+        return queueStockReservationConfirmed::poll;
     }
 }

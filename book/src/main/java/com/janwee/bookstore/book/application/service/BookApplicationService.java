@@ -5,8 +5,8 @@ import com.janwee.bookstore.book.application.command.OrderingBookCommand;
 import com.janwee.bookstore.book.application.command.PublishingBookCommand;
 import com.janwee.bookstore.book.application.command.UpdatingBookCommand;
 import com.janwee.bookstore.book.application.view.BookView;
-import com.janwee.bookstore.book.domain.event.BookOrdered;
-import com.janwee.bookstore.book.domain.event.BookSoldOut;
+import com.janwee.bookstore.book.application.message.StockReservationConfirmed;
+import com.janwee.bookstore.book.application.message.StockReservationRejected;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
@@ -88,15 +88,15 @@ public class BookApplicationService {
 
         if (optBook.isEmpty() || optBook.get().amount() - request.getAmount() < 0) {
             log.info("Book is not found or out of stock.");
-            Event bookSoldOut = new BookSoldOut(request.getOrderId(), id);
-            eventPublisher.publish(bookSoldOut);
+            Event rejected = new StockReservationRejected(request.getOrderId(), id);
+            eventPublisher.publish(rejected);
             return;
         }
 
         Book book = optBook.get();
         book.sell(request.getAmount());
         bookRepo.update(book);
-        Event bookOrdered = new BookOrdered(request.getOrderId(), id);
-        eventPublisher.publish(bookOrdered);
+        Event confirmed = new StockReservationConfirmed(request.getOrderId(), id);
+        eventPublisher.publish(confirmed);
     }
 }

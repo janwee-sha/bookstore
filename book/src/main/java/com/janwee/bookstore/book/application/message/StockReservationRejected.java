@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.northbound.message;
+package com.janwee.bookstore.book.application.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,9 +7,14 @@ import com.janwee.bookstore.foundation.event.Event;
 
 import java.io.Serial;
 
-public class BookSoldOut extends DefaultEvent implements Event {
+/**
+ * Integration event published when stock reservation for an order is rejected
+ * due to insufficient inventory or book not found.
+ * This event is consumed by the order context to reject the order.
+ */
+public class StockReservationRejected extends DefaultEvent implements Event {
     @Serial
-    private static final long serialVersionUID = 6196262624575790186L;
+    private static final long serialVersionUID = 3000442259093697821L;
 
     @JsonProperty
     private final long orderId;
@@ -18,8 +23,8 @@ public class BookSoldOut extends DefaultEvent implements Event {
     private final long bookId;
 
     @JsonCreator
-    public BookSoldOut(@JsonProperty("orderId") long orderId,
-                       @JsonProperty("bookId") long bookId) {
+    public StockReservationRejected(@JsonProperty("orderId") long orderId,
+                                    @JsonProperty("bookId") long bookId) {
         this.orderId = orderId;
         this.bookId = bookId;
     }

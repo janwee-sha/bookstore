@@ -19,12 +19,12 @@ spring:
         boss:
           type: rabbit
       function:
-        definition: orderCreatedSupplier;bookSoldOutConsumer;bookOrderedConsumer
+        definition: orderCreatedSupplier;stockReservationRejectedConsumer;stockReservationConfirmedConsumer
       bindings:
-        bookOrderedConsumer-in-0:
-          destination: queue.book.ordered
-        bookSoldOutConsumer-in-0:
-          destination: queue.book.soldOut
+        stockReservationConfirmedConsumer-in-0:
+          destination: queue.stock.reservation.confirmed
+        stockReservationRejectedConsumer-in-0:
+          destination: queue.stock.reservation.rejected
         orderCreatedSupplier-out-0:
           destination: queue.order.created
 

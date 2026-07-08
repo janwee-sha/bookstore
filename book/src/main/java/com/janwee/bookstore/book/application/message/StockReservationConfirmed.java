@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.domain.event;
+package com.janwee.bookstore.book.application.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,7 @@ import com.janwee.bookstore.foundation.event.Event;
 
 import java.io.Serial;
 
-public class BookOrdered extends DefaultEvent implements Event {
+public class StockReservationConfirmed extends DefaultEvent implements Event {
     @Serial
     private static final long serialVersionUID = -8710269418141302043L;
 
@@ -18,8 +18,8 @@ public class BookOrdered extends DefaultEvent implements Event {
     private final long bookId;
 
     @JsonCreator
-    public BookOrdered(@JsonProperty("orderId") long orderId,
-                       @JsonProperty("bookId") long bookId) {
+    public StockReservationConfirmed(@JsonProperty("orderId") long orderId,
+                                     @JsonProperty("bookId") long bookId) {
         this.orderId = orderId;
         this.bookId = bookId;
     }
