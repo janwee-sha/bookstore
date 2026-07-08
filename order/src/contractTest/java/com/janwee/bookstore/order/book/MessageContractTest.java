@@ -26,33 +26,33 @@ class MessageContractTest {
             .build();
 
     @Test
-    void bookOrderedPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.domain.event.BookOrdered published =
-                new com.janwee.bookstore.book.domain.event.BookOrdered(1001L, 2002L);
+    void stockReservationConfirmedPublishedByBookCanBeConsumedByOrder() throws Exception {
+        com.janwee.bookstore.book.application.message.StockReservationConfirmed published =
+                new com.janwee.bookstore.book.application.message.StockReservationConfirmed(1001L, 2002L);
 
         String payload = objectMapper.writeValueAsString(published);
 
         assertNumberField(payload, "orderId", 1001L);
         assertNumberField(payload, "bookId", 2002L);
 
-        com.janwee.bookstore.order.northbound.message.BookOrdered consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.BookOrdered.class);
+        com.janwee.bookstore.order.northbound.message.StockReservationConfirmed consumed =
+                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.StockReservationConfirmed.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
     }
 
     @Test
-    void bookSoldOutPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.domain.event.BookSoldOut published =
-                new com.janwee.bookstore.book.domain.event.BookSoldOut(1001L, 2002L);
+    void stockReservationRejectedPublishedByBookCanBeConsumedByOrder() throws Exception {
+        com.janwee.bookstore.book.application.message.StockReservationRejected published =
+                new com.janwee.bookstore.book.application.message.StockReservationRejected(1001L, 2002L);
 
         String payload = objectMapper.writeValueAsString(published);
 
         assertNumberField(payload, "orderId", 1001L);
         assertNumberField(payload, "bookId", 2002L);
 
-        com.janwee.bookstore.order.northbound.message.BookSoldOut consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.BookSoldOut.class);
+        com.janwee.bookstore.order.northbound.message.StockReservationRejected consumed =
+                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.StockReservationRejected.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
     }

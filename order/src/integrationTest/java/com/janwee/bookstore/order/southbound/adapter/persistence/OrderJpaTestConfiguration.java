@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootConfiguration
 @EntityScan("com.janwee.bookstore.order.southbound.adapter.persistence")
 @EnableJpaRepositories("com.janwee.bookstore.order.southbound.adapter.persistence")
-@Import({OrderRepositoryJpaAdapter.class, TicketRepositoryJpaAdapter.class})
+@Import({OrderRepositoryJpaAdapter.class})
 class OrderJpaTestConfiguration {
 }

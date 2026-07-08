@@ -39,47 +39,53 @@ class OrderApplicationServiceUnitTest {
     @InjectMocks
     private OrderApplicationService service;
 
-    @Test
-    void shouldReturnOrderResponsesForOrders() {
-        Pageable pageable = PageRequest.of(0, 10);
-        LocalDateTime createdAt = LocalDateTime.now();
-        Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
-        when(orderRepo.ordersOf(pageable)).thenReturn(new PageImpl<>(List.of(order), pageable, 1));
+    @Nested
+    class Orders {
+        @Test
+        void shouldReturnOrderResponsesForOrders() {
+            Pageable pageable = PageRequest.of(0, 10);
+            LocalDateTime createdAt = LocalDateTime.now();
+            Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
+            when(orderRepo.ordersOf(pageable)).thenReturn(new PageImpl<>(List.of(order), pageable, 1));
 
-        Page<OrderResponse> responses = service.orders(pageable);
+            Page<OrderResponse> responses = service.orders(pageable);
 
-        OrderResponse response = responses.getContent().get(0);
-        assertAll(
-                () -> assertEquals(1L, response.getId()),
-                () -> assertEquals(2L, response.getBookId()),
-                () -> assertEquals(3, response.getAmount()),
-                () -> assertEquals(createdAt, response.getCreatedAt()),
-                () -> assertEquals(State.APPROVAL_PENDING, response.getState())
-        );
+            OrderResponse response = responses.getContent().get(0);
+            assertAll(
+                    () -> assertEquals(1L, response.getId()),
+                    () -> assertEquals(2L, response.getBookId()),
+                    () -> assertEquals(3, response.getAmount()),
+                    () -> assertEquals(createdAt, response.getCreatedAt()),
+                    () -> assertEquals(State.APPROVAL_PENDING, response.getState())
+            );
+        }
     }
 
-    @Test
-    void shouldReturnOrderResponseForExistingOrder() {
-        LocalDateTime createdAt = LocalDateTime.now();
-        Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
-        when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
+    @Nested
+    class OrderOf {
+        @Test
+        void shouldReturnOrderResponseForExistingOrder() {
+            LocalDateTime createdAt = LocalDateTime.now();
+            Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
+            when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
 
-        OrderResponse response = service.orderOf(1L);
+            OrderResponse response = service.orderOf(1L);
 
-        assertAll(
-                () -> assertEquals(1L, response.getId()),
-                () -> assertEquals(2L, response.getBookId()),
-                () -> assertEquals(3, response.getAmount()),
-                () -> assertEquals(createdAt, response.getCreatedAt()),
-                () -> assertEquals(State.APPROVAL_PENDING, response.getState())
-        );
-    }
+            assertAll(
+                    () -> assertEquals(1L, response.getId()),
+                    () -> assertEquals(2L, response.getBookId()),
+                    () -> assertEquals(3, response.getAmount()),
+                    () -> assertEquals(createdAt, response.getCreatedAt()),
+                    () -> assertEquals(State.APPROVAL_PENDING, response.getState())
+            );
+        }
 
-    @Test
-    void shouldThrowWhenOrderDoesNotExist() {
-        when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
+        @Test
+        void shouldThrowWhenOrderDoesNotExist() {
+            when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
-        assertThrows(OrderNotFoundException.class, () -> service.orderOf(1L));
+            assertThrows(OrderNotFoundException.class, () -> service.orderOf(1L));
+        }
     }
 
     @Nested
@@ -97,7 +103,7 @@ class OrderApplicationServiceUnitTest {
         }
 
         @Test
-        void shouldThrowWhenOrderDoesNotExist() {
+        void shouldThrowWhenOrderDoesNotExistWhenApprove() {
             when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
             assertThrows(OrderNotFoundException.class, () -> service.approve(1L));
@@ -120,11 +126,10 @@ class OrderApplicationServiceUnitTest {
         }
 
         @Test
-        void shouldIgnoreMissingOrder() {
+        void shouldThrowWhenOrderDoesNotExistWhenReject() {
             when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
-            service.reject(1L);
-
+            assertThrows(OrderNotFoundException.class, () -> service.reject(1L));
             verify(orderRepo, never()).save(any());
         }
     }

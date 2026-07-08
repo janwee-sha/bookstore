@@ -1,8 +1,8 @@
 package com.janwee.bookstore.order.northbound.remote.subscriber;
 
 import com.janwee.bookstore.order.northbound.local.OrderApplicationService;
-import com.janwee.bookstore.order.northbound.message.BookOrdered;
-import com.janwee.bookstore.order.northbound.message.BookSoldOut;
+import com.janwee.bookstore.order.northbound.message.StockReservationConfirmed;
+import com.janwee.bookstore.order.northbound.message.StockReservationRejected;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,19 +20,19 @@ class RabbitBookEventSubscriberUnitTest {
     private RabbitBookEventSubscriber subscriber;
 
     @Test
-    void shouldDelegateBookOrderedConsumerToApplicationService() {
-        BookOrdered event = new BookOrdered(1L, 2L);
+    void shouldDelegateStockReservationConfirmedConsumerToApplicationService() {
+        StockReservationConfirmed event = new StockReservationConfirmed(1L, 2L);
 
-        subscriber.bookOrderedConsumer().accept(event);
+        subscriber.stockReservationConfirmedConsumer().accept(event);
 
         verify(orderAppService).approve(1L);
     }
 
     @Test
-    void shouldDelegateBookSoldOutConsumerToApplicationService() {
-        BookSoldOut event = new BookSoldOut(1L, 2L);
+    void shouldDelegateStockReservationRejectedConsumerToApplicationService() {
+        StockReservationRejected event = new StockReservationRejected(1L, 2L);
 
-        subscriber.bookSoldOutConsumer().accept(event);
+        subscriber.stockReservationRejectedConsumer().accept(event);
 
         verify(orderAppService).reject(1L);
     }
