@@ -17,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class OrderApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public OrderResponse nonNullOrderOfId(long id) {
+    public OrderResponse orderOf(long id) {
         return orderRepo.orderOf(id)
                 .map(OrderResponseAssembler::from)
                 .orElseThrow(() -> new OrderNotFoundException(id));
@@ -72,11 +70,9 @@ public class OrderApplicationService {
     @Transactional(rollbackFor = Throwable.class)
     public void reject(long orderId) {
         log.info("Rejecting order {}.", orderId);
-        Optional<Order> optOrder = orderRepo.orderOf(orderId);
-        if (optOrder.isPresent()) {
-            Order order = optOrder.get();
-            order.reject();
-            orderRepo.save(order);
-        }
+        Order order = orderRepo.orderOf(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+        order.reject();
+        orderRepo.save(order);
     }
 }

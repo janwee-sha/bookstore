@@ -64,7 +64,7 @@ class OrderApplicationServiceUnitTest {
         Order order = new Order(1L, 2L, 3, createdAt, State.APPROVAL_PENDING);
         when(orderRepo.orderOf(1L)).thenReturn(Optional.of(order));
 
-        OrderResponse response = service.nonNullOrderOfId(1L);
+        OrderResponse response = service.orderOf(1L);
 
         assertAll(
                 () -> assertEquals(1L, response.getId()),
@@ -79,7 +79,7 @@ class OrderApplicationServiceUnitTest {
     void shouldThrowWhenOrderDoesNotExist() {
         when(orderRepo.orderOf(1L)).thenReturn(Optional.empty());
 
-        assertThrows(OrderNotFoundException.class, () -> service.nonNullOrderOfId(1L));
+        assertThrows(OrderNotFoundException.class, () -> service.orderOf(1L));
     }
 
     @Nested

@@ -52,7 +52,7 @@ public class OrderResource {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('order:read','order:write')")
     public OrderResponse order(@PathVariable long id) {
-        return orderAppService.nonNullOrderOfId(id);
+        return orderAppService.orderOf(id);
     }
 
     @PostMapping
