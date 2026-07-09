@@ -29,7 +29,6 @@ public class BookPO implements Serializable {
     private Long authorId;
 
     public BookPO() {
-        this.publishedAt = LocalDate.now();
     }
 
     public BookPO(Long id, String name, String price, LocalDate publishedAt, String publisher, Long authorId) {
