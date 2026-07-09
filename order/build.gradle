@@ -28,4 +28,5 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     contractTestImplementation project(':book')
+    contractTestImplementation 'org.wiremock:wiremock-standalone:3.9.1'
 }

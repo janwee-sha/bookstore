@@ -1,4 +1,4 @@
-package com.janwee.bookstore.order.book;
+package com.janwee.bookstore.book.provider;
 
 import com.janwee.bookstore.book.BookApplication;
 import com.janwee.bookstore.book.domain.model.Author;
@@ -9,26 +9,19 @@ import com.janwee.bookstore.book.infrastructure.persistence.assembler.AuthorPOAs
 import com.janwee.bookstore.book.infrastructure.persistence.assembler.BookPOAssembler;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.AuthorPOJpaRepository;
 import com.janwee.bookstore.book.infrastructure.persistence.jpa.BookPOJpaRepository;
-import com.janwee.bookstore.order.southbound.adapter.service.BookFeignClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -53,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 )
 @AutoConfigureMockMvc
-class BookClientContractTest {
+class BookExistenceHttpContractTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -74,37 +67,28 @@ class BookClientContractTest {
     }
 
     @Test
-    void orderConsumerUsesBookProviderHeadContract() throws Exception {
-        Method checkBook = BookFeignClient.class.getMethod("checkBook", Long.class);
+    void headBooksIdReturns200ForExistingBook() throws Exception {
+        Author author = saveAuthor();
+        Book book = saveBook(author.id());
 
-        FeignClient feignClient = BookFeignClient.class.getAnnotation(FeignClient.class);
-        assertNotNull(feignClient);
-        assertEquals("book", feignClient.value());
-
-        RequestMapping requestMapping = checkBook.getAnnotation(RequestMapping.class);
-        assertNotNull(requestMapping);
-        assertArrayEquals(new RequestMethod[]{RequestMethod.HEAD}, requestMapping.method());
-        assertArrayEquals(new String[]{"books/{id}"}, requestMapping.value());
-
-        PathVariable pathVariable = checkBook.getParameters()[0].getAnnotation(PathVariable.class);
-        assertNotNull(pathVariable);
-        assertEquals("id", pathVariable.value());
+        mockMvc.perform(head("/books/{id}", book.id()).with(bookReader()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
     }
 
     @Test
-    void bookProviderSatisfiesOrderBookExistenceContract() throws Exception {
+    void headBooksIdReturns404ForMissingBook() throws Exception {
+        mockMvc.perform(head("/books/{id}", 9999L).with(bookReader()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void headBooksIdReturns401WithoutAuthentication() throws Exception {
         Author author = saveAuthor();
         Book book = saveBook(author.id());
 
         mockMvc.perform(head("/books/{id}", book.id()))
                 .andExpect(status().isUnauthorized());
-
-        mockMvc.perform(head("/books/{id}", book.id()).with(bookReader()))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
-
-        mockMvc.perform(head("/books/{id}", 9999L).with(bookReader()))
-                .andExpect(status().isNotFound());
     }
 
     private RequestPostProcessor bookReader() {

@@ -1,7 +1,7 @@
 package com.janwee.bookstore.order.southbound.port;
 
-import com.janwee.bookstore.foundation.event.Event;
+import com.janwee.bookstore.foundation.event.IntegrationEvent;
 
 public interface EventPublisher {
-    void publish(Event... events);
+    void publish(IntegrationEvent... events);
 }

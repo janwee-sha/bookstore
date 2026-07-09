@@ -2,13 +2,13 @@ package com.janwee.bookstore.order.southbound.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.janwee.bookstore.foundation.event.DefaultEvent;
-import com.janwee.bookstore.foundation.event.Event;
+import com.janwee.bookstore.foundation.event.DefaultIntegrationEvent;
+import com.janwee.bookstore.foundation.event.IntegrationEvent;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
 
-public class OrderCreated extends DefaultEvent implements Event {
+public class OrderCreated extends DefaultIntegrationEvent implements IntegrationEvent {
     @Serial
     private static final long serialVersionUID = -7501613599101584679L;
 

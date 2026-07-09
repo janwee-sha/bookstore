@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import com.janwee.bookstore.foundation.event.Event;
+import com.janwee.bookstore.foundation.event.IntegrationEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -141,7 +141,7 @@ class InventoryApplicationServiceUnitTest {
 
         verify(inventoryRepo).update(item);
         assertEquals(7, item.quantity());
-        ArgumentCaptor<Event[]> captor = ArgumentCaptor.forClass(Event[].class);
+        ArgumentCaptor<IntegrationEvent[]> captor = ArgumentCaptor.forClass(IntegrationEvent[].class);
         verify(eventPublisher).publish(captor.capture());
         assertEquals("StockReservationConfirmed", captor.getValue()[0].getClass().getSimpleName());
     }
@@ -157,7 +157,7 @@ class InventoryApplicationServiceUnitTest {
         service.reserve(command);
 
         verify(inventoryRepo, never()).update(any());
-        ArgumentCaptor<Event[]> captor = ArgumentCaptor.forClass(Event[].class);
+        ArgumentCaptor<IntegrationEvent[]> captor = ArgumentCaptor.forClass(IntegrationEvent[].class);
         verify(eventPublisher).publish(captor.capture());
         assertEquals("StockReservationRejected", captor.getValue()[0].getClass().getSimpleName());
     }
@@ -174,7 +174,7 @@ class InventoryApplicationServiceUnitTest {
         service.reserve(command);
 
         verify(inventoryRepo, never()).update(any());
-        ArgumentCaptor<Event[]> captor = ArgumentCaptor.forClass(Event[].class);
+        ArgumentCaptor<IntegrationEvent[]> captor = ArgumentCaptor.forClass(IntegrationEvent[].class);
         verify(eventPublisher).publish(captor.capture());
         assertEquals("StockReservationRejected", captor.getValue()[0].getClass().getSimpleName());
     }

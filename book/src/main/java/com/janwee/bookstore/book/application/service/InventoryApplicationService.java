@@ -12,7 +12,7 @@ import com.janwee.bookstore.book.domain.model.InventoryItem;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
 import com.janwee.bookstore.book.domain.repository.InventoryItemRepository;
 import com.janwee.bookstore.book.domain.service.EventPublisher;
-import com.janwee.bookstore.foundation.event.Event;
+import com.janwee.bookstore.foundation.event.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -70,7 +70,7 @@ public class InventoryApplicationService {
 
         if (optItem.isEmpty() || !optItem.get().hasAvailable(command.getAmount())) {
             log.info("Inventory not found or insufficient stock for book: {}.", command.getBookId());
-            Event rejected = new StockReservationRejected(command.getOrderId(), command.getBookId());
+            IntegrationEvent rejected = new StockReservationRejected(command.getOrderId(), command.getBookId());
             eventPublisher.publish(rejected);
             return;
         }
@@ -79,7 +79,7 @@ public class InventoryApplicationService {
         item.reserve(command.getAmount());
         inventoryRepo.update(item);
 
-        Event confirmed = new StockReservationConfirmed(command.getOrderId(), command.getBookId());
+        IntegrationEvent confirmed = new StockReservationConfirmed(command.getOrderId(), command.getBookId());
         eventPublisher.publish(confirmed);
     }
 

@@ -3,7 +3,7 @@ package com.janwee.bookstore.book.infrastructure.messaging;
 import com.janwee.bookstore.book.application.message.StockReservationConfirmed;
 import com.janwee.bookstore.book.application.message.StockReservationRejected;
 import com.janwee.bookstore.book.domain.service.EventPublisher;
-import com.janwee.bookstore.foundation.event.Event;
+import com.janwee.bookstore.foundation.event.IntegrationEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class RabbitEventPublisher implements EventPublisher {
     private final BlockingQueue<StockReservationConfirmed> queueStockReservationConfirmed = new LinkedBlockingQueue<>();
 
     @Override
-    public void publish(Event... events) {
+    public void publish(IntegrationEvent... events) {
 
         Stream.of(events).parallel().forEach(event -> {
             if (event instanceof StockReservationRejected) {
