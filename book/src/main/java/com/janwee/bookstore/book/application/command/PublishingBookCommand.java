@@ -7,7 +7,6 @@ import com.janwee.bookstore.book.domain.model.Price;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Schema(title = "Publishing Book Request",
-        requiredProperties = {"name", "price", "amount", "publishedAt", "publisher", "authorId"})
+        requiredProperties = {"name", "price", "publisher", "authorId"})
 public class PublishingBookCommand implements Serializable {
     @Serial
     private static final long serialVersionUID = 6824730576154119263L;
@@ -30,11 +29,6 @@ public class PublishingBookCommand implements Serializable {
     @Schema(title = "Price")
     @NotNull(message = "Price is required")
     private PriceRequest price;
-
-    @Schema(title = "Amount")
-    @NotNull(message = "Amount is required")
-    @PositiveOrZero(message = "Amount should not be negative")
-    private int amount;
 
     @Schema(title = "Publisher")
     @NotBlank(message = "Publisher is required")
@@ -51,7 +45,6 @@ public class PublishingBookCommand implements Serializable {
     public Book toNewBook() {
         return Book.builder()
                 .name(this.name)
-                .amount(this.amount)
                 .price(this.price == null ? null : this.price.toPrice())
                 .publisher(this.publisher)
                 .authorId(this.authorId)

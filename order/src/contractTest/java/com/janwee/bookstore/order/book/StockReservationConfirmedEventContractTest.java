@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MessageContractTest {
+class StockReservationConfirmedEventContractTest {
     private static final DateTimeFormatter DATE_TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final ObjectMapper objectMapper = JsonMapper.builder()
@@ -41,22 +41,6 @@ class MessageContractTest {
         assertEquals(2002L, consumed.bookId());
     }
 
-    @Test
-    void stockReservationRejectedPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.application.message.StockReservationRejected published =
-                new com.janwee.bookstore.book.application.message.StockReservationRejected(1001L, 2002L);
-
-        String payload = objectMapper.writeValueAsString(published);
-
-        assertNumberField(payload, "orderId", 1001L);
-        assertNumberField(payload, "bookId", 2002L);
-
-        com.janwee.bookstore.order.northbound.message.StockReservationRejected consumed =
-                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.StockReservationRejected.class);
-        assertEquals(1001L, consumed.orderId());
-        assertEquals(2002L, consumed.bookId());
-    }
-
     private static JavaTimeModule javaTimeModule() {
         JavaTimeModule module = new JavaTimeModule();
         module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FMT));
@@ -67,10 +51,5 @@ class MessageContractTest {
     private void assertNumberField(String payload, String field, long expected) throws JsonProcessingException {
         JsonNode node = objectMapper.readTree(payload);
         assertEquals(expected, node.required(field).asLong());
-    }
-
-    private void assertTextField(String payload, String field, String expected) throws JsonProcessingException {
-        JsonNode node = objectMapper.readTree(payload);
-        assertEquals(expected, node.required(field).asText());
     }
 }

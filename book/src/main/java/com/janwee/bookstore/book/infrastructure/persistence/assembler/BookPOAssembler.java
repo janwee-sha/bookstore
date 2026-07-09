@@ -16,7 +16,6 @@ public class BookPOAssembler {
         return new Book(
                 po.getId(),
                 po.getName(),
-                po.getAmount(),
                 toPrice(po.getPrice()),
                 po.getPublishedAt(),
                 po.getPublisher(),
@@ -32,7 +31,6 @@ public class BookPOAssembler {
         return new BookPO(
                 book.id(),
                 book.name(),
-                book.amount(),
                 toPriceValue(book.price()),
                 book.publishedAt(),
                 book.publisher(),

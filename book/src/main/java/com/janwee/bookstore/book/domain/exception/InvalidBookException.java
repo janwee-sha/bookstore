@@ -21,12 +21,4 @@ public class InvalidBookException extends BadRequestException {
     public static InvalidBookException negativePrice() {
         throw new InvalidBookException(ErrorCodes.NEGATIVE_PRICE, "Price is required and should not be less than 0");
     }
-
-    public static InvalidBookException negativeAmount() {
-        throw new InvalidBookException(ErrorCodes.NEGATIVE_AMOUNT, "Amount of the book should not be less than 0");
-    }
-
-    public static InvalidBookException soldOut() {
-        throw new InvalidBookException(ErrorCodes.BOOK_SOLD_OUT, "Sorry, the book has been sold out");
-    }
 }

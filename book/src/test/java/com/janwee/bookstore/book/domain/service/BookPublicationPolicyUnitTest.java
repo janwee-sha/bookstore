@@ -43,7 +43,6 @@ class BookPublicationPolicyUnitTest {
     private static Book newBook(Long id, Long authorId) {
         Book book = Book.builder()
                 .name("book_a")
-                .amount(1)
                 .authorId(authorId)
                 .build();
         book.assignId(id);

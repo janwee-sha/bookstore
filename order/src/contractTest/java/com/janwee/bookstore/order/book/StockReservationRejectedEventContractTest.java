@@ -1,4 +1,4 @@
-package com.janwee.bookstore.book.order;
+package com.janwee.bookstore.order.book;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.janwee.bookstore.book.interfaces.subscriber.OrderCreated;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MessageContractTest {
+class StockReservationRejectedEventContractTest {
     private static final DateTimeFormatter DATE_TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final ObjectMapper objectMapper = JsonMapper.builder()
@@ -27,23 +26,19 @@ class MessageContractTest {
             .build();
 
     @Test
-    void orderCreatedPublishedByOrderCanBeConsumedByBook() throws Exception {
-        com.janwee.bookstore.order.southbound.message.OrderCreated published = new
-                com.janwee.bookstore.order.southbound.message.OrderCreated(1001L, 2002L, 3,
-                LocalDateTime.of(2026, 5, 12, 10, 30));
+    void stockReservationRejectedPublishedByBookCanBeConsumedByOrder() throws Exception {
+        com.janwee.bookstore.book.application.message.StockReservationRejected published =
+                new com.janwee.bookstore.book.application.message.StockReservationRejected(1001L, 2002L);
 
         String payload = objectMapper.writeValueAsString(published);
 
         assertNumberField(payload, "orderId", 1001L);
         assertNumberField(payload, "bookId", 2002L);
-        assertNumberField(payload, "amount", 3);
-        assertTextField(payload, "createdBy", "2026-05-12 10:30:00");
 
-        OrderCreated consumed = objectMapper.readValue(
-                payload, OrderCreated.class);
+        com.janwee.bookstore.order.northbound.message.StockReservationRejected consumed =
+                objectMapper.readValue(payload, com.janwee.bookstore.order.northbound.message.StockReservationRejected.class);
         assertEquals(1001L, consumed.orderId());
         assertEquals(2002L, consumed.bookId());
-        assertEquals(3, consumed.amount());
     }
 
     private static JavaTimeModule javaTimeModule() {
@@ -56,10 +51,5 @@ class MessageContractTest {
     private void assertNumberField(String payload, String field, long expected) throws JsonProcessingException {
         JsonNode node = objectMapper.readTree(payload);
         assertEquals(expected, node.required(field).asLong());
-    }
-
-    private void assertTextField(String payload, String field, String expected) throws JsonProcessingException {
-        JsonNode node = objectMapper.readTree(payload);
-        assertEquals(expected, node.required(field).asText());
     }
 }

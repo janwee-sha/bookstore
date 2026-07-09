@@ -20,8 +20,6 @@ public class BookPO implements Serializable {
 
     private String name;
 
-    private int amount;
-
     private String price;
 
     private LocalDate publishedAt;
@@ -34,10 +32,9 @@ public class BookPO implements Serializable {
         this.publishedAt = LocalDate.now();
     }
 
-    public BookPO(Long id, String name, int amount, String price, LocalDate publishedAt, String publisher, Long authorId) {
+    public BookPO(Long id, String name, String price, LocalDate publishedAt, String publisher, Long authorId) {
         this.id = id;
         this.name = name;
-        this.amount = amount;
         this.price = price;
         this.publishedAt = publishedAt;
         this.publisher = publisher;

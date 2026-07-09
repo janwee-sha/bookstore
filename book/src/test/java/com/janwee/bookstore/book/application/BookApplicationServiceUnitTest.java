@@ -1,10 +1,10 @@
 package com.janwee.bookstore.book.application;
 
-import com.janwee.bookstore.book.application.view.BookView;
 import com.janwee.bookstore.book.application.assembler.BookViewAssembler;
 import com.janwee.bookstore.book.application.command.PublishingBookCommand;
 import com.janwee.bookstore.book.application.command.UpdatingBookCommand;
 import com.janwee.bookstore.book.application.service.BookApplicationService;
+import com.janwee.bookstore.book.application.view.BookView;
 import com.janwee.bookstore.book.domain.exception.BookNotFoundException;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Currency;
@@ -110,14 +110,14 @@ class BookApplicationServiceUnitTest {
     void shouldValidateAndUpdateChangedBook() {
         Book book = newBook(1L);
         UpdatingBookCommand request = new UpdatingBookCommand();
-        request.setAmount(3);
+        request.setName("new_name");
         when(bookRepo.bookOf(1L)).thenReturn(Optional.of(book));
 
         service.change(1L, request);
 
         verify(bookPublicationPolicy).check(book);
         verify(bookRepo).update(book);
-        assertEquals(3, book.amount());
+        assertEquals("new_name", book.name());
     }
 
     @Test
@@ -141,7 +141,6 @@ class BookApplicationServiceUnitTest {
     private static Book newBook(Long id) {
         Book book = Book.builder()
                 .name("book_a")
-                .amount(1)
                 .authorId(2L)
                 .build();
         book.assignId(id);
@@ -155,7 +154,6 @@ class BookApplicationServiceUnitTest {
 
         PublishingBookCommand request = new PublishingBookCommand();
         request.setName("book_a");
-        request.setAmount(1);
         request.setPrice(price);
         request.setPublisher("publisher-a");
         request.setAuthorId(2L);

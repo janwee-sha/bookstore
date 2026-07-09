@@ -75,14 +75,12 @@ abstract class RestApiIntegrationTestSupport {
     }
 
     protected Book saveBook(String name,
-                            int amount,
                             BigDecimal priceAmount,
                             LocalDate publishedAt,
                             String publisher,
                             Long authorId) {
         Book book = Book.builder()
                 .name(name)
-                .amount(amount)
                 .price(Price.of(Currency.USD, priceAmount))
                 .publishedAt(publishedAt)
                 .publisher(publisher)

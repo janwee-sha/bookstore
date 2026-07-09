@@ -62,7 +62,6 @@ class BookResourceSecurityIntegrationTest extends RestApiIntegrationTestSupport 
                     "currency": "USD",
                     "amount": 66.60
                   },
-                  "amount": 12,
                   "publishedAt": "2020-01-01",
                   "publisher": "O'Reilly",
                   "authorId": %d
@@ -95,7 +94,7 @@ class BookResourceSecurityIntegrationTest extends RestApiIntegrationTestSupport 
         Book book = saveBook();
         String requestBody = """
                 {
-                  "amount": 3
+                  "publisher": "Manning"
                 }
                 """;
 
@@ -136,7 +135,7 @@ class BookResourceSecurityIntegrationTest extends RestApiIntegrationTestSupport 
 
     private Book saveBook() {
         Author author = saveAuthor("Eric Evans", "DDD", "13800000020");
-        return saveBook("Domain-Driven Design", 9, new BigDecimal("88.80"),
+        return saveBook("Domain-Driven Design", new BigDecimal("88.80"),
                 LocalDate.of(2018, 9, 1), "Pearson", author.id());
     }
 }

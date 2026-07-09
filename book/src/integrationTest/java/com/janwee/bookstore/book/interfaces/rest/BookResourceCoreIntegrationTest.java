@@ -21,9 +21,9 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
     void shouldReturnBooksPageWithEmbeddedAuthors() throws Exception {
         Author firstAuthor = saveAuthor("Kent Beck", "TDD", "13800000001");
         Author secondAuthor = saveAuthor("Martin Fowler", "Refactoring", "13800000002");
-        saveBook("Test-Driven Development", 5, new BigDecimal("42.50"),
+        saveBook("Test-Driven Development", new BigDecimal("42.50"),
                 LocalDate.of(2020, 1, 1), "Addison-Wesley", firstAuthor.id());
-        saveBook("Refactoring", 8, new BigDecimal("56.00"),
+        saveBook("Refactoring", new BigDecimal("56.00"),
                 LocalDate.of(2024, 5, 1), "Addison-Wesley", secondAuthor.id());
 
         mockMvc.perform(get("/books").with(bookReader()).param("page", "0").param("size", "10"))
@@ -41,7 +41,7 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
     @Test
     void shouldReturnBookDetails() throws Exception {
         Author author = saveAuthor("Eric Evans", "DDD", "13800000003");
-        Book book = saveBook("Domain-Driven Design", 9, new BigDecimal("88.80"),
+        Book book = saveBook("Domain-Driven Design", new BigDecimal("88.80"),
                 LocalDate.of(2018, 9, 1), "Pearson", author.id());
 
         mockMvc.perform(get("/books/{id}", book.id()).with(bookReader()))
@@ -66,7 +66,7 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
     @Test
     void shouldCheckBookExistenceByHeadRequest() throws Exception {
         Author author = saveAuthor("Robert C. Martin", "Clean Code", "13800000004");
-        Book book = saveBook("Clean Code", 7, new BigDecimal("49.90"),
+        Book book = saveBook("Clean Code", new BigDecimal("49.90"),
                 LocalDate.of(2019, 4, 1), "Prentice Hall", author.id());
 
         mockMvc.perform(head("/books/{id}", book.id()).with(bookReader()))
@@ -87,7 +87,6 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                     "currency": "USD",
                     "amount": 66.60
                   },
-                  "amount": 12,
                   "publisher": "O'Reilly",
                   "authorId": %d
                 }
@@ -102,7 +101,6 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
         assertEquals(1, bookRepo.count());
         BookPO saved = bookRepo.findAll().get(0);
         assertEquals("Building Evolutionary Architectures", saved.getName());
-        assertEquals(12, saved.getAmount());
         assertEquals("O'Reilly", saved.getPublisher());
         assertEquals(author.id(), saved.getAuthorId());
     }
@@ -117,7 +115,6 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                     "currency": "USD",
                     "amount": 55.50
                   },
-                  "amount": -1,
                   "publisher": "Addison-Wesley",
                   "authorId": %d
                 }
@@ -131,8 +128,7 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.detailedStatus").value(4005))
                 .andExpect(jsonPath("$.detailedPhrase").value("BODY_CONSTRAINT_VIOLATION"))
-                .andExpect(jsonPath("$.error.name").value("Name is required"))
-                .andExpect(jsonPath("$.error.amount").value("Amount should not be negative"));
+                .andExpect(jsonPath("$.error.name").value("Name is required"));
     }
 
     @Test
@@ -144,7 +140,6 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                     "currency": "USD",
                     "amount": 77.70
                   },
-                  "amount": 6,
                   "publisher": "Addison-Wesley",
                   "authorId": 9999
                 }
@@ -165,11 +160,10 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
     void shouldChangeBook() throws Exception {
         Author originalAuthor = saveAuthor("Sam Newman", "Microservices", "13800000007");
         Author newAuthor = saveAuthor("Martin Kleppmann", "Data", "13800000008");
-        Book book = saveBook("Monolith to Microservices", 10, new BigDecimal("58.80"),
+        Book book = saveBook("Monolith to Microservices", new BigDecimal("58.80"),
                 LocalDate.of(2020, 8, 1), "O'Reilly", originalAuthor.id());
         String requestBody = """
                 {
-                  "amount": 3,
                   "publisher": "Manning",
                   "authorId": %d
                 }
@@ -182,7 +176,6 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
                 .andExpect(status().isOk());
 
         BookPO changed = bookRepo.findById(book.id()).orElseThrow();
-        assertEquals(3, changed.getAmount());
         assertEquals("Manning", changed.getPublisher());
         assertEquals(newAuthor.id(), changed.getAuthorId());
     }
@@ -191,7 +184,7 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
     void shouldReturnNotFoundWhenChangingMissingBook() throws Exception {
         String requestBody = """
                 {
-                  "amount": 3
+                  "publisher": "Manning"
                 }
                 """;
 
@@ -207,7 +200,7 @@ class BookResourceCoreIntegrationTest extends RestApiIntegrationTestSupport {
     @Test
     void shouldWithdrawBook() throws Exception {
         Author author = saveAuthor("Craig Walls", "Spring", "13800000009");
-        Book book = saveBook("Spring in Action", 15, new BigDecimal("62.30"),
+        Book book = saveBook("Spring in Action", new BigDecimal("62.30"),
                 LocalDate.of(2021, 1, 1), "Manning", author.id());
 
         mockMvc.perform(delete("/books/{id}", book.id()).with(bookWriter()))

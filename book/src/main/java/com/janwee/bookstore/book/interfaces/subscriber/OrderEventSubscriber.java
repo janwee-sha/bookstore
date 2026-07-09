@@ -1,8 +1,8 @@
 package com.janwee.bookstore.book.interfaces.subscriber;
 
 
-import com.janwee.bookstore.book.application.service.BookApplicationService;
-import com.janwee.bookstore.book.application.command.OrderingBookCommand;
+import com.janwee.bookstore.book.application.command.ReservingStockCommand;
+import com.janwee.bookstore.book.application.service.InventoryApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -14,16 +14,15 @@ import java.util.function.Consumer;
 @Slf4j
 @RequiredArgsConstructor
 public class OrderEventSubscriber {
-    private final BookApplicationService bookAppService;
+    private final InventoryApplicationService inventoryAppService;
 
     public void onOrderCreated(OrderCreated event) {
         log.info("Received OrderCreated event: {}", event);
-        OrderingBookCommand request = new OrderingBookCommand();
-        request.setBookId(event.bookId());
-        request.setOrderId(event.orderId());
-        request.setAmount(event.amount());
-        bookAppService.order(event.bookId(), request);
-
+        ReservingStockCommand command = new ReservingStockCommand();
+        command.setBookId(event.bookId());
+        command.setOrderId(event.orderId());
+        command.setAmount(event.amount());
+        inventoryAppService.reserve(command);
     }
 
     @Bean

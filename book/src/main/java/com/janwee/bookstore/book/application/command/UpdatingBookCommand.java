@@ -3,7 +3,6 @@ package com.janwee.bookstore.book.application.command;
 import com.janwee.bookstore.book.domain.model.Book;
 import com.janwee.bookstore.book.domain.model.Price;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,10 +23,6 @@ public class UpdatingBookCommand implements Serializable {
     @Schema(title = "Price")
     private Price price;
 
-    @Schema(title = "Amount")
-    @PositiveOrZero(message = "Amount must not be less than zero")
-    private Integer amount;
-
     @Schema(title = "Publication Date")
     private LocalDate publishedAt;
 
@@ -43,9 +38,6 @@ public class UpdatingBookCommand implements Serializable {
     public Book toChangedBook(Book existingBook) {
         if (this.getName() != null) {
             existingBook.renameTo(this.getName());
-        }
-        if (this.getAmount() != null) {
-            existingBook.changeAmountTo(this.getAmount());
         }
         if (this.getPrice() != null) {
             existingBook.changePriceTo(this.getPrice());

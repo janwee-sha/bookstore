@@ -28,7 +28,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void testSavingBook() {
-        Book book1 = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book1 = newBookOf("book_a", Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
 
         bookRepo.add(book1);
@@ -40,7 +40,6 @@ public class BookRepositoryIntegrationTest {
         assertAll(
                 () -> assertNotNull(book1.id()),
                 () -> assertEquals(book1.name(), book2.get().name()),
-                () -> assertEquals(book1.amount(), book2.get().amount()),
                 () -> assertEquals(book1.price(), book2.get().price()),
                 () -> assertEquals(book1.publisher(), book2.get().publisher()),
                 () -> assertEquals(book1.authorId(), book2.get().authorId()),
@@ -50,7 +49,7 @@ public class BookRepositoryIntegrationTest {
 
     @Test
     void shouldUpdateExistingBook() {
-        Book book = newBookOf("book_a", 1, Price.of(Currency.USD, BigDecimal.TEN),
+        Book book = newBookOf("book_a", Price.of(Currency.USD, BigDecimal.TEN),
                 LocalDate.of(2020, 1, 1), "publisher-a", 1L);
         bookRepo.add(book);
         entityManager.flush();
@@ -58,7 +57,6 @@ public class BookRepositoryIntegrationTest {
 
         Book changed = bookRepo.bookOf(book.id()).orElseThrow();
         changed.renameTo("book_b");
-        changed.changeAmountTo(2);
         changed.changePriceTo(Price.of(Currency.CNY, BigDecimal.ONE));
         changed.changePublicationDate(LocalDate.of(2024, 2, 2));
         changed.changePublisherTo("publisher-b");
@@ -72,7 +70,6 @@ public class BookRepositoryIntegrationTest {
         assertTrue(updated.isPresent());
         assertAll(
                 () -> assertEquals("book_b", updated.get().name()),
-                () -> assertEquals(2, updated.get().amount()),
                 () -> assertEquals(Price.of(Currency.CNY, BigDecimal.ONE), updated.get().price()),
                 () -> assertEquals(LocalDate.of(2024, 2, 2), updated.get().publishedAt()),
                 () -> assertEquals("publisher-b", updated.get().publisher()),
@@ -80,11 +77,10 @@ public class BookRepositoryIntegrationTest {
         );
     }
 
-    private static Book newBookOf(String name, int amount, Price price, LocalDate publishedAt,
+    private static Book newBookOf(String name, Price price, LocalDate publishedAt,
                                   String publisher, Long authorId) {
         return Book.builder()
                 .name(name)
-                .amount(amount)
                 .price(price)
                 .publishedAt(publishedAt)
                 .publisher(publisher)

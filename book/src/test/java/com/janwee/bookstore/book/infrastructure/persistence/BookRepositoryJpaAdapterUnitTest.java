@@ -68,7 +68,6 @@ class BookRepositoryJpaAdapterUnitTest {
     private static Book newBook() {
         return Book.builder()
                 .name("book_a")
-                .amount(1)
                 .price(Price.of(Currency.USD, BigDecimal.TEN))
                 .publishedAt(LocalDate.of(2020, 1, 1))
                 .publisher("publisher-a")

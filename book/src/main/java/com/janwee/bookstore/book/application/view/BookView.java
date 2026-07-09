@@ -29,9 +29,6 @@ public class BookView implements Serializable {
     @Schema(title = "Price")
     private PriceView price;
 
-    @Schema(title = "Amount")
-    private int amount;
-
     @Schema(title = "Publication Date")
     private LocalDate publishedAt;
 
@@ -50,7 +47,6 @@ public class BookView implements Serializable {
             response.id = book.id();
             response.name = book.name();
             response.price = PriceView.fromPrice(book.price());
-            response.amount = book.amount();
             response.publisher = book.publisher();
             response.publishedAt = book.publishedAt();
             return response;

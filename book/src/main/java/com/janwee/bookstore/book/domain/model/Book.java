@@ -15,8 +15,6 @@ public class Book implements Serializable {
 
     private String name;
 
-    private int amount;
-
     private Price price;
 
     private LocalDate publishedAt;
@@ -29,12 +27,11 @@ public class Book implements Serializable {
         this.publishedAt = LocalDate.now();
     }
 
-    public Book(Long id, String name, int amount, Price price,
+    public Book(Long id, String name, Price price,
                 LocalDate publishedAt, String publisher, Long authorId) {
         this();
         this.id = id;
         this.name = name;
-        this.amount = amount;
         this.price = price;
         this.publishedAt = publishedAt;
         this.publisher = publisher;
@@ -59,17 +56,6 @@ public class Book implements Serializable {
 
     public void renameTo(String name) {
         this.name = name;
-    }
-
-    public int amount() {
-        return amount;
-    }
-
-    public void changeAmountTo(int amount) {
-        if (amount < 0) {
-            throw InvalidBookException.negativeAmount();
-        }
-        this.amount = amount;
     }
 
     public Price price() {
@@ -107,13 +93,6 @@ public class Book implements Serializable {
         this.authorId = authorId;
     }
 
-    public void sell(int amount) {
-        if (this.amount < amount) {
-            throw InvalidBookException.soldOut();
-        }
-        this.amount -= amount;
-    }
-
     public static class Builder {
         private final Book book;
 
@@ -128,11 +107,6 @@ public class Book implements Serializable {
 
         public Builder name(String name) {
             book.renameTo(name);
-            return this;
-        }
-
-        public Builder amount(int amount) {
-            book.changeAmountTo(amount);
             return this;
         }
 
