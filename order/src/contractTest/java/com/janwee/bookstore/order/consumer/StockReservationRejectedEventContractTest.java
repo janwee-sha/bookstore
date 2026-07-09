@@ -9,8 +9,8 @@ class StockReservationRejectedEventContractTest extends IntegrationEventContract
 
     @Test
     void stockReservationRejectedPublishedByBookCanBeConsumedByOrder() throws Exception {
-        com.janwee.bookstore.book.application.message.StockReservationRejected published =
-                new com.janwee.bookstore.book.application.message.StockReservationRejected(1001L, 2002L);
+        com.janwee.bookstore.book.application.event.StockReservationRejected published =
+                new com.janwee.bookstore.book.application.event.StockReservationRejected(1001L, 2002L);
 
         String payload = objectMapper.writeValueAsString(published);
 

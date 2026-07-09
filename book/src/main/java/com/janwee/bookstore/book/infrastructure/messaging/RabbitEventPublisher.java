@@ -1,7 +1,7 @@
 package com.janwee.bookstore.book.infrastructure.messaging;
 
-import com.janwee.bookstore.book.application.message.StockReservationConfirmed;
-import com.janwee.bookstore.book.application.message.StockReservationRejected;
+import com.janwee.bookstore.book.application.event.StockReservationConfirmed;
+import com.janwee.bookstore.book.application.event.StockReservationRejected;
 import com.janwee.bookstore.book.domain.service.EventPublisher;
 import com.janwee.bookstore.foundation.event.IntegrationEvent;
 import lombok.extern.slf4j.Slf4j;
