@@ -53,7 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 )
 @AutoConfigureMockMvc
-class BookExistenceHttpContractTest {
+class BookClientContractTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -125,7 +125,6 @@ class BookExistenceHttpContractTest {
     private Book saveBook(Long authorId) {
         Book book = Book.builder()
                 .name("Contract Book")
-                .amount(5)
                 .price(Price.of(Currency.USD, new BigDecimal("12.30")))
                 .publishedAt(LocalDate.of(2026, 5, 12))
                 .publisher("Contract Publisher")
