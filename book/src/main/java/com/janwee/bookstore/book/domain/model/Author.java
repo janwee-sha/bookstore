@@ -40,7 +40,7 @@ public class Author implements Serializable {
         return name;
     }
 
-    public void changeNameTo(String name) {
+    public void renameTo(String name) {
         this.name = name;
     }
 

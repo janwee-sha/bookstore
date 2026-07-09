@@ -48,7 +48,7 @@ public class AuthorRepositoryIntegrationTest {
         entityManager.clear();
 
         Author changed = authorRepo.authorOf(author.id()).orElseThrow();
-        changed.changeNameTo("author_b");
+        changed.renameTo("author_b");
         changed.changeProfileTo("profile_b");
         changed.changePhoneNumberTo("987654321");
 
