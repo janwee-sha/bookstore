@@ -1,67 +1,9 @@
 # AI Agent Instructions
 
-本文件是 `bookstore` 仓库面向 AI Agent 的跨工具主入口。Codex、Cursor、Claude 等 Agent 在本仓库工作时，应优先按本文件建立上下文，再分析、设计或修改。
+本文件是 `bookstore` 仓库面向 AI Agent 的协作协议入口。Codex、Cursor、Claude 等 Agent 在本仓库工作时，应优先按本文件建立上下文，再分析、设计或修改。
 
 ## Instruction Hierarchy
 
-- 本文件定义仓库级协作协议和上下文加载规则。
 - 根目录 `README.md` 定义项目结构、模块边界、构建命令和运行约定。
 - 各模块 `README.md` 定义该模块的代码结构、分层规则和模块特有约束。
-- `.tasks` 目录用于存放业务功能、改进、技术实现等工作的描述文档；只有当用户明确要求推进某个任务文档时才读取相关内容。
-- 当这些文档出现冲突时，先指出冲突并说明建议取舍，不要用隐式假设强行落地。
-
-## Session Startup
-
-- 先读取根目录 `README.md`，确认项目结构、模块边界、构建命令和运行约定。
-- 开始修改前先检查当前工作树状态，识别已有改动；不得覆盖、回滚或重排用户已有变更。
-- 涉及具体服务模块时，再读取该模块的 `README.md`。
-- 涉及已定义任务时，按用户指定读取 `.tasks` 下对应开发任务；不要默认遍历需求目录。
-- 需要定位代码或文件时优先使用 `rg` / `rg --files`，并优先批量读取相关上下文，避免只凭文件名或记忆推断。
-
-## Collaboration Flow
-
-- 涉及代码、配置、测试或结构性文档变更时，默认先只读分析项目内容，给出技术方案和影响面；用户确认后再实施。
-- 如果用户明确要求“只分析”“先讨论”“不要改文件”，严格保持只读，不进行格式化、生成文件或附带修复。
-- 如果用户明确要求直接修改某个轻量文档或给出明确实现范围，可以在完成必要只读检查后直接实施，但仍需保持改动最小且可解释。
-
-## Architecture Rules
-
-- 对采用 DDD 设计模式的模块，新增和修改代码必须遵循该模块 `README.md` 中定义的层次、包结构和依赖方向。
-- 新增抽象前先搜索既有端口、服务、适配器和测试模式；优先复用当前模块已有风格，而不是引入新的架构套路。
-- 不要把 AI 协作资料、提示词、脚本或 harness 资产混入业务运行时代码包。
-
-## Configuration And Runtime
-
-- 配置问题不要只看模块本地 `application.yml`；真实运行环境通常还依赖 Config Server 下的 `config/src/main/resources/config/*-local.yml` 与 `*-docker.yml`。
-- 涉及 datasource、RabbitMQ、Eureka、Gateway 路由、端口或安全配置时，同时检查本地配置、Config Server 配置和启动顺序影响。
-- 替换基础设施依赖时按运行时迁移处理，而不是只改测试配置；保持 docker/local 两套环境语义一致。
-
-## Testing And Verification
-
-- 新增或修改业务逻辑时应补充或调整必要的测试验证。
-- 运行验证命令前先说明验证范围；若用户明确要求不要编译或不要测试，则只做静态检查并在结果中说明未验证项。
-- 测试命令优先使用仓库 `README.md` 中的示例。
-
-### Backend
-
-- 补充测试时应优先考虑单元测试；补充持久化、REST API、启动配置或跨模块行为相关的测试时优先考虑覆盖集成测试；跨服务 HTTP、消息等边界契约行为相关的测试应优先考虑契约测试。
-- 本仓库根 `build.gradle` 已定义 `integrationTest` source set；集成测试应放在对应模块的 `src/integrationTest/java` 和 `src/integrationTest/resources`。
-- 本仓库根 `build.gradle` 已定义 `contractTest` source set；契约测试应放在对应模块的 `src/contractTest/java` 和 `src/contractTest/resources`。
-- 修改可能被其他模块契约测试引用的接口、DTO、消息模型、仓储端口、REST 行为或测试夹具依赖时，不要只验证本模块；应先用 `rg` 搜索跨模块 `src/contractTest` 引用，并运行受影响的上下游模块契约测试，例如 `book` provider 变化可能需要验证 `:order:contractTest`。
-
-## Change Discipline
-
-- 保持改动聚焦于用户请求。
-- 考虑代码改动结果与已有代码之间的可复用性、整洁性、是否引入了不必要的耦合等设计风格问题。
-- 改动已有功能时，若其影响到与 `AGENTS.md` 文档或 `README.md` 文档中对应内容的一致性，需要顺手修改文档中的对应内容。
-- 新增功能时，若其描述有必要添加到 `AGENTS.md` 文档或 `README.md` 文档中时，需要顺手追加到文档中。
-- 默认使用 ASCII 编辑代码；仅当现有文档或用户要求需要中文时使用 UTF-8 中文文本。
-- 修改 README、AGENTS 或中文文档时使用 UTF-8 读取和写入，避免 Windows PowerShell 默认编码导致乱码。
-- 不使用破坏性 Git 命令，不 amend commit，除非用户明确要求。
-
-## Technical Judgment
-
-- 这是个用于技术学习的实验性质的 Demo 项目，可以主动指出不推荐的代码风格、设计漏洞和可维护性风险。
-- 质疑应基于具体代码路径、配置文件或测试行为；避免泛泛而谈。
-- 如果发现更稳妥的方案与用户初始想法不同，先解释原因和取舍，再请求确认或在允许范围内实施。
-- 最终回复保持简洁，说明改了什么、为什么改、如何验证；若未运行验证，明确说明原因。
+- `docs/engineering/` 包含仓库级工程规则。开始分析、设计或修改前，必须先读取 `docs/engineering/constitution.md`。
