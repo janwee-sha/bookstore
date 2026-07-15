@@ -40,7 +40,19 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] **Module ownership**: Affected modules and each responsibility's owner are explicit; every module-specific
+      design follows that module's `README.md` architecture and dependency direction.
+- [ ] **Service contracts**: HTTP, message, gateway, or shared API changes identify providers, consumers,
+      compatibility expectations, and migration needs.
+- [ ] **Runtime configuration**: Local application, Config Server, `local`, and `docker` impacts are identified,
+      or configuration impact is explicitly `N/A`.
+- [ ] **Risk-based verification**: Unit, integration, and contract test scope is selected according to
+      `docs/engineering/testing.md`, including affected upstream and downstream modules.
+- [ ] **Simplicity and traceability**: New abstractions or shared dependencies have a current use case, and all
+      source-of-truth documentation that may need updating is listed.
+
+Any unchecked gate MUST be resolved before implementation. A necessary exception requires an explicit
+constitution amendment; it cannot be approved only through this plan.
 
 ## Project Structure
 

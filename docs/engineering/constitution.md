@@ -1,57 +1,95 @@
+<!--
+Sync Impact Report
+- Version: unversioned -> 1.0.0
+- Modified principles:
+  - Session Startup + Architecture Rules -> 模块归属与架构边界
+  - Architecture Rules + Backend -> 显式服务契约
+  - Configuration And Runtime -> 配置与环境一致性
+  - Testing And Verification + Backend -> 按风险分层验证
+  - Change Discipline + Technical Judgment -> 简单且可追溯的变更
+- Added sections: 规范来源；变更与验证流程；完整治理与语义化版本规则
+- Removed sections: 独立 Backend 子节；AI 工具、编码、Git 与回复格式规则
+- Migrated details:
+  - ✅ AGENTS.md（AI 会话与变更操作规则）
+  - ✅ docs/engineering/testing.md（测试层级、范围与命令）
+  - ✅ docs/engineering/runtime-configuration.md（配置来源与环境一致性）
+- Template sync:
+  - ✅ .specify/templates/plan-template.md
+  - ✅ .specify/templates/spec-template.md
+  - ✅ .specify/templates/tasks-template.md
+  - ✅ .specify/memory/constitution.md
+  - ✅ .agents/skills/speckit-tasks/SKILL.md
+- Deferred TODOs: none
+-->
 # Bookstore 项目宪章
 
 ## 核心原则
 
-### I. Session Startup
+### I. 模块归属与架构边界
 
-- 先读取根目录 `README.md`，确认项目结构、模块边界、构建命令和运行约定。
-- 开始修改前先检查当前工作树状态，识别已有改动；不得覆盖、回滚或重排用户已有变更。
-- 涉及具体服务模块时，再读取该模块的 `README.md`。
-- 涉及已定义任务时，按用户指定读取 `.tasks` 下对应开发任务；不要默认遍历需求目录。
-- 需要定位代码或文件时优先使用 `rg` / `rg --files`，并优先批量读取相关上下文，避免只凭文件名或记忆推断。
+每项变更 MUST 明确受影响模块及职责归属。业务规则 MUST 留在对应业务模块；
+`foundation` 只承载与具体业务无关且确有多个模块复用的能力。模块内代码 MUST 遵循该模块
+`README.md` 声明的分层、包结构与依赖方向；架构边界发生变化时，代码与模块文档 MUST 同步修改。
 
-### II. Architecture Rules
+理由：明确的所有权和依赖方向可防止业务能力泄漏到共享库、网关或基础设施模块。
 
-- 对采用 DDD 设计模式的模块，新增和修改代码必须遵循该模块 `README.md` 中定义的层次、包结构和依赖方向。
-- 新增抽象前先搜索既有端口、服务、适配器和测试模式；优先复用当前模块已有风格，而不是引入新的架构套路。
-- 不要把 AI 协作资料、提示词、脚本或 harness 资产混入业务运行时代码包。
-- 不要为代码添加注释性文本。
+### II. 显式服务契约
 
-### III. Configuration And Runtime
+模块之间的 HTTP、消息和共享 API 交互 MUST 通过显式契约完成，不得以共享持久化实现或跨服务复用
+领域对象形成隐式耦合。浏览器端对后端业务能力的访问 MUST 以 `gateway` 为统一入口；`gateway`
+只承担路由、安全和横切职责。契约变更 MUST 识别提供方与消费方，并说明兼容性和迁移方式。
 
-- 配置问题不要只看模块本地 `application.yml`；真实运行环境通常还依赖 Config Server 下的 `config/src/main/resources/config/*-local.yml` 与 `*-docker.yml`。
-- 涉及 datasource、RabbitMQ、Eureka、Gateway 路由、端口或安全配置时，同时检查本地配置、Config Server 配置和启动顺序影响。
-- 替换基础设施依赖时按运行时迁移处理，而不是只改测试配置；保持 docker/local 两套环境语义一致。
+理由：Bookstore 是多模块微服务项目，显式边界使服务能够独立演进并可靠验证协作行为。
 
-### IV. Testing And Verification
+### III. 配置与环境一致性
 
-- 新增或修改业务逻辑时应补充或调整必要的测试验证。
-- 运行验证命令前先说明验证范围；若用户明确要求不要编译或不要测试，则只做静态检查并在结果中说明未验证项。
-- 测试命令优先使用仓库 `README.md` 中的示例。
+运行时行为 MUST 同时考虑模块本地配置和 Config Server 中的环境配置。涉及数据源、RabbitMQ、
+Eureka、Gateway 路由、端口或安全设置的变更，MUST 检查所有受支持环境；`local` 与 `docker`
+配置 MUST 保持相同的业务语义，任何有意差异都必须记录。运行时依赖迁移不得只在测试配置中完成。
 
-#### V. Backend
+理由：配置是系统行为的一部分；只修改单一来源会产生测试通过但实际环境不可用的缺陷。
 
-- 补充测试时应优先考虑单元测试；补充持久化、REST API、启动配置或跨模块行为相关的测试时优先考虑覆盖集成测试；跨服务 HTTP、消息等边界契约行为相关的测试应优先考虑契约测试。
-- 本仓库根 `build.gradle` 已定义 `integrationTest` source set；集成测试应放在对应模块的 `src/integrationTest/java` 和 `src/integrationTest/resources`。
-- 本仓库根 `build.gradle` 已定义 `contractTest` source set；契约测试应放在对应模块的 `src/contractTest/java` 和 `src/contractTest/resources`。
-- 修改可能被其他模块契约测试引用的接口、DTO、消息模型、仓储端口、REST 行为或测试夹具依赖时，不要只验证本模块；应先用 `rg` 搜索跨模块 `src/contractTest` 引用，并运行受影响的上下游模块契约测试，例如 `book` provider 变化可能需要验证 `:order:contractTest`。
+### IV. 按风险分层验证
 
-### VI. Change Discipline
+行为变更 MUST 在能够证明该行为的最低有效层级获得自动化验证：纯业务规则使用单元测试，
+持久化、REST、安全、启动和配置装配使用集成测试，跨服务 HTTP 或消息边界使用契约测试。
+契约变化 MUST 验证受影响的提供方和消费方。无法合理自动化的验证 MUST 在计划或变更说明中记录
+原因、替代检查和剩余风险。
 
-- 考虑代码改动结果与已有代码之间的可复用性、整洁性、是否引入了不必要的耦合等设计风格问题。
-- 改动已有功能时，若其影响到与 `AGENTS.md` 文档或 `README.md` 文档中对应内容的一致性，需要顺手修改文档中的对应内容。
-- 新增功能时，若其描述有必要添加到 `AGENTS.md` 文档或 `README.md` 文档中时，需要顺手追加到文档中。
-- 默认使用 ASCII 编辑代码；仅当现有文档或用户要求需要中文时使用 UTF-8 中文文本。
-- 修改 README、AGENTS 或中文文档时使用 UTF-8 读取和写入，避免 Windows PowerShell 默认编码导致乱码。
-- 不使用破坏性 Git 命令，不 amend commit，除非用户明确要求。
+理由：分层验证在保持反馈速度的同时覆盖 Bookstore 最容易失效的模块和运行时边界。
 
-### VII. Technical Judgment
+### V. 简单且可追溯的变更
 
-- 这是个用于技术学习的实验性质的 Demo 项目，可以主动指出不推荐的代码风格、设计漏洞和可维护性风险。
-- 质疑应基于具体代码路径、配置文件或测试行为；避免泛泛而谈。
-- 如果发现更稳妥的方案与用户初始想法不同，先解释原因和取舍，再请求确认或在允许范围内实施。
-- 最终回复保持简洁，说明改了什么、为什么改、如何验证；若未运行验证，明确说明原因。
+实现 MUST 优先复用仓库内已有模式，并限制在满足已确认需求所需的最小范围；新增抽象、共享依赖或
+跨模块耦合 MUST 有当前用例依据。规格、计划、任务、代码和文档 MUST 对同一变更保持一致；项目结构、
+命令、配置、契约或模块规则发生变化时，负责描述它们的规范来源 MUST 同步更新。
+
+理由：这是用于技术学习的 Demo 项目，清晰的取舍和可回溯证据比预设未来需求的复杂设计更有价值。
+
+## 规范来源
+
+- 本宪章定义不可被功能规格、实现计划或局部惯例放宽的工程原则。
+- 根目录 `README.md` 定义项目结构、构建命令和运行入口。
+- 各模块 `README.md` 定义模块内架构与模块特有约束。
+- `docs/engineering/testing.md` 与 `docs/engineering/runtime-configuration.md` 定义可执行细则。
+
+下层文档可以细化上层规则，但不得与本宪章冲突。实现现状不能单独作为偏离规范来源的依据。
+
+## 变更与验证流程
+
+1. 规格或计划 MUST 标明受影响模块、外部契约、运行配置、兼容性和验证范围；无影响时明确记为
+   `N/A`。
+2. 实现前和设计完成后 MUST 执行 Constitution Check。违反原则的方案必须先调整；确需改变原则时，
+   必须先按治理流程修订宪章。
+3. 交付前 MUST 完成与风险匹配的测试和静态检查，并同步受影响的规范来源；未执行项及原因必须记录。
 
 ## 治理
 
-本宪章高于 Bookstore 的功能规格、计划和任务。修订必须说明理由、兼容性影响。
+本宪章在工程规则上高于 Bookstore 的功能规格、计划、任务和局部约定。代码审查与 Spec Kit
+工作流 MUST 验证宪章合规性；无法证明合规的变更不得视为完成。
+
+宪章修订 MUST 说明动机、兼容性影响和必要的迁移方式，同时更新顶部 Sync Impact Report、相关模板与
+规范引用。版本采用语义化版本：原则删除或不兼容重定义提升 MAJOR；新增原则或实质扩展治理要求提升
+MINOR；不改变约束含义的澄清提升 PATCH。
+
+**Version**: 1.0.0 | **Ratified**: 2026-07-15 | **Last Amended**: 2026-07-15

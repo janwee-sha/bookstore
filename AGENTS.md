@@ -1,9 +1,32 @@
-# AI Agent Instructions
+# AI Agent 协作协议
 
 本文件是 `bookstore` 仓库面向 AI Agent 的协作协议入口。Codex、Cursor、Claude 等 Agent 在本仓库工作时，应优先按本文件建立上下文，再分析、设计或修改。
 
-## Instruction Hierarchy
+## 协议层级
 
 - 根目录 `README.md` 定义项目结构、模块边界、构建命令和运行约定。
 - 各模块 `README.md` 定义该模块的代码结构、分层规则和模块特有约束。
-- `docs/engineering/` 包含仓库级工程规则。开始分析、设计或修改前，必须先读取 `docs/engineering/constitution.md`。
+- `docs/engineering/` 包含仓库级工程规则。
+
+## 仓库级工程规则
+
+- [项目宪章](docs/engineering/constitution.md)：不可放宽的工程原则与治理规则。
+- [测试与验证指南](docs/engineering/testing.md)：测试层级、影响范围和验证命令。
+- [运行配置指南](docs/engineering/runtime-configuration.md)：配置来源与环境一致性规则。
+
+## 会话工作流
+
+- 开始工作时先读取根目录 `README.md` 和 `docs/engineering/constitution.md`；涉及具体模块时再读取该模块的
+  `README.md` 以及宪章引用的相关工程指南。
+- 修改前检查工作树状态，识别并保留用户已有变更。不得擅自覆盖、回滚或重排无关改动。
+- 用户指定规格、计划或任务时，只加载该功能所需的制品；不要默认遍历无关需求目录。
+- 定位文件和文本时优先使用 `rg` 与 `rg --files`，并在形成结论前读取足够的相邻上下文。
+
+## 修改纪律
+
+- 新增抽象前先搜索既有端口、服务、适配器和测试模式，优先延续当前模块的命名与组织方式。
+- AI 协作资料、提示词、脚本和 harness 资产不得进入业务运行时代码包。
+- 不使用破坏性 Git 命令，也不修改既有提交，除非用户明确要求。
+- 运行验证前说明范围。若用户明确要求不编译或不测试，只执行静态检查，并在结果中列出未验证项。
+- 发现设计风险或更稳妥的方案时，引用具体代码、配置或测试证据说明取舍；不要只给抽象评价。
+- 完成后简要说明改动、原因和验证结果；任何未执行的验证都必须明确说明。

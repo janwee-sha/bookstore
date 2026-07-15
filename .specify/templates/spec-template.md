@@ -103,6 +103,18 @@
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
 
+## Change Impact *(mandatory)*
+
+<!--
+  Record known boundaries without prescribing the implementation. Use N/A only after checking the category;
+  unknown technical details may be deferred to plan.md.
+-->
+
+- **Affected Modules/Actors**: [Bookstore modules and external actors whose behavior changes]
+- **External Contracts**: [HTTP, message, gateway, or shared API behavior affected, or N/A]
+- **Runtime Configuration**: [Environment or operational behavior affected, or N/A]
+- **Compatibility/Migration**: [Compatibility expectation and required transition, or N/A]
+
 ## Success Criteria *(mandatory)*
 
 <!--
