@@ -5,7 +5,7 @@ out
 *.iml
 .idea
 .vscode
-.codex
+.agents
 BLOG.md
 README.md
 AGENTS.md
