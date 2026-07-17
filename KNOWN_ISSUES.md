@@ -1,0 +1,2 @@
+- RabbitMQ 当前没有业务队列，book/order 日志提示无法确定默认 Function definition。book/src/main/resources/application.yml:21 和 order/src/main/resources/
+  application.yml:21 将 function.definition 放在了 spring.cloud.stream 下，因此消息绑定没有启动。
