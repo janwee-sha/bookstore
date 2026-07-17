@@ -28,7 +28,7 @@ spring:
   rabbitmq:
     username: guest
     password: guest
-    addresses: rabbitmq:5673
+    addresses: rabbitmq:5672
 
 eureka:
   client:
