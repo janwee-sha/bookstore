@@ -36,6 +36,16 @@ class BookSecurityIntegrationTest {
     }
 
     @Test
+    void shouldAllowOnlyHealthActuatorAccessWhenUnauthorized() throws Exception {
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+
+        mockMvc.perform(get("/actuator/info"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void shouldRejectProtectedResourceAccessWhenUnauthorized() throws Exception {
         mockMvc.perform(get("/books"))
                 .andExpect(status().isUnauthorized());

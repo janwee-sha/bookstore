@@ -24,6 +24,8 @@ public class OrderSecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
+                                "/actuator/health",
+                                "/actuator/health/**",
                                 "/api-docs",
                                 "/api-docs/**",
                                 "/v3/api-docs",

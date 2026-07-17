@@ -99,7 +99,7 @@ services:
     ports:
       - "18084:18084"
     healthcheck:
-      test: ["CMD", "curl", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18084/actuator/health"]
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18084/actuator/health"]
       interval: 3s
       timeout: 2s
       retries: 20
@@ -124,7 +124,7 @@ services:
     ports:
       - "18085:18085"
     healthcheck:
-      test: ["CMD", "curl", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18085/actuator/health"]
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18085/actuator/health"]
       interval: 3s
       timeout: 2s
       retries: 20
