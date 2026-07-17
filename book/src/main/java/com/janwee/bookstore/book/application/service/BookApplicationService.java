@@ -47,12 +47,11 @@ public class BookApplicationService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public Long publish(PublishingBookCommand request) {
+    public void publish(PublishingBookCommand request) {
         log.info("Publishing book.");
         Book book = request.toNewBook();
         bookPublicationPolicy.check(book);
         bookRepo.add(book);
-        return book.id();
     }
 
     @Transactional(rollbackFor = Throwable.class)
