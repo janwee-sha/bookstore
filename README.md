@@ -90,15 +90,9 @@ bookstore/
 
 ### Docker Compose 集群
 
-使用 Docker Compose 构建并启动全部后端服务：
+使用 Docker Compose 构建并启动完整集群：
 
 ```bash
 docker compose up --build -d
 docker compose ps
 ```
-
-Compose 会先等待 Config Server、Eureka 和 RabbitMQ 健康，再启动依赖它们的服务。Docker profile
-要求 Config Server 可用，并对瞬时连接失败执行有限重试；容器异常退出时最多自动重启 3 次。
-
-RabbitMQ AMQP 和管理端口分别为 `5672`、`15672`，管理页面地址为
-`http://localhost:15672`。

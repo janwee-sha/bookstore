@@ -158,3 +158,22 @@ services:
       timeout: 2s
       retries: 20
       start_period: 10s
+
+  frontend:
+    image: bookstore/frontend:local
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bookstore-frontend
+    restart: on-failure:3
+    depends_on:
+      gateway:
+        condition: service_healthy
+    ports:
+      - "8088:8088"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--output-document", "/dev/null", "http://localhost:8088/"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+      start_period: 5s
