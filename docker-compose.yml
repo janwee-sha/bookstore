@@ -1,10 +1,22 @@
+x-config-client-environment: &config-client-environment
+  SPRING_PROFILES_ACTIVE: docker
+  CONFIG_SERVER_URL: "http://config:18080"
+  SPRING_CONFIG_IMPORT: "configserver:http://config:18080?fail-fast=true&max-attempts=6&initial-interval=500&max-interval=2000&multiplier=1.5"
+
 services:
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
     container_name: bookstore-rabbitmq
+    restart: on-failure:3
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
 
   config:
     image: bookstore/config:local
@@ -12,10 +24,17 @@ services:
       context: .
       dockerfile: config/Dockerfile
     container_name: bookstore-config
+    restart: on-failure:3
     environment:
       SPRING_PROFILES_ACTIVE: native
     ports:
       - "18080:18080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18080/eureka/docker"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+      start_period: 5s
 
   eureka:
     image: bookstore/eureka:local
@@ -23,13 +42,20 @@ services:
       context: .
       dockerfile: eureka/Dockerfile
     container_name: bookstore-eureka
+    restart: on-failure:3
     depends_on:
-      - config
+      config:
+        condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:18080"
+      <<: *config-client-environment
     ports:
       - "18081:18081"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18081/eureka/apps"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 10s
 
   authorization:
     image: bookstore/authorization:local
@@ -37,14 +63,22 @@ services:
       context: .
       dockerfile: authorization/Dockerfile
     container_name: bookstore-authorization
+    restart: on-failure:3
     depends_on:
-      - config
-      - eureka
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:18080"
+      <<: *config-client-environment
     ports:
       - "18083:18083"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18083/oauth2/jwks"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 10s
 
   book:
     image: bookstore/book:local
@@ -52,15 +86,24 @@ services:
       context: .
       dockerfile: book/Dockerfile
     container_name: bookstore-book
+    restart: on-failure:3
     depends_on:
-      - config
-      - eureka
-      - rabbitmq
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:18080"
+      <<: *config-client-environment
     ports:
       - "18084:18084"
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18084/actuator/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 10s
 
   order:
     image: bookstore/order:local
@@ -68,15 +111,24 @@ services:
       context: .
       dockerfile: order/Dockerfile
     container_name: bookstore-order
+    restart: on-failure:3
     depends_on:
-      - config
-      - eureka
-      - rabbitmq
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:18080"
+      <<: *config-client-environment
     ports:
       - "18085:18085"
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18085/actuator/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 10s
 
   gateway:
     image: bookstore/gateway:local
@@ -84,14 +136,25 @@ services:
       context: .
       dockerfile: gateway/Dockerfile
     container_name: bookstore-gateway
+    restart: on-failure:3
     depends_on:
-      - config
-      - eureka
-      - authorization
-      - book
-      - order
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      authorization:
+        condition: service_healthy
+      book:
+        condition: service_healthy
+      order:
+        condition: service_healthy
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      CONFIG_SERVER_URL: "http://config:18080"
+      <<: *config-client-environment
     ports:
       - "18082:18082"
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--show-error", "--output", "/dev/null", "http://localhost:18082/"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 10s

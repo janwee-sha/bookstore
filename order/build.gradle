@@ -13,6 +13,8 @@ dependencies {
         exclude group: 'com.netflix.ribbon', module: 'ribbon-eureka'
     }
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.cloud:spring-cloud-function-context'
     implementation 'org.springframework.cloud:spring-cloud-stream'
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
