@@ -10,7 +10,7 @@ import com.janwee.bookstore.book.domain.exception.InventoryNotFoundException;
 import com.janwee.bookstore.book.domain.model.InventoryItem;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
 import com.janwee.bookstore.book.domain.repository.InventoryItemRepository;
-import com.janwee.bookstore.book.domain.service.EventPublisher;
+import com.janwee.bookstore.book.application.event.IntegrationEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -36,7 +36,7 @@ class InventoryApplicationServiceUnitTest {
     private BookRepository bookRepo;
 
     @Mock
-    private EventPublisher eventPublisher;
+    private IntegrationEventPublisher eventPublisher;
 
     @InjectMocks
     private InventoryApplicationService service;

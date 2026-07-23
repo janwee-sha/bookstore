@@ -11,7 +11,7 @@ import com.janwee.bookstore.book.domain.exception.InventoryNotFoundException;
 import com.janwee.bookstore.book.domain.model.InventoryItem;
 import com.janwee.bookstore.book.domain.repository.BookRepository;
 import com.janwee.bookstore.book.domain.repository.InventoryItemRepository;
-import com.janwee.bookstore.book.domain.service.EventPublisher;
+import com.janwee.bookstore.book.application.event.IntegrationEventPublisher;
 import com.janwee.bookstore.foundation.event.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class InventoryApplicationService {
     private final InventoryItemRepository inventoryRepo;
     private final BookRepository bookRepo;
-    private final EventPublisher eventPublisher;
+    private final IntegrationEventPublisher eventPublisher;
 
     @Transactional(readOnly = true)
     public InventoryView inventoryOfBook(long bookId) {
