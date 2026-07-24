@@ -16,13 +16,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AuthorRepositoryJpaAdapterUnitTest {
+class AuthorRepositoryJpaImplUnitTest {
 
     @Mock
     private AuthorPOJpaRepository jpaRepo;
 
     @InjectMocks
-    private AuthorRepositoryJpaAdapter adapter;
+    private AuthorRepositoryJpaImpl adapter;
 
     @Test
     void shouldRejectAddingAuthorWithExistingId() {

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class InventoryItemRepositoryJpaAdapter implements InventoryItemRepository {
+public class InventoryItemRepositoryJpaImpl implements InventoryItemRepository {
     private final InventoryItemPOJpaRepository jpaRepo;
 
     @Override

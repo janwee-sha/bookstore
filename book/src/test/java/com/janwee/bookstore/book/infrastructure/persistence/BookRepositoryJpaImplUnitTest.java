@@ -21,13 +21,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class BookRepositoryJpaAdapterUnitTest {
+class BookRepositoryJpaImplUnitTest {
 
     @Mock
     private BookPOJpaRepository jpaRepo;
 
     @InjectMocks
-    private BookRepositoryJpaAdapter adapter;
+    private BookRepositoryJpaImpl adapter;
 
     @Test
     void shouldRejectAddingBookWithExistingId() {

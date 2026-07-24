@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class BookRepositoryJpaAdapter implements BookRepository {
+public class BookRepositoryJpaImpl implements BookRepository {
     private final BookPOJpaRepository jpaRepo;
 
     @Override
